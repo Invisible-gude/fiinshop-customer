@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;400&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Sarabun', sans-serif;
+}
+.main-container {
+    padding-left: '10%';
+    padding-right: '10%';
+}
+.css-11b3ww9-MuiPaper-root-MuiAppBar-root {
+    align-items: center !important;
+}
+
+.css-1bnq14t-MuiInputBase-root {
+    width: 105ch;
+
+}
+.css-1xgsf0v{
+    height: 250px !important;
+    display: block;
+    max-width: 100% !important;
+    overflow: hidden;
+    width: 100% !important;
+}
+.css-46bh2p-MuiCardContent-root {
+    padding: 0px !important;
+}
+.footer.content > img,
+.footer.content > span {
+    display: inline-block;
+}
+
+@media (max-width: 1024px) and (min-width:769px ){
+     /* For tablets pro: */
+    .css-1bnq14t-MuiInputBase-root {
+        width: 80ch;
+    
+    }
+}
+@media (max-width: 768px) and (min-width:575.98px ){
+    /* For tablets: */
+    .main-container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .css-1bnq14t-MuiInputBase-root {
+        width: 40ch;
+    
+    }
+}
+@media (max-width: 575.98px) {
+    /* For mobile: */
+    .main-container {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .css-1bnq14t-MuiInputBase-root {
+        width: 20ch;
+    
+    }
+}
