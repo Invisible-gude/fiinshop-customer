@@ -6,8 +6,8 @@
     font-family: 'Sarabun', sans-serif;
 }
 .main-container {
-    padding-left: '10%';
-    padding-right: '10%';
+    padding-left: '5%';
+    padding-right: '5%';
 }
 .css-11b3ww9-MuiPaper-root-MuiAppBar-root {
     align-items: center !important;
@@ -31,7 +31,53 @@
 .footer.content > span {
     display: inline-block;
 }
+.css-1oqqzyl-MuiContainer-root {
+    max-width: 1200px !important;
+}
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+.number-input {
+    border: 2px solid #ddd;
+    display: inline-flex;
+}
+
+.number-input,
+.number-input * {
+    box-sizing: border-box;
+}
+
+.number-input button {
+    outline:none;
+    -webkit-appearance: none;
+    background-color: #eeeeee;
+    border: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    padding:0;
+}
+@media  (min-width:1200px ){
+     /* For tablets pro: */
+    .css-1bnq14t-MuiInputBase-root {
+        width: 80ch;
+    
+    }
+    .css-1oqqzyl-MuiContainer-root {
+        max-width: 1400px !important;
+    }
+}
 @media (max-width: 1024px) and (min-width:769px ){
      /* For tablets pro: */
     .css-1bnq14t-MuiInputBase-root {

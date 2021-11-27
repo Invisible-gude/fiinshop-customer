@@ -7,16 +7,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import CountdownTimer from "react-component-countdown-timer";
-
-const useStyles = makeStyles((theme) => ({
-    seemore_btn: {
-        width: '30%',
-
-    },
-
-}));
+import Link from '@material-ui/core/Link';
 
 
 const products  = [
@@ -84,41 +76,43 @@ const products  = [
 
 
 export default function Product() {
-    const classes = useStyles();
 
   function RenderProduct() {
     return (
       <Fragment>
         {products.map((step, index) => (
-          <Grid md={2} xs={12} sm={4} style={{ display: 'flex',justifyContent: 'center', marginTop: '10px'}}>
-          <Card  sx={{maxWidth: 190, height: 300}}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={step.src}
-                alt={step.label}
-              />
-              <CardContent sx={{padding: '10px', height: '60px'}}>
-                <Typography  variant="body2" component="block" >
-                  {step.product_name}
-                </Typography>
-              </CardContent>
-              <CardActions >
-                <Grid container>
-                  <Grid md={6} xs={6} sm={6}>
-                    <Typography  variant="body2" component="block" color="rgb(238,77,45)">
-                      ฿ {step.price}
+          <Grid md={2} xs={6} sm={4} style={{ display: 'flex',justifyContent: 'center'}}>
+              <Link href="/product_detail" underline="none">
+                <Card  sx={{maxWidth: 190, height:{ xs: 200, sm: 250,md:300 }, marginTop: '10px'}}>
+                  <CardMedia
+                    component="img"
+                    sx={{height:{ xs: 100, sm: 150,md:200 }}}
+                    // height={200}
+                    image={step.src}
+                    alt={step.label}
+                  />
+                  <CardContent sx={{padding: '10px', height: '60px'}}>
+                    <Typography  variant="body2" component="block" >
+                      {step.product_name}
                     </Typography>
-                  </Grid>
-                  <Grid md={6} xs={6} sm={6}>
-                    <Typography  variant="body2" color="text.secondary" align="end" >
-                    {step.product_qty} ชิ้น
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </CardActions>
-            </Card>
-          </Grid>
+                  </CardContent>
+                  <CardActions >
+                    <Grid container>
+                      <Grid md={6} xs={6} sm={6}>
+                        <Typography  variant="body2" component="block" color="rgb(238,77,45)">
+                          ฿ {step.price}
+                        </Typography>
+                      </Grid>
+                      <Grid md={6} xs={6} sm={6}>
+                        <Typography  variant="body2" color="text.secondary" align="end" >
+                        {step.product_qty} ชิ้น
+                        </Typography>
+                      </Grid>
+                    </Grid>
+                  </CardActions>
+                </Card>
+                 </Link>
+              </Grid>
         ))}
       </Fragment>
       )

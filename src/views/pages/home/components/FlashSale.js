@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import CountdownTimer from "react-component-countdown-timer";
+import Image from 'next/image';
+import fs1 from '../../../../../public/images/logo/fs1.png';
 
 
 const products  = [
@@ -81,11 +83,12 @@ export default function FlashSale() {
     return (
       <Fragment>
         {products.map((step, index) => (
-          <Grid md={2} xs={12} sm={4} style={{ display: 'flex',justifyContent: 'center'}}>
-            <Card  sx={{maxWidth: 190, height:300, marginTop: '10px'}}>
+          <Grid md={2} xs={6} sm={4} style={{ display: 'flex',justifyContent: 'center'}}>
+            <Card  sx={{maxWidth: 190, height:{ xs: 200, sm: 250,md:300 }, marginTop: '10px'}}>
               <CardMedia
                 component="img"
-                height="200"
+                sx={{height:{ xs: 100, sm: 150,md:200 }}}
+                // height={200}
                 image={step.src}
                 alt={step.label}
               />

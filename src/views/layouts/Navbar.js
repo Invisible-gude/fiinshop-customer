@@ -13,31 +13,13 @@ import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { makeStyles } from '@material-ui/core/styles';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip from '@mui/material/Tooltip';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import Image from 'next/image';
+import fiinSHOP_logo from '../../../public/images/logo/fiinshopLOGO.png'
 
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    paddingLeft: '10%', 
-    paddingRight: '10%'
-  },
-  logo: {
-    width: 200,
-  },
-  link: {
-    color: 'white',
-    textDecoration: 'none',
-    marginRight:'5px'
-  },
-  text_menu : {
-    fontSize: '16px'
-  }
-  
-}));
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -80,7 +62,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -187,7 +168,7 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={4} color="error">
                 <NotificationsIcon />
               </Badge>
-              <p className={classes.text_menu}>แจ้งเตือน</p>
+              <p style={{fontSize: '16px'}}>แจ้งเตือน</p>
             </IconButton>
 
             <IconButton
@@ -198,7 +179,7 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={17} color="error">
                 <InfoIcon />
               </Badge>
-              <p className={classes.text_menu}>ช่วยเหลือ</p>
+              <p style={{fontSize: '16px'}}>ช่วยเหลือ</p>
             </IconButton>
 
             <Link href="/" underline="none" style={{color:'white'}}>
@@ -212,7 +193,7 @@ export default function PrimarySearchAppBar() {
                 color="inherit"
               >
                 <AccountCircle />
-              <p className={classes.text_menu}>Login</p>
+              <p style={{fontSize: '16px'}}>Login</p>
               </IconButton>
             </Link>
           </Box>
@@ -224,7 +205,12 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <img src='../../images/logo/fiinshopLOGO.png' className={classes.logo}/>
+             <Image
+                src={fiinSHOP_logo}
+                alt="Picture of the author"
+                width={200} 
+                height={60} 
+              />
           </Typography>
 
           <Search style={{marginTop:'12px'}}>
