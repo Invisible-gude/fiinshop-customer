@@ -1,7 +1,7 @@
 export const Login = () => async dispatch => {
     dispatch({
         type: 'SET_USER_LOGIN',
-        payload: { name: 'Kanokkorn', email: 'kanokkorn@email.com' }
+        payload: { name: 'Dedee', email: 'de@gmail.com' }
     })
 }
 export const Logout = () => async dispatch => {

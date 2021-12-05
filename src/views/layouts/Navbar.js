@@ -60,14 +60,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-
+const getStorageValue =(key) =>{
+  // getting stored value
+  const saved = localStorage.getItem(key);
+  const initial = JSON.parse(saved);
+  return initial || '';
+}
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [userData, setUserData] = React.useState(() => {
+    return getStorageValue('_user');
+  });
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+
+  
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -231,6 +240,7 @@ export default function PrimarySearchAppBar() {
               </IconButton>
             </Tooltip>
           </Box>
+          {userData}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
