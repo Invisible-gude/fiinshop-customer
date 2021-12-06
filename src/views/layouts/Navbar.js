@@ -10,6 +10,10 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import Container from '@mui/material/Container';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -20,7 +24,21 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Image from 'next/image';
 import fiinSHOP_logo from '../../../public/images/logo/fiinshopLOGO.png'
 
-
+const pages = [
+  {
+    key:0,
+    name:'แจ้งเตือน',
+    icon:<NotificationsIcon/>,
+    badge:2
+  },
+  {
+    key:1,
+    name:'ช่วยเหลือ',
+    icon:<InfoIcon/>,
+    badge:0
+  },
+];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -33,7 +51,7 @@ const Search = styled('div')(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
-    width: 'auto',
+    width: '65%',
   },
 }));
 
@@ -48,7 +66,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'white',
+  color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -60,159 +78,105 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-const getStorageValue =(key) =>{
-  // getting stored value
-  const saved = localStorage.getItem(key);
-  const initial = JSON.parse(saved);
-  return initial || '';
-}
+
 export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [userData, setUserData] = React.useState(() => {
-    return getStorageValue('_user');
-  });
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-
-  
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>แจ้งเตือน</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <InfoIcon />
-          </Badge>
-        </IconButton>
-        <p>ช่วยเหลือ</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Login</p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
-    <Box sx={{ flexGrow: 1}}>
-      <AppBar position="fixed" className="main-container">
-          <Box sx={{ display: { xs: 'none', sm: 'none',md:'flex' },marginLeft: 'auto',marginRight:{ xs: 'none', sm: 'none',md:'17rem' }}}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <NotificationsIcon />
-              </Badge>
-              <p style={{fontSize: '16px'}}>แจ้งเตือน</p>
-            </IconButton>
-
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <InfoIcon />
-              </Badge>
-              <p style={{fontSize: '16px'}}>ช่วยเหลือ</p>
-            </IconButton>
-
-            <Link href="/" underline="none" style={{color:'white'}}>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                // onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              <p style={{fontSize: '16px'}}>Login</p>
-              </IconButton>
-            </Link>
-          </Box>
-        <Toolbar style={{padding: '20px'}}>
-          
+    <Box height="7vh" >
+    <AppBar position="fixed" >
+      <Container maxWidth="xl"> 
+        <Toolbar disableGutters >
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+          >
+            <Link href="/mainlayout">
+            <Image
+                src={fiinSHOP_logo}
+                alt="Picture of the author"
+                width={200} 
+                height={60} 
+              />
+              </Link>
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                 <MenuItem key={page.key}>
+                  <IconButton
+                    size="medium"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                  >
+                    <Badge badgeContent={page.badge} color="error">
+                      {page.icon}
+                    </Badge>
+                  </IconButton>
+                  <span>{page.name}</span>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', md: 'none' } }}
           >
              <Image
                 src={fiinSHOP_logo}
@@ -221,43 +185,55 @@ export default function PrimarySearchAppBar() {
                 height={60} 
               />
           </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+                 <MenuItem key={page.key}>
+                  <IconButton
+                    size="medium"
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                  >
+                    <Badge badgeContent={page.badge} color="error">
+                      {page.icon}
+                    </Badge>
+                  </IconButton>
+                  <span>{page.name}</span>
+                </MenuItem>
+              ))}
+          </Box>
 
-          <Search style={{marginTop:'12px'}}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="FiinSHOP - ถูกและดีมีผีแน่นอน"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          
-          <Box sx={{ flexGrow: 1 }} />
-          <Box>
-            <Tooltip title="ตะกร้าของคุณว่างเปล่า">
-              <IconButton style={{color:'#fff'}}>
-                <ShoppingBasketIcon fontSize="large" color="white"/>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-          </Box>
-          {userData}
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
             >
-              <MoreIcon />
-            </IconButton>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
         </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
+      </Container>
+    </AppBar>
     </Box>
-
   );
 }

@@ -122,7 +122,7 @@ export default function FlashSale() {
     <Card className="mt-3 p-2">
       <Grid container>
         <Grid md={11} xs={11} sm={11}>
-          <div class="footer content">
+          <div className="footer content">
                 <img src='../../images/logo/fs1.png' />  
                     <span> 
                     <CountdownTimer count={5432} hideDay color="#fff" backgroundColor="#000" labelSize={30} responsive/>

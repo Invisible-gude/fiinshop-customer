@@ -15,14 +15,13 @@
 
 .css-1bnq14t-MuiInputBase-root {
     width: 105ch;
-
 }
-.css-1xgsf0v{
-    height: 250px !important;
-    display: block;
-    max-width: 100% !important;
-    overflow: hidden;
-    width: 100% !important;
+.css-19r6kue-MuiContainer-root{
+    height: 100px !important;
+}
+.css-19r6kue-MuiContainer-root {
+    padding-left: 136px !important;
+    padding-right: 127px !important;
 }
 .css-46bh2p-MuiCardContent-root {
     padding: 0px !important;
@@ -84,6 +83,10 @@ input[type=number]::-webkit-outer-spin-button {
         width: 80ch;
     
     }
+    .css-19r6kue-MuiContainer-root {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
 }
 @media (max-width: 768px) and (min-width:575.98px ){
     /* For tablets: */
@@ -95,6 +98,10 @@ input[type=number]::-webkit-outer-spin-button {
         width: 40ch;
     
     }
+    .css-19r6kue-MuiContainer-root {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
 }
 @media (max-width: 575.98px) {
     /* For mobile: */
@@ -105,5 +112,12 @@ input[type=number]::-webkit-outer-spin-button {
     .css-1bnq14t-MuiInputBase-root {
         width: 20ch;
     
+    }
+    .css-19r6kue-MuiContainer-root {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+    }
+    .css-19r6kue-MuiContainer-root{
+        height: 70px !important;
     }
 }

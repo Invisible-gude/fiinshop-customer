@@ -9,7 +9,14 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import { useForm, Controller } from 'react-hook-form';
-import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import IconButton from '@material-ui/core/IconButton';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
+
 import AppleIcon from '@mui/icons-material/Apple';
 import GoogleIcon from '@mui/icons-material/Google';
 import { APILogin } from '../services/api'
@@ -135,15 +142,30 @@ export default function Login() {
                                     control={control}
                                     defaultValue=""
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                        <TextField
-                                            fullWidth
-                                            label="password"
-                                            id="standard-basic"
-                                            value={value}
-                                            onChange={onChange}
-                                            error={!!error}
-                                            size="small"
-                                        />
+                                        <FormControl className='d-block'>
+                                            <InputLabel htmlFor="password-input">Password</InputLabel>
+                                            <Input
+                                                fullWidth
+                                                size="small"
+                                                label="Password"
+                                                id="password-input"
+                                                type={showPassword ? 'text' : 'password'}
+                                                value={value}
+                                                onChange={onChange}
+                                                error={!!error}
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={() => setShowPassword(!showPassword)}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                        >
+                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                        </FormControl>
                                     )}
                                     rules={{ required: true }}
                                 />

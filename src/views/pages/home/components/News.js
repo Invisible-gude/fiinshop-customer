@@ -47,7 +47,7 @@ function News() {
   };
 
   return (
-    <div style={{marginTop: '11rem', alignItems:'center', justifyItems:'center'}}>
+    <Box sx={{marginTop:{ xs: '3rem', sm: '3rem',md:'4rem' }, alignItems:'center', justifyItems:'center'}}>
      <Grid container >
        <Grid md={8} xs={12} sm={12}  sx={{ display: { xs: 'none', sm: 'none',md:'flex' }}}>
         <AutoPlaySwipeableViews
@@ -57,7 +57,7 @@ function News() {
           enableMouseEvents
         >
           {datas.map((step, index) => (
-            <div key={step.label}>
+            <Box key={step.label}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <Box
                   component="img"
@@ -70,32 +70,32 @@ function News() {
                   alt={step.label}
                 />
               ) : null}
-            </div>
+            </Box>
           ))}
         </AutoPlaySwipeableViews>
        </Grid>
        <Grid  md={4} xs={12} sm={12} sx={{ display: { xs: 'none', sm: 'none',md:'flex' }}}>
           <Grid>
-            <Grid md={12} xs={12} sm={12} style={{height:'125px'}}>
+            <Grid md={12} xs={12} sm={12} style={{height:'136px'}}>
             <Image
                 src={b1}
                 alt="Picture of the author"
-                sx={{width: '100%'}}
+                sx={{width: '100%', height:'100%'}}
               />
               
             </Grid>
-            <Grid md={12} xs={12} sm={12} style={{height:'125px'}}>
+            <Grid md={12} xs={12} sm={12} style={{height:'130px'}}>
             <Image
                 src={b2}
                 alt="Picture "
-                sx={{width: '100%'}}
+                sx={{width: '100%', height:'100%'}}
               />
             </Grid>
           </Grid>
         
        </Grid>
      </Grid>
-    </div>
+    </Box>
   );
 }
 
