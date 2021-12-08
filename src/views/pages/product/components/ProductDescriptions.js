@@ -6,41 +6,34 @@ import Grid from '@material-ui/core/Grid'
 import {APIgetProductDetail, APIgetCategory} from '../../../../../services/api'
 
 
-export default function ProductDescriptions() {
-    const [products, setProducts] = useState([])
+export default function ProductDescriptions({products}) {
     const [category, setCategory] = useState('')
     const [subCategory, setSubCategory] = useState('')
     const router = useRouter()
     const { slug } = router.query
   
     useEffect(async () => {
-        await getProductDetail(slug)
-      }, [])
-
-    const getProductDetail = () => {
-         APIgetProductDetail(slug).then(res => {
-            if (res.success) {
-                setProducts(res.data)
-                getCategory(res.data.category_id,res.data.sub_category_id)
-            } 
-        }).catch(err => {
-            console.log('res',err);
-    
-        })
-    }
-    const getCategory = (category_id,sub_category_id) => {
-        APIgetCategory(slug).then(res => {
-            if (res.success) {
-                const cat = res.data.find(item => item.id = category_id )
-                const sub = cat && cat.sub_categories.find(item => item.id = sub_category_id)
-                if(cat && sub){
-                    setCategory(cat.name)
-                    setSubCategory(sub.name)    
-                }
-            } 
-        })
-
-    }
+        if(products){
+            APIgetCategory().then(res => {
+                if (res.success) {
+                    const cat = res.data.find(item => item.id == products.category_id )
+                    if(cat  && cat.name ){
+                        setCategory(cat.name)
+                    }
+                } 
+            })
+            APIgetCategory().then(res => {
+                if (res.success) {
+                    const cat = res.data.find(item => item.id = products.category_id )
+                    const sub = cat && cat.sub_categories.find(item => item.id = products.sub_category_id)
+                    if(sub  && sub.name ){
+                        setSubCategory(sub.name)
+                    }
+                } 
+            })        
+        }
+      }, [products])
+      
     function RenderContent() {
         return(
             <Card>

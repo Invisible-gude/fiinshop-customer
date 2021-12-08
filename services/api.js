@@ -50,3 +50,14 @@ export const APIgetCategory = async (data) => {
         return err
     }
 }
+// ---------------------- Shop -------------------- //
+export const APIgetShopDetail = async (data) => {
+    try {
+        const res = await axios.get(`${BASE_API_URL}/api/shop/${data}`)
+        return await res.data
+    } catch (err) {
+        console.log(`err`, err)
+        return err
+    }
+}
+

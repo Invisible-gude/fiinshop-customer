@@ -12,11 +12,11 @@ import Product from './components/Product'
 
 export default function HomeScreen() {
     return (
-        <Fragment>
+        <Container>
             <News />
             <Promotion />
             <FlashSale />
             <Product />
-        </Fragment>
+        </Container>
     );
 }

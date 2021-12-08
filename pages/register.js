@@ -115,7 +115,7 @@ export default function Register() {
             </Box>
             <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
                 <div style={{backgroundColor:'#1976D2'}}>
-                    <Grid className="p-5" container >
+                    <Grid className="p-5" container item={true}>
                         <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex' , alignItems:'center'}} >
                         <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}>                          
                             <img src='../../images/logo/login.png' className={classes.logo}/>

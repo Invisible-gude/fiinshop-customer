@@ -47,7 +47,7 @@ function News() {
   };
 
   return (
-    <Box sx={{marginTop:{ xs: '3rem', sm: '3rem',md:'4rem' }, alignItems:'center', justifyItems:'center'}}>
+    <Box sx={{marginTop:{ xs: '2rem', sm: '3rem',md:'3rem' }, alignItems:'center', justifyItems:'center'}}>
      <Grid container >
        <Grid md={8} xs={12} sm={12}  sx={{ display: { xs: 'none', sm: 'none',md:'flex' }}}>
         <AutoPlaySwipeableViews

@@ -28,7 +28,7 @@ export function RouteGuard({ children }) {
     const authCheck = (url) => {
         const publicPaths = ['/login'];
         const path = url.split('?')[0];
-        console.log(`path`, path)
+        // console.log(`path`, path)
         if (!user && !publicPaths.includes(path)) {
             setAuthorized(false);
             router.push({

@@ -67,7 +67,7 @@ export default function Login() {
             if (res.success) {
                 reset()
                 localStorage.setItem('_token', res.data.api_token)
-                localStorage.setItem('_user', res.data)
+                localStorage.setItem('_user', JSON.stringify(res.data))
                 return MySwal.fire({
                     title: 'Login Success',
                     text:  'เข้าสู่ระบบสำเร็จ',
@@ -97,7 +97,7 @@ export default function Login() {
     return (
         <Box height="100vh" display="flex" flexDirection="column">
             <Box sx={{ backgroundColor:'#fff', alignItems:'center', display:'flex',height: '15%' }} className="p-4" >
-            <Link href="/MainLayout" style={{ alignItems:'center', display:'flex',}} underline="none">
+            <Link href="/mainlayout" style={{ alignItems:'center', display:'flex',}} underline="none">
                 <img src='../../images/logo/icon.png' className={classes.logo_header}/>
                 <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
             </Link>
@@ -106,18 +106,17 @@ export default function Login() {
             </Box>
             </Box>
             <Box sx={{ height: {md:'70%' ,xs:'100%', sm:'70%', lg:'70%'},bgcolor:'#1976D2',justifyContent: 'center', display:'flex', alignItems:'center' }}>
-                <Grid className="p-5" container >
-                    <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex', alignItems:'center'}} >
+                <Grid className="p-5" container item={true}>
+                    <Grid item={true} xs={12} sm={6} style={{justifyContent: 'center', display:'flex', alignItems:'center'}} >
                     <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
                         <img src='../../images/logo/login.png' className={classes.logo}/>
                     </Box>
                     </Grid>
-                    <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex'}}>
+                    <Grid item={true} md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex'}} >
                         <Card style={{width: 'fit-content',padding: '30px'}}>
                         <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
                             <Box style={{width: {md:'500px' ,xs:'100px', sm:'300px'} }}>
                                 <Typography style={{ fontSize:'25px', }}>เข้าสู่ระบบ</Typography>
-                                <p>
                                 <Controller
                                     name="username"
                                     control={control}
@@ -135,8 +134,6 @@ export default function Login() {
                                     )}
                                     rules={{ required: true }}
                                 />
-                                </p>
-                                <p>
                                 <Controller
                                     name="password"
                                     control={control}
@@ -169,45 +166,24 @@ export default function Login() {
                                     )}
                                     rules={{ required: true }}
                                 />
-                                </p>
-                                <div className="mt-3 mb-3">
+                                <Box className="mt-3 mb-3">
                                     <Link href="/" underline="none">
                                         <Button type="submit" variant="outlined" className={classes.seemore_btn}>เข้าสู่ระบบ</Button>
                                     </Link>
-                                </div>
+                                </Box>
                                 <hr />
                                 <Link href="#" underline="none" >
                                     {'ลืมรหัสผ่าน'}
                                 </Link>
                                 <hr />
                                 <p style={{textAlign:'center'}}>หรือ</p>
-                                {/* <Grid container className="mt-3 mb-3" >
-                                    <Grid md={4} xs={12} sm={4} className="p-1" style={{justifyContent: 'center', display:'flex'}}>
-                                        <Button style={{backgroundColor:"#2F84F3", color:'white', display:'flex', alignItems:'center', justifyContent:'center',height:'40px'}}>
-                                            <FacebookRoundedIcon fontSize="medium"/>
-                                            Facebook
-                                        </Button>
-                                    </Grid>
-                                    <Grid md={4} xs={12} sm={4} className="p-1" style={{justifyContent: 'center', display:'flex'}}>
-                                        <Button style={{backgroundColor:"#4285F4", color:'white', display:'flex', alignItems:'center', justifyContent:'center',height:'40px'}}>
-                                            <GoogleIcon fontSize="medium"/>
-                                            Google
-                                        </Button>
-                                    </Grid>
-                                    <Grid md={4} xs={12} sm={4} className="p-1" style={{justifyContent: 'center', display:'flex'}}>
-                                        <Button style={{backgroundColor:"#000", color:'white', display:'flex', alignItems:'center', justifyContent:'center',height:'40px'}}>
-                                            <AppleIcon fontSize="medium"/>
-                                            Apple
-                                        </Button>
-                                    </Grid>
-                                    
-                                </Grid> */}
-                                <div style={{textAlign:'center'}}>
+                                
+                                <Box style={{textAlign:'center'}}>
                                     <span>เพิ่งเคยเข้ามาใน FiinSHOP ใช่หรือไม่ </span>
                                     <Link href="/register" underline="none" >
                                         {' สมัครใหม่'}
                                     </Link>
-                                </div>
+                                </Box>
                             </Box>
                             </form>
                         </Card>
