@@ -82,7 +82,7 @@ export default function ProductDetails({products}) {
                             />
                         </Box>
                     </Grid>
-                    <Grid  md={8} xs={12} sm={12} sx={{marginLeft:{ xs: '0px', sm: '0px',md:'10px' }}}>
+                    <Grid  md={7} xs={12} sm={12} sx={{marginLeft:{ xs: '0px', sm: '0px',md:'10px' }}}>
                         <Box sx={{marginLeft:'10px'}}>
                             <Box style={{display:'flex', alignItems:'center'}}>
                                 {/* <span style={{backgroundColor:'#1976D2',padding:'5px', color:'#fff', marginRight:'5px'}}>ร้านแนะนำ</span> */}
