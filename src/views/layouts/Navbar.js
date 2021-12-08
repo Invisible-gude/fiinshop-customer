@@ -293,13 +293,15 @@ export default function PrimarySearchAppBar() {
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
+                {user && user.name ? 
                 <Avatar
                     alt={user && user.name ? user.name :'user'}
                     src="/static/images/avatar/1.jpg"
                     sx={{ width: 30, height: 30 }}
                 />
+                :null}
               </IconButton>
-              {user && user.name ? user.name :<span>ช่วยเหลือ</span>}
+              {user && user.name ? user.name :<span>เข้าสู่ระบบ</span>}
               </Link>
             </MenuItem>
            

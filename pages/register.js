@@ -25,29 +25,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
-
-const useStyles = makeStyles((theme) => ({
-    logo_header: {
-        width: '50px',
-    },
-    logo: {
-        height: '60%',
-        // position: 'absolute',
-
-    },
-    input: {
-        width:'300px'
-    },
-    seemore_btn: {
-        width: '100%',
-        backgroundColor: '#1976D2',
-        color:'#fff'
-    },
-
-}));
-
 export default function Register() {
-    const classes = useStyles();
     const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
         defaultValues: {
             name: '',
@@ -105,12 +83,12 @@ export default function Register() {
     return (
         <Fragment>
             <Box sx={{ backgroundColor:'#fff', alignItems:'center', display:'flex',height: '15%' }} className="p-4" >
-            <Link href="/MainLayout" style={{ alignItems:'center', display:'flex',}} underline="none">
-                <img src='../../images/logo/icon.png' className={classes.logo_header}/>
+            <Link href="/mainlayout" style={{ alignItems:'center', display:'flex',}} underline="none">
+                <img src='../../images/logo/icon.png' style={{ width: '50px'}}/>
                 <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
             </Link>
             <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
-                <span style={{ fontSize:'30px', }}>สมัครสมาชิก</span>
+                <span style={{ fontSize:'30px', }}>เข้าสู่ระบบ</span>
             </Box>
             </Box>
             <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
@@ -118,7 +96,7 @@ export default function Register() {
                     <Grid className="p-5" container item={true}>
                         <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex' , alignItems:'center'}} >
                         <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}>                          
-                            <img src='../../images/logo/login.png' className={classes.logo}/>
+                            <img src='../../images/logo/login.png' style={{width: '60%'}}/>
                         </Box>
                         </Grid>
                         <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex'}}>
@@ -302,7 +280,7 @@ export default function Register() {
 
                                     <div className="mt-3 mb-3">
                                         <Link href="/" underline="none">
-                                            <Button variant="outlined" className={classes.seemore_btn} type='submit'>สมัครสมาชิก</Button>
+                                            <Button variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}} type='submit'>สมัครสมาชิก</Button>
                                         </Link>
                                     </div>
                                     <hr />

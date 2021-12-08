@@ -26,27 +26,7 @@ import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
 
 
-const useStyles = makeStyles((theme) => ({
-
-    logo_header: {
-        width: '50px',
-    },
-    logo: {
-        width: '60%',
-    },
-    input: {
-        width:'300px'
-    },
-    seemore_btn: {
-        width: '100%',
-        backgroundColor: '#1976D2',
-        color:'#fff'
-    },
-
-}));
-
 export default function Login() {
-    const classes = useStyles();
     const dispatch = useDispatch()
     const [main, setMain] = useState(1)
     const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
@@ -98,7 +78,7 @@ export default function Login() {
         <Box height="100vh" display="flex" flexDirection="column">
             <Box sx={{ backgroundColor:'#fff', alignItems:'center', display:'flex',height: '15%' }} className="p-4" >
             <Link href="/mainlayout" style={{ alignItems:'center', display:'flex',}} underline="none">
-                <img src='../../images/logo/icon.png' className={classes.logo_header}/>
+                <img src='../../images/logo/icon.png' style={{ width: '50px'}}/>
                 <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
             </Link>
             <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
@@ -109,7 +89,7 @@ export default function Login() {
                 <Grid className="p-5" container item={true}>
                     <Grid item={true} xs={12} sm={6} style={{justifyContent: 'center', display:'flex', alignItems:'center'}} >
                     <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
-                        <img src='../../images/logo/login.png' className={classes.logo}/>
+                        <img src='../../images/logo/login.png' style={{width: '60%'}}/>
                     </Box>
                     </Grid>
                     <Grid item={true} md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex'}} >
@@ -168,7 +148,7 @@ export default function Login() {
                                 />
                                 <Box className="mt-3 mb-3">
                                     <Link href="/" underline="none">
-                                        <Button type="submit" variant="outlined" className={classes.seemore_btn}>เข้าสู่ระบบ</Button>
+                                        <Button type="submit" variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>เข้าสู่ระบบ</Button>
                                     </Link>
                                 </Box>
                                 <hr />

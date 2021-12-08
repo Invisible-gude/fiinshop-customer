@@ -7,7 +7,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import CountdownTimer from "react-component-countdown-timer";
 import Image from 'next/image';
 import fs1 from '../../../../../public/images/logo/fs1.png';
