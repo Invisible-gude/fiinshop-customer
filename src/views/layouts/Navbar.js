@@ -13,7 +13,7 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -24,6 +24,10 @@ import Tooltip from '@mui/material/Tooltip';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Image from 'next/image';
 import fiinSHOP_logo from '../../../public/images/logo/fiinshopLOGO.png'
+import Router from 'next/router';
+import { Input } from 'antd';
+import { SearchOutlined} from '@ant-design/icons';
+const { Search } = Input;
 
 const pages = [
   {
@@ -72,54 +76,18 @@ const pages_user = [
   },
 ];
 const settings = ['ข้อมูลส่วนตัว', 'ออกจากระบบ'];
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: '65%',
-  },
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
 
 export default function PrimarySearchAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [user, setUser] = useState(null)
-
+  const [keyword, setKeyword] = useState('')
+ 
   useEffect(() => {
     getUserData()
-  }, [])
+    console.log('keyword',keyword);
+  }, [keyword])
 
   const getUserData = () => {
     const value = localStorage.getItem('_user');
@@ -141,10 +109,22 @@ export default function PrimarySearchAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const onSearch = (e) => {
+    Router.push(`/search/${encodeURIComponent(e)}`)
+  }
   return (
     <Box height="7vh" >
     <AppBar position="fixed" >
-      <Container maxWidth="xl"> 
+    <Grid
+          container
+          spacing={0}
+          direction="column"
+          justifyContent="center"
+          paddingLeft={{ xs: '1rem', sm:'5rem', md: '10rem' }}
+          paddingRight={{ xs: '1rem',sm:'0rem', md: '10rem' }}
+          style={{ minHeight: '100px'}}
+        >
         <Toolbar disableGutters >
           <Typography
             variant="h6"
@@ -152,24 +132,27 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            <Link href="/mainlayout">
+            <Link href="/home">
             <Image
                 src={fiinSHOP_logo}
                 alt="Picture of the author"
-                width={200} 
-                height={60} 
+                width={300} 
+                height={100} 
               />
               </Link>
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+            <Search
+              placeholder="ค้นหา"
+              allowClear
+              enterButton={<p><SearchOutlined /></p>}
+              size="large"
+              onSearch={e => {onSearch(e)}}
             />
-          </Search>
+          {/* <Input.Search  
+              onKeyPress={e=> { setKeyword(e.target.value)}}
+              placeholder="ค้นหา" 
+              size="large" /> */}
+        
           <MenuItem>
               <Link href='/login' underline="none" sx={{color:'white'}}>
             <IconButton
@@ -338,7 +321,7 @@ export default function PrimarySearchAppBar() {
             </Menu>
           </Box>
         </Toolbar>
-      </Container>
+      </Grid>
     </AppBar>
     </Box>
   );

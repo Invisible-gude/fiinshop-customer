@@ -76,7 +76,7 @@ function News() {
        </Grid>
        <Grid  md={4} xs={12} sm={12} sx={{ display: { xs: 'none', sm: 'none',md:'flex' }}}>
           <Grid>
-            <Grid md={12} xs={12} sm={12} style={{height:'136px'}}>
+            <Grid md={12} xs={12} sm={12} style={{height:'131px'}}>
             <Image
                 src={b1}
                 alt="Picture of the author"

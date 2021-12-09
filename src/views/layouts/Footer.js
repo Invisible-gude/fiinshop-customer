@@ -9,11 +9,13 @@ import AppleIcon from '@mui/icons-material/Apple';
 import ShopIcon from '@mui/icons-material/Shop';
 
 
-export default function Footer() {
+export default function FooterScreen() {
 
   return (
     <Fragment>
-        <Grid container>
+        <Grid container
+        paddingLeft={{ xs: '1rem', sm:'5rem', md: '5rem' }}
+        paddingRight={{ xs: '1rem',sm:'0rem', md: '5rem' }}>
             <Grid md={2.4} xs={12} sm={2.4}>
                 <p>ศูนย์ช่วยเหลือ</p>
                 <p>

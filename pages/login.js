@@ -11,7 +11,7 @@ import Box from '@material-ui/core/Box';
 import { useForm, Controller } from 'react-hook-form';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
+import { Input } from 'antd';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -54,7 +54,7 @@ export default function Login() {
                     icon: 'success'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        Router.push('/mainlayout')
+                        Router.push('/home')
                     } 
                   })
             } else {
@@ -102,46 +102,29 @@ export default function Login() {
                                     control={control}
                                     defaultValue=""
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                        <TextField
-                                            fullWidth
-                                            label="username"
-                                            id="standard-basic"
-                                            value={value}
-                                            onChange={onChange}
-                                            error={!!error}
-                                            size="small"
-                                        />
+                                        <Input  
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder="Username" 
+                                        error={!!error}
+                                        size="large" />
                                     )}
                                     rules={{ required: true }}
                                 />
+                                <div className="mt-1"></div>
                                 <Controller
                                     name="password"
                                     control={control}
                                     defaultValue=""
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                                         <FormControl className='d-block'>
-                                            <InputLabel htmlFor="password-input">Password</InputLabel>
-                                            <Input
-                                                fullWidth
-                                                size="small"
-                                                label="Password"
-                                                id="password-input"
-                                                type={showPassword ? 'text' : 'password'}
-                                                value={value}
-                                                onChange={onChange}
-                                                error={!!error}
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={() => setShowPassword(!showPassword)}
-                                                            onMouseDown={handleMouseDownPassword}
-                                                        >
-                                                            {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                }
-                                            />
+                                            <Input.Password 
+                                            value={value}
+                                            onChange={onChange}
+                                            size="large" 
+                                            error={!!error}
+                                            id="password-input"
+                                            placeholder="Password"  />
                                         </FormControl>
                                     )}
                                     rules={{ required: true }}

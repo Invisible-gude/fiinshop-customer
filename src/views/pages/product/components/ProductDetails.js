@@ -11,14 +11,26 @@ import { useRouter } from 'next/router'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {APIgetProductDetail, APIgetCategory} from '../../../../../services/api'
 import { useForm, Controller } from 'react-hook-form';
+import { Radio , Modal, Typography} from 'antd';
+import Text from 'antd/lib/typography/Text';
 
+const { Title } = Typography;
+
+const optionsWithDisabled = [
+    { label: 'Apple', value: 'Apple' },
+    { label: 'Pear', value: 'Pear' },
+    { label: 'Orange', value: 'Orange', disabled: true },
+  ];
 
 export default function ProductDetails({products}) {
     const [count, setCount] = useState(1)
     const [category, setCategory] = useState('')
     const [subCategory, setSubCategory] = useState('')
+    const [selectOptions, setSelectOptions] = useState('')
+    const [visible, setVisible] = useState(false);
     const router = useRouter()
     const { slug } = router.query
+    
     const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
         defaultValues: {
                 count: count,
@@ -46,32 +58,16 @@ export default function ProductDetails({products}) {
         }
       }, [products])
 
-    function RenderOption(options) {
-        return (
-            <Fragment>
-                    <Box>
-                        {options && options.options ? options.options.map(item => 
-                        <Grid container>
-                            <Grid xs={12} sm={12} md={1}>
-                                <span>{item.name}</span>
-                            </Grid>
-                            <Grid xs={12} sm={12} md={11}>
-                                {item.option.map(items => 
-                                    <Button variant="outlined" sx={{marginRight:'5px', marginBottom:'5px'}}>{items.value}</Button>
-                                )}
-                            </Grid>
-                        </Grid>
-                        ): null}
-                    </Box>
-                
-            </Fragment>
-          )
-      }
+      const onSubmit = (data) => {
+        console.log('data',data);
+
+    }
     function RenderContent() {
         return(
             <Fragment>
             <p style={{fontSize:'14px'}}>หน้าแรก > {category} > {subCategory} > {products && products.name}</p>
             <Card>
+            <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
                 <Grid container className="p-3">
                     <Grid  md={4} xs={12} sm={12}>
                         <Box sx={{width: '100%',height: '100%'}}>
@@ -117,10 +113,36 @@ export default function ProductDetails({products}) {
                                     {products && products.product_options !== [] ? <span style={{color:'#ABB2B9',fontSize:'14px'}}>ตัวเลือกสินค้า</span> : ''}
                                     </Grid>
                                     <Grid xs={12} sm={10} md={10}>
-                                    {products && products.product_options !== [] ? <RenderOption options={products.product_options}/> : null} 
+                                        <Box>
+                                            {products && products.product_options ? products.product_options.map(item => 
+                                            <Grid container key={item.name}>
+                                                <Grid xs={12} sm={12} md={1}>
+                                                    <span>{item.name}</span>
+                                                </Grid>
+                                                <Grid xs={12} sm={12} md={11}>
+                                                <Radio.Group buttonStyle="solid" >
+                                                {item.option.map(items => 
+                                                    <Radio.Button key={items.id} style={{marginRight:'5px', marginBottom:'5px'}} value={items.id} >{items.value}</Radio.Button>
+                                                    // <Radio.Button key={items.id} style={{marginRight:'5px', marginBottom:'5px'}} value={items.id} onChange={e => e.target.checked ? setSelectOptions(e.target.value):setSelectOptions(0)} >{items.value}</Radio.Button>
+                                                    // <Controller
+                                                    //     name="selectoptions"
+                                                    //     control={control}
+                                                    //     defaultValue=""
+                                                    //     render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                                    //         <Radio.Button style={{marginRight:'5px', marginBottom:'5px'}} value={items.value} onChange={onChange}>{items.value}</Radio.Button>
+                                                    //     )}
+                                                    //     rules={{ required: true }}
+                                                    // />
+                                                )}
+                                                </Radio.Group>
+                                                
+                                                </Grid>
+                                            </Grid>
+                                            ): null}
+                                        </Box>
+                
                                     </Grid>
                                 </Grid>
-                            
                             </Box>
                             <Box sx={{marginBottom:'10px'}}>
                                 <Grid container>
@@ -152,18 +174,42 @@ export default function ProductDetails({products}) {
                             <Box sx={{marginBottom:'10px'}}>
                                 <Grid container>
                                     <Grid xs={12} sm={4} md={4}>
-                                        <Button sx={{backgroundColor:'#3076D2',color:'white',width:'90%'}} variant="outlined" startIcon={<ShoppingCartIcon />}>เพิ่มไปยังรถเข็น</Button>
+                                        <Button type="submit" sx={{backgroundColor:'#3076D2',color:'white',width:'90%'}} variant="outlined" startIcon={<ShoppingCartIcon />}>เพิ่มไปยังรถเข็น</Button>
                                     </Grid>
                                     <Grid xs={12} sm={4} md={4}>
-                                        <Button sx={{width:'90%'}}  variant="outlined" >ซื้อสินค้า</Button>
+                                        <Button sx={{width:'90%'}} type="submit" variant="outlined" onClick={() => setVisible(true)}>ซื้อสินค้า</Button>
                                     </Grid>
                                 </Grid>
                             </Box>
                         </Box>
                     </Grid>
                 </Grid>
+                </form>
             </Card>
-          
+            <Modal
+                title={products && products.name ? products.name : ''}
+                centered
+                visible={visible}
+                onOk={() => setVisible(false)}
+                onCancel={() => setVisible(false)}
+                width={1000}
+            >
+                <p>
+                    <Title level={4}>ข้อมูลสินค้า</Title>
+                    <Box sx={{width: '10%',height: '10%'}}>
+                        <img
+                            src={products.thumbnail}
+                            alt="brownie"
+                            style={{width: '100%',height: '100%'}}
+                        />
+                    </Box>
+                    <p>ชื่อสินค้า: {products && products.name ? products.name : ''}</p>
+                    <p>ชื่อสินค้า: {products && products.name ? products.name : ''}</p>
+                
+                </p>
+                <p>some contents...</p>
+                <p>some contents...</p>
+            </Modal>
         </Fragment>
         )
     }

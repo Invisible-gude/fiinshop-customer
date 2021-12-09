@@ -40,6 +40,15 @@ export const APIgetProductDetail = async (data) => {
         return err
     }
 }
+export const APIgetProductSearch = async (limit,offset,keyword) => {
+    try {
+        const res = await axios.get(`${BASE_API_URL}/api/products?limit=${limit}&offset=${offset}&keyword=${keyword}`)
+        return await res.data
+    } catch (err) {
+        console.log(`err`, err)
+        return err
+    }
+}
 // ---------------------- Category -------------------- //
 export const APIgetCategory = async (data) => {
     try {

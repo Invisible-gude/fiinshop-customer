@@ -5,6 +5,7 @@ import ShopDetails from './components/ShopDetails'
 import Reviews from './components/Reviews'
 import { APIgetProductDetail } from '../../../../services/api'
 import { useRouter } from 'next/router'
+import Grid from '@material-ui/core/Grid';
 
 
 export default function ProductDetailScreen() {
@@ -27,11 +28,13 @@ export default function ProductDetailScreen() {
    }
 
     return (
-        <Fragment>
+        <Grid         
+        paddingLeft={{ xs: '1rem', sm:'5rem', md: '10rem' }}
+        paddingRight={{ xs: '1rem',sm:'0rem', md: '10rem' }}>
             <ProductDetails products={products}/>
             <ShopDetails products={products}/>
             <ProductDescriptions products={products}/>
             <Reviews products={products}/>
-        </Fragment>
+        </Grid>
     );
 }

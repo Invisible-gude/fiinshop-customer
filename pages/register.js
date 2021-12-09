@@ -2,7 +2,7 @@ import { useEffect, useState, Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
+import { Input } from 'antd';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -83,7 +83,7 @@ export default function Register() {
     return (
         <Fragment>
             <Box sx={{ backgroundColor:'#fff', alignItems:'center', display:'flex',height: '15%' }} className="p-4" >
-            <Link href="/mainlayout" style={{ alignItems:'center', display:'flex',}} underline="none">
+            <Link href="/home" style={{ alignItems:'center', display:'flex',}} underline="none">
                 <img src='../../images/logo/icon.png' style={{ width: '50px'}}/>
                 <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
             </Link>
@@ -110,15 +110,12 @@ export default function Register() {
                                                 control={control}
                                                 defaultValue=""
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        fullWidth
-                                                        label="username"
-                                                        id="standard-basic"
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        size="small"
-                                                    />
+                                                    <Input  
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    placeholder="Username" 
+                                                    error={!!error}
+                                                    size="large" />
                                                 )}
                                                 rules={{ required: true }}
                                             />
@@ -129,15 +126,13 @@ export default function Register() {
                                                 control={control}
                                                 defaultValue=""
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        fullWidth
-                                                        label="หมายเลขโทรศัพท์"
-                                                        id="standard-basic"
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        size="small"
-                                                    />
+                                                    <Input  
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    placeholder="หมายเลขโทรศัพท์" 
+                                                    error={!!error}
+                                                    size="large" />
+                                                    
                                                 )}
                                                 rules={{ required: true, pattern: /[0-9]{10}/, maxLength: 10 }}
                                             />
@@ -151,15 +146,21 @@ export default function Register() {
                                                 control={control}
                                                 defaultValue=""
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        fullWidth
-                                                        label="ชื่อ"
-                                                        id="standard-basic"
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        size="small"
-                                                    />
+                                                    // <TextField
+                                                    //     fullWidth
+                                                    //     label="ชื่อ"
+                                                    //     id="standard-basic"
+                                                    //     value={value}
+                                                    //     onChange={onChange}
+                                                    //     error={!!error}
+                                                    //     size="small"
+                                                    // />
+                                                    <Input  
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    placeholder="ชื่อ" 
+                                                    error={!!error}
+                                                    size="large" />
                                                 )}
                                                 rules={{ required: true }}
                                             />
@@ -170,15 +171,12 @@ export default function Register() {
                                                 control={control}
                                                 defaultValue=""
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        fullWidth
-                                                        label="Email"
-                                                        id="standard-basic"
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        size="small"
-                                                    />
+                                                    <Input  
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    placeholder="Email" 
+                                                    error={!!error}
+                                                    size="large" />
                                                 )}
                                                 rules={{ required: true }}
                                             />
@@ -192,30 +190,13 @@ export default function Register() {
                                                 control={control}
                                                 defaultValue=""
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <FormControl className='d-block'>
-                                                        <InputLabel htmlFor="password-input">Password</InputLabel>
-                                                        <Input
-                                                            fullWidth
-                                                            size="small"
-                                                            label="Password"
-                                                            id="password-input"
-                                                            type={showPassword ? 'text' : 'password'}
-                                                            value={value}
-                                                            onChange={onChange}
-                                                            error={!!error}
-                                                            endAdornment={
-                                                                <InputAdornment position="end">
-                                                                    <IconButton
-                                                                        aria-label="toggle password visibility"
-                                                                        onClick={() => setShowPassword(!showPassword)}
-                                                                        onMouseDown={handleMouseDownPassword}
-                                                                    >
-                                                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                                    </IconButton>
-                                                                </InputAdornment>
-                                                            }
-                                                        />
-                                                    </FormControl>
+                                                    <Input.Password 
+                                                    value={value}
+                                                    onChange={onChange}
+                                                    size="large" 
+                                                    error={!!error}
+                                                    id="password-input"
+                                                    placeholder="Password"  />
                                                 )}
                                                 rules={{ required: true }}
                                             />
@@ -226,28 +207,14 @@ export default function Register() {
                                                 control={control}
                                                 defaultValue=""
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <FormControl className='d-block'>
-                                                        <InputLabel htmlFor="confirm-password-input">Confirm password</InputLabel>
-                                                        <Input
-                                                            fullWidth
-                                                            id="confirm-password-input"
-                                                            type={showConfirmPassword ? 'text' : 'password'}
-                                                            value={value}
-                                                            onChange={onChange}
-                                                            error={!!error}
-                                                            endAdornment={
-                                                                <InputAdornment position="end">
-                                                                    <IconButton
-                                                                        aria-label="toggle password visibility"
-                                                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                                                        onMouseDown={handleMouseDownPassword}
-                                                                    >
-                                                                        {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                                                                    </IconButton>
-                                                                </InputAdornment>
-                                                            }
-                                                        />
-                                                    </FormControl>
+                                                         <Input.Password 
+                                                        value={value}
+                                                        onChange={onChange}
+                                                        size="large" 
+                                                        error={!!error}
+                                                        id="password-input"
+                                                        placeholder="Confirm Password"  />
+                                                        
                                                 )}
                                                 rules={{ required: true, minLength: 8 }}
                                             />

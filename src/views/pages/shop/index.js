@@ -206,7 +206,9 @@ export default function ShopDetail() {
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
-                        {shop.twitter}
+                      <div style={{width:'100%'}}>
+                      <img src='../../images/news/g1.jpg' />
+                      </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                     <Grid container spacing={2}>

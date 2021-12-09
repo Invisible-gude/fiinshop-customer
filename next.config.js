@@ -4,7 +4,7 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/mainlayout',
+        destination: '/home',
         permanent: true,
       }
     ]
