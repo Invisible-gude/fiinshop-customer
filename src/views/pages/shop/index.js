@@ -158,7 +158,7 @@ export default function ShopDetail() {
                                         <Avatar
                                             alt={shop && shop.name ? shop.name : ''}
                                             src={shop && shop.logo === null ? shop.logo : shop.name}
-                                            sx={{ width: 70, height: 70 }}
+                                            sx={{ width: 50, height: 50 }}
                                         />      
                                         <label>{shop && shop.name ? shop.name : ''}</label>
                                     </Box>

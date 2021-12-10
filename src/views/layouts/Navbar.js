@@ -37,13 +37,13 @@ const pages = [
     badge:0,
     diraction:'/login'
   },
-  {
-    key:1,
-    name:'ช่วยเหลือ',
-    icon:<InfoIcon/>,
-    badge:0,
-    diraction:'/login'
-  },
+  // {
+  //   key:1,
+  //   name:'ช่วยเหลือ',
+  //   icon:<InfoIcon/>,
+  //   badge:0,
+  //   diraction:'/login'
+  // },
   {
     key:2,
     name:'เข้าสู่ระบบ',
@@ -60,13 +60,13 @@ const pages_user = [
     badge:0,
     diraction:'/login'
   },
-  {
-    key:1,
-    name:'ช่วยเหลือ',
-    icon:<InfoIcon/>,
-    badge:0,
-    diraction:'/login'
-  },
+  // {
+  //   key:1,
+  //   name:'ช่วยเหลือ',
+  //   icon:<InfoIcon/>,
+  //   badge:0,
+  //   diraction:'/login'
+  // },
   {
     key:2,
     name:'ข้อมูลส่วนตัว',
@@ -255,7 +255,7 @@ export default function PrimarySearchAppBar() {
               <span>แจ้งเตือน</span>
               </Link>
             </MenuItem>
-            <MenuItem>
+            {/* <MenuItem>
                 <Link href='/login' underline="none" sx={{color:'white'}}>
               <IconButton
                 size="medium"
@@ -268,7 +268,7 @@ export default function PrimarySearchAppBar() {
               </IconButton>
               <span>ช่วยเหลือ</span>
               </Link>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem>
                 <Link href={user && user.name ? '/profile' :'/login'} underline="none" sx={{color:'white'}}>
               <IconButton
@@ -279,7 +279,7 @@ export default function PrimarySearchAppBar() {
                 {user && user.name ? 
                 <Avatar
                     alt={user && user.name ? user.name :'user'}
-                    src="/static/images/avatar/1.jpg"
+                    src=""
                     sx={{ width: 30, height: 30 }}
                 />
                 :null}

@@ -72,8 +72,9 @@ export default function SearchScreen() {
       }
     return (
         <Grid         
-        paddingLeft={{ xs: '1rem', sm:'5rem', md: '10rem' }}
-        paddingRight={{ xs: '1rem',sm:'0rem', md: '10rem' }}>
+          paddingLeft={{ xs: '1rem', sm:'5rem', md: '10rem' }}
+          paddingRight={{ xs: '1rem',sm:'0rem', md: '10rem' }}
+        >
            <Card className="mt-5 p-2">
                 <Grid container>
                     <Grid md={11} xs={11} sm={11}>
@@ -83,7 +84,7 @@ export default function SearchScreen() {
                     </Grid>  
                 </Grid>  
                 <Grid container >
-                    <RenderProduct />
+                  {products.length > 0 ? <RenderProduct /> : <p>ไม่พบสินค้า</p>}
                 </Grid>
             </Card>
         </Grid>

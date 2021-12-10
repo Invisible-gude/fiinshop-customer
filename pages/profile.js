@@ -1,16 +1,24 @@
 import { Fragment, useEffect, useState } from 'react';
-import  Container  from '@material-ui/core/Container';
 import  Navbar  from '../src/views/layouts/Navbar';
-import  Footer  from '../src/views/layouts/Footer';
+import  FooterScreen  from '../src/views/layouts/Footer';
+import ProfileScreen from '../src/views/pages/ProfileScreen'
+import { Layout } from 'antd';
+const { Header, Footer, Sider, Content } = Layout;
 
 export default function Shop() {
 
      return(
-        <Container >
+        <Layout>
+        <Header>
             <Navbar />
-            
-            <hr style={{color:"rgb(238,77,45)"}}/>
-            <Footer />
-        </Container >    
+        </Header>
+        <Content>
+          <ProfileScreen />
+          <hr style={{color:"rgb(238,77,45)"}}/>
+        </Content>
+        <Footer>
+            <FooterScreen />
+        </Footer>
+    </Layout>    
     );
 }
