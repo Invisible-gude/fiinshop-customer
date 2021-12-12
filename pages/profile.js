@@ -8,17 +8,8 @@ const { Header, Footer, Sider, Content } = Layout;
 export default function Shop() {
 
      return(
-        <Layout>
-        <Header>
-            <Navbar />
-        </Header>
-        <Content>
+        <>
           <ProfileScreen />
-          <hr style={{color:"rgb(238,77,45)"}}/>
-        </Content>
-        <Footer>
-            <FooterScreen />
-        </Footer>
-    </Layout>    
+         </>
     );
 }

@@ -5,12 +5,20 @@ import { createWrapper } from 'next-redux-wrapper'
 import store from '../store/store'
 import '../scss/main.scss'
 import { RouteGuard } from '../components/RouteGuard'
+import MainLayout from '../components/MainLayout'
+import Router, { useRouter } from "next/router"
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+  console.log(`pathname`, router.pathname)
+
   return <Provider store={store} >
     <RouteGuard>
-      <Component {...pageProps} />
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout> 
     </RouteGuard >
   </Provider>
 }

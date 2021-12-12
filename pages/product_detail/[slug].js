@@ -9,17 +9,20 @@ const { Header, Footer, Sider, Content } = Layout;
 export default function MainLayout() {
 
   return (
-    <Layout>
-        <Header>
-            <Navbar />
-        </Header>
-        <Content>
-          <ProductDetailScreen />
-          <hr style={{color:"rgb(238,77,45)"}}/>
-        </Content>
-        <Footer>
-            <FooterScreen />
-        </Footer>
-    </Layout>
+    <>
+      <ProductDetailScreen />
+    </>
+    // <Layout>
+    //     <Header>
+    //         <Navbar />
+    //     </Header>
+    //     <Content>
+    //       <ProductDetailScreen />
+    //       <hr style={{color:"rgb(238,77,45)"}}/>
+    //     </Content>
+    //     <Footer>
+    //         <FooterScreen />
+    //     </Footer>
+    // </Layout>
   )
 }

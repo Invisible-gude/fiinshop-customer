@@ -75,17 +75,127 @@ export default function Login() {
         })
     }
     return (
-        <Box height="100vh" display="flex" flexDirection="column">
-            <Box sx={{ backgroundColor:'#fff', alignItems:'center', display:'flex',height: '15%' }} className="p-4" >
-            <Link href="/mainlayout" style={{ alignItems:'center', display:'flex',}} underline="none">
-                <img src='../../images/logo/icon.png' style={{ width: '50px'}}/>
-                <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
-            </Link>
-            <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
-                <span style={{ fontSize:'30px', }}>เข้าสู่ระบบ</span>
-            </Box>
-            </Box>
-            <Box sx={{ height: {md:'70%' ,xs:'100%', sm:'70%', lg:'70%'},bgcolor:'#1976D2',justifyContent: 'center', display:'flex', alignItems:'center' }}>
+
+
+        <Box display="flex" flexDirection="column" bgcolor="#1976D2">
+            <div className="row" >
+                <div className="col-6 col-xs-12 col-sm-12 col-md-6 mobile-none">
+                    <img src='../../images/logo/login.png' style={{width: '100%'}}/>
+                </div>
+                <div className="col-12 col-xs-12 col-sm-12 col-md-6">
+                    <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
+                        <div className="login-container">
+                            <Card style={{padding:'10px'}}>
+                                <Typography style={{ fontSize:'20px', }}>เข้าสู่ระบบ</Typography>
+                                <Controller
+                                    name="username"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <Input  
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder="Username" 
+                                        error={!!error}
+                                        size="large" />
+                                    )}
+                                    rules={{ required: true }}
+                                />
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="password"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <FormControl className='d-block'>
+                                            <Input.Password 
+                                            value={value}
+                                            onChange={onChange}
+                                            size="large" 
+                                            error={!!error}
+                                            id="password-input"
+                                            placeholder="Password"  />
+                                        </FormControl>
+                                    )}
+                                    rules={{ required: true }}
+                                />
+                                <Box className="mt-3 mb-3">
+                                    <Link href="/" underline="none">
+                                        <Button type="submit" variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>เข้าสู่ระบบ</Button>
+                                    </Link>
+                                </Box>
+                                <hr />
+                                <p style={{textAlign:'center'}}>หรือ</p>
+                                <div className="row">
+                                    <div className="col-4 col-xs-12 col-sm-12 col-md-4">
+      
+                                    </div>
+                                </div>
+                                <Box style={{textAlign:'center'}}>
+                                    <span>เพิ่งเคยเข้ามาใน FiinSHOP ใช่หรือไม่ </span>
+                                    <Link href="/register" underline="none" >
+                                        {' สมัครใหม่'}
+                                    </Link>
+                                </Box>
+                            </Card>
+                        </div>
+                        {/* <Box style={{width: {md:'500px' ,xs:'100px', sm:'300px'} }}>
+                            <Typography style={{ fontSize:'25px', }}>เข้าสู่ระบบ</Typography>
+                            <Controller
+                                name="username"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                    <Input  
+                                    value={value}
+                                    onChange={onChange}
+                                    placeholder="Username" 
+                                    error={!!error}
+                                    size="large" />
+                                )}
+                                rules={{ required: true }}
+                            />
+                            <div className="mt-1"></div>
+                            <Controller
+                                name="password"
+                                control={control}
+                                defaultValue=""
+                                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                    <FormControl className='d-block'>
+                                        <Input.Password 
+                                        value={value}
+                                        onChange={onChange}
+                                        size="large" 
+                                        error={!!error}
+                                        id="password-input"
+                                        placeholder="Password"  />
+                                    </FormControl>
+                                )}
+                                rules={{ required: true }}
+                            />
+                            <Box className="mt-3 mb-3">
+                                <Link href="/" underline="none">
+                                    <Button type="submit" variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>เข้าสู่ระบบ</Button>
+                                </Link>
+                            </Box>
+                            <hr />
+                            <Link href="#" underline="none" >
+                                {'ลืมรหัสผ่าน'}
+                            </Link>
+                            <hr />
+                            <p style={{textAlign:'center'}}>หรือ</p>
+                            
+                            <Box style={{textAlign:'center'}}>
+                                <span>เพิ่งเคยเข้ามาใน FiinSHOP ใช่หรือไม่ </span>
+                                <Link href="/register" underline="none" >
+                                    {' สมัครใหม่'}
+                                </Link>
+                            </Box>
+                        </Box> */}
+                    </form>
+                </div>
+            </div>
+            {/* <Box sx={{ height: {md:'70%' ,xs:'100%', sm:'70%', lg:'70%'},bgcolor:'#1976D2',justifyContent: 'center', display:'flex', alignItems:'center' }}>
                 <Grid className="p-5" container item={true}>
                     <Grid item={true} xs={12} sm={6} style={{justifyContent: 'center', display:'flex', alignItems:'center'}} >
                     <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
@@ -156,7 +266,7 @@ export default function Login() {
             <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}} 
             sx={{ height: '15%',backgroundColor:'#fff', alignItems:'center', display:'flex' }} >
            
-            </Box>
+            </Box> */}
         </Box>
     );
 }

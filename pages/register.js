@@ -88,7 +88,7 @@ export default function Register() {
                 <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
             </Link>
             <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
-                <span style={{ fontSize:'30px', }}>เข้าสู่ระบบ</span>
+                <span style={{ fontSize:'30px', }}>สมัครสมาชิก</span>
             </Box>
             </Box>
             <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
