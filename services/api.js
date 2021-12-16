@@ -84,7 +84,7 @@ export const APIaddToCart = async (data) => {
     const storage = JSON.parse(localStorage.getItem('_user'))
     axios.defaults.headers.common['Authorization'] = `Bearer ${storage.api_token}`
     try {
-        const res = await axios.post(`${BASE_API_URL}/api/cart`, data[0])
+        const res = await axios.post(`${BASE_API_URL}/api/cart`,data)
         return await res.data
     } catch (err) {
         console.log(`err`, err)

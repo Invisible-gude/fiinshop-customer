@@ -44,11 +44,11 @@ export default function Register() {
     }
     const onSubmit = (data) => {
         console.log('data',data);
-        if (data.agree === false) {
-            setError('agree', { type: 'manual', message: 'กรุณายอมรับเงื่อนไขและข้อตกลงการใช้งาน' })
-        }else if (data.password !== data.confirm_password) {
+        if(data.password !== data.confirm_password) {
             setError('confirm_password', { type: 'manual', message: 'ยืนยันรหัสผ่านไม่ตรงกับรหัสผ่าน' })
-        } else {
+        }else if (data.agree === false) {
+            setError('agree', { type: 'manual', message: 'กรุณายอมรับเงื่อนไขและข้อตกลงการใช้งาน' })
+        }else {
             APIRegister(data).then(res => {
                 console.log('res',res);
                 if (res.success) {
@@ -81,182 +81,158 @@ export default function Register() {
 
 
     return (
-        <Fragment>
-            <Box sx={{ backgroundColor:'#fff', alignItems:'center', display:'flex',height: '15%' }} className="p-4" >
-            <Link href="/home" style={{ alignItems:'center', display:'flex',}} underline="none">
-                <img src='../../images/logo/icon.png' style={{ width: '50px'}}/>
-                <span style={{color:"#1976D2", fontSize:'30px', fontWeight:'bold', marginRight: '3rem'}}>FiinSHOP</span>
-            </Link>
-            <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}> 
-                <span style={{ fontSize:'30px', }}>สมัครสมาชิก</span>
-            </Box>
-            </Box>
-            <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
-                <div style={{backgroundColor:'#1976D2'}}>
-                    <Grid className="p-5" container item={true}>
-                        <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex' , alignItems:'center'}} >
-                        <Box display={{md:'contents' ,xs:'none', sm:'contents', lg:'contents'}}>                          
-                            <img src='../../images/logo/login.png' style={{width: '60%'}}/>
-                        </Box>
-                        </Grid>
-                        <Grid md={6} xs={12} sm={6} style={{justifyContent: 'center', display:'flex'}}>
-                            <Card style={{width: 'fit-content',padding: '30px'}}>
-                                <div style={{width: {md:'500px' ,xs:'100px', sm:'300px'} }}>
-                                    <Typography style={{ fontSize:'25px', }}>สมัครใหม่</Typography>
-                                    <Grid container>
-                                        <Grid md={12} xs={12} sm={12} className="p-1">
-                                            <Controller
-                                                name="username"
-                                                control={control}
-                                                defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <Input  
-                                                    value={value}
-                                                    onChange={onChange}
-                                                    placeholder="Username" 
-                                                    error={!!error}
-                                                    size="large" />
-                                                )}
-                                                rules={{ required: true }}
-                                            />
-                                        </Grid>
-                                        <Grid md={12} xs={12} sm={12} className="p-1">
-                                            <Controller
-                                                name="phone"
-                                                control={control}
-                                                defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <Input  
-                                                    value={value}
-                                                    onChange={onChange}
-                                                    placeholder="หมายเลขโทรศัพท์" 
-                                                    error={!!error}
-                                                    size="large" />
-                                                    
-                                                )}
-                                                rules={{ required: true, pattern: /[0-9]{10}/, maxLength: 10 }}
-                                            />
-                                            {errors.phone && <FormHelperText id="error-text">หมายเลขโทรศัพท์ไม่ถูกต้อง</FormHelperText>}
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid md={12} xs={12} sm={12} className="p-1">
-                                            <Controller
-                                                name="name"
-                                                control={control}
-                                                defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    // <TextField
-                                                    //     fullWidth
-                                                    //     label="ชื่อ"
-                                                    //     id="standard-basic"
-                                                    //     value={value}
-                                                    //     onChange={onChange}
-                                                    //     error={!!error}
-                                                    //     size="small"
-                                                    // />
-                                                    <Input  
-                                                    value={value}
-                                                    onChange={onChange}
-                                                    placeholder="ชื่อ" 
-                                                    error={!!error}
-                                                    size="large" />
-                                                )}
-                                                rules={{ required: true }}
-                                            />
-                                        </Grid>
-                                        <Grid md={12} xs={12} sm={12} className="p-1">
-                                            <Controller
-                                                name="email"
-                                                control={control}
-                                                defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <Input  
-                                                    value={value}
-                                                    onChange={onChange}
-                                                    placeholder="Email" 
-                                                    error={!!error}
-                                                    size="large" />
-                                                )}
-                                                rules={{ required: true }}
-                                            />
-                                        </Grid>
-                                    </Grid>
-                                
-                                    <Grid container>
-                                        <Grid md={12} xs={12} sm={12} className="p-1">
-                                            <Controller
-                                                name="password"
-                                                control={control}
-                                                defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <Input.Password 
-                                                    value={value}
-                                                    onChange={onChange}
-                                                    size="large" 
-                                                    error={!!error}
-                                                    id="password-input"
-                                                    placeholder="Password"  />
-                                                )}
-                                                rules={{ required: true }}
-                                            />
-                                        </Grid>
-                                        <Grid md={12} xs={12} sm={12} className="p-1">
-                                            <Controller
-                                                name="confirm_password"
-                                                control={control}
-                                                defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                         <Input.Password 
-                                                        value={value}
-                                                        onChange={onChange}
-                                                        size="large" 
-                                                        error={!!error}
-                                                        id="password-input"
-                                                        placeholder="Confirm Password"  />
-                                                        
-                                                )}
-                                                rules={{ required: true, minLength: 8 }}
-                                            />
-                                            {errors.confirm_password && errors.confirm_password.message && <FormHelperText id="error-text">{errors.confirm_password.message}</FormHelperText>}
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid md={12} xs={12} sm={12} className="p-1 mt-3">
-                                            <Controller
-                                                name="agree"
-                                                control={control}
-                                                // rules={{ required: true }}
-                                                // defaultValue=""
-                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <FormGroup>
-                                                        <FormControlLabel control={
-                                                        <Checkbox 
-                                                            value={value}
-                                                            onChange={onChange}
-                                                            color="success"
-                                                        />
-                                                        } label="ยอมรับเงื่อนไขและข้อตกลงในการใช้งาน" />
-                                                    </FormGroup>
-                                                )}
-                                                
-                                            />
-                                            {errors.agree && errors.agree.message && <FormHelperText id="error-text">{errors.agree.message}</FormHelperText>}
-                                        </Grid>
-                                    </Grid>
-
-                                    <div className="mt-3 mb-3">
-                                        <Link href="/" underline="none">
-                                            <Button variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}} type='submit'>สมัครสมาชิก</Button>
-                                        </Link>
-                                    </div>
-                                    <hr />
-                                </div>
-                            </Card>
-                        </Grid>
-                    </Grid>
+        <Box display="flex" flexDirection="column" >
+            <div className="register-content" style={{backgroundColor:'#1976D2'}}>
+                <div className='row register-padding'>
+                <div className="col-6 col-xs-12 col-sm-12 col-md-6 mobile-none" style={{display:'flex', alignItems:'center'}}>
+                    <img src='../../images/logo/login.png' style={{width: '100%'}}/>
                 </div>
-            </form>
-        </Fragment>
+                <div className="col-12 col-xs-12 col-sm-12 col-md-6">
+                    <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
+                        <div className="register-container">
+                            <Card style={{padding:'10px'}}>
+                                <Typography style={{ fontSize:'20px', }}>สมัครสมาชิก</Typography>
+                                <Controller
+                                    name="username"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <Input  
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder="Username" 
+                                        error={!!error}
+                                        size="large" />
+                                    )}
+                                    rules={{ required: true }}
+                                />
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="phone"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <Input  
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder="หมายเลขโทรศัพท์" 
+                                        error={!!error}
+                                        size="large" />
+                                        
+                                        )}
+                                    rules={{ required: true, pattern: /[0-9]{10}/, maxLength: 10 }}
+                                />
+                                {errors.phone && <FormHelperText id="error-text">หมายเลขโทรศัพท์ไม่ถูกต้อง</FormHelperText>}
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="name"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <Input  
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder="ชื่อ" 
+                                        error={!!error}
+                                        size="large" />
+                                    )}
+                                    rules={{ required: true }}
+                                />
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="email"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <Input  
+                                        value={value}
+                                        onChange={onChange}
+                                        placeholder="Email" 
+                                        error={!!error}
+                                        size="large" />
+                                    )}
+                                    rules={{ required: true }}
+                                />      
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="password"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <Input.Password 
+                                        value={value}
+                                        onChange={onChange}
+                                        size="large" 
+                                        error={!!error}
+                                        id="password-input"
+                                        placeholder="Password"  />
+                                    )}
+                                    rules={{ required: true , minLength: 8 }}
+                                />       
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="confirm_password"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                                <Input.Password 
+                                            value={value}
+                                            onChange={onChange}
+                                            size="large" 
+                                            error={!!error}
+                                            id="password-input"
+                                            placeholder="Confirm Password"  />
+                                            
+                                    )}
+                                    rules={{ required: true, minLength: 8 }}
+                                />
+                                {errors.confirm_password && errors.confirm_password.message && <FormHelperText id="error-text">{errors.confirm_password.message}</FormHelperText>}
+                                <div className="mt-1"></div>
+                                <Controller
+                                    name="agree"
+                                    control={control}
+                                    // rules={{ required: true }}
+                                    // defaultValue=""
+                                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                        <FormGroup>
+                                            <FormControlLabel control={
+                                            <Checkbox 
+                                                value={value}
+                                                onChange={onChange}
+                                                color="success"
+                                            />
+                                            } label="ยอมรับเงื่อนไขและข้อตกลงในการใช้งาน" />
+                                        </FormGroup>
+                                    )}
+                                    
+                                />
+                                {errors.agree && errors.agree.message && <FormHelperText id="error-text">{errors.agree.message}</FormHelperText>}
+
+                                <Box className="mt-3 mb-3">
+                                    <Link href="/" underline="none">
+                                        <Button type="submit" variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>สมัครสมาชิก</Button>
+                                    </Link>
+                                </Box>
+                                <hr />
+                                <p style={{textAlign:'center'}}>หรือ</p>
+                                <div className="row">
+                                    <div className="col-4 col-xs-12 col-sm-12 col-md-4">
+      
+                                    </div>
+                                </div>
+                                <Box className="mt-ๅ mb-3">
+                                    <Link href="/login" underline="none">
+                                        <Button variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>เข้าสู่ระบบ</Button>
+                                    </Link>
+                                </Box>
+                            </Card>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
+            <div className='blank-div-register'>k</div>
+        </Box>
+
     );
 }

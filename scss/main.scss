@@ -48,6 +48,11 @@
 .login-container{
     padding: 5rem;
 }
+.register-container{
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 2rem;
+}
 .nav-logo {
     width: 100%;
     margin-top: -20px;
@@ -187,6 +192,22 @@ div.progess-text {
     line-height: 1.5715;
     // list-style: none;
 }
+.product-detail-photo {
+    height: 450px;
+    width: 450px;
+    object-fit: cover;
+
+}
+.preview-product{
+    height: 82px;
+    width: 82px;
+    object-fit: cover;
+}
+.pagination-position {
+    padding: 1rem;
+    display: flex;
+    justify-content: end;
+}
 @media (max-width: 1440px) and (min-width:1025px ){
      /* For tablets pro: */
 
@@ -220,6 +241,11 @@ div.progess-text {
         text-align: center;
         background: #364d79;
     
+    }
+    .register-container{
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 2rem;
     }
     .main-content {
         min-height: 100%;
@@ -285,7 +311,7 @@ div.progess-text {
         padding-top: 10px;
         margin-left:0 !important;
         margin-right:0 !important;
-        height: 40px !important;
+        height: 70px !important;
     }
     .nav-logo {
         width: 100px;
@@ -323,12 +349,13 @@ div.progess-text {
     .nav-head-margin-login {
         margin-left:0 !important;
         margin-right:0 !important;
-        height: 40px !important;
+        height: 50px !important;
     }
     .main-content {
         // padding: 5px !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
+        width: fit-content;
     }
     .carousel-container{
         height: 100px;
@@ -361,6 +388,11 @@ div.progess-text {
     }
     .login-container{
         padding: 1rem;
+    }
+    .register-container{
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 2rem;
     }
     .nav-head {
         background-color: #3076D2;

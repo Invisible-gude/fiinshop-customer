@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { createWrapper } from 'next-redux-wrapper'
 import store from '../store/store'
 import '../scss/main.scss'
+import '../scss/product.scss'
 import { RouteGuard } from '../components/RouteGuard'
 import MainLayout from '../components/MainLayout'
 import Router, { useRouter } from "next/router"

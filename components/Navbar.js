@@ -110,9 +110,9 @@ export default function PrimarySearchAppBar() {
             <span className="nav-menu">ดาวน์โหลด</span>
             <span className="nav-menu"> | </span>
             <span className="nav-menu">ติดตามเราบน </span>
-            <span className="nav-menu"><i class="fab fa-facebook" style={{fontSize:'15px'}}>&nbsp;</i></span>
-            <span className="nav-menu"><i class="fab fa-instagram" style={{fontSize:'16px'}}>&nbsp;</i></span>
-            <span className="nav-menu"><i class="fab fa-tiktok" style={{fontSize:'14px'}}></i></span>
+            <span className="nav-menu"><i className="fab fa-facebook" style={{fontSize:'15px'}}>&nbsp;</i></span>
+            <span className="nav-menu"><i className="fab fa-instagram" style={{fontSize:'16px'}}>&nbsp;</i></span>
+            <span className="nav-menu"><i className="fab fa-tiktok" style={{fontSize:'14px'}}></i></span>
           </div>
           <div className="col-3 col-xs-3 col-sm-2 col-md-2">
 
