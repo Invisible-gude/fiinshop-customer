@@ -33,13 +33,16 @@ export default function ProductDetailScreen() {
     const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
         defaultValues: {
                 count: count,
+
         }
     })
 
-    useEffect(async () => {
+    useEffect(() => {
+        console.log(selectOption);
         getUserData()
-        await getProductDetail()
-      }, [])
+        getProductDetail()
+        onChangePrice(selectOption)
+      }, [selectOption])
     
     const getProduct = () => {
         APIgetProduct(limit).then(res => {
@@ -110,7 +113,7 @@ export default function ProductDetailScreen() {
         return (
           <Fragment>
             {topProducts.map((step, index) => (
-              <Grid md={12} xs={6} sm={12} marginBottom={2} >
+              <Grid md={12} xs={6} sm={12} marginBottom={2} key={step.id}>
                 <Grid display='grid'>
                   <Box display='grid' justifyItems='center'>
                     <img src={step.thumbnail} className="product-image" />
@@ -179,11 +182,10 @@ export default function ProductDetailScreen() {
             </Card>
         )
     }
-   const onChangePrice = (e) => {
-        let price =  products.product_options.find(item => item.id = e.target.value)
-        let last_price = price.option.find(item => item.id = price.id)
-        setPrice(last_price.sell_price)
-        setSelectOption(e.target.value)
+   const onChangePrice = (id) => {
+        let price =  products && products.product_options ? products.product_options.filter(item => item.id = id) : 0 
+        console.log('last_price',price);
+        // setPrice(last_price == 0 ? 0 : last_price.sell_price)
     }
     const ChengeCount = (type) => {
         if(type === 'p'){
@@ -200,6 +202,7 @@ export default function ProductDetailScreen() {
         localStorage.setItem('_products', products)
         router.push('/checkout')
     }
+
     const addToCart = () => {
        const data =[
             {
@@ -209,12 +212,12 @@ export default function ProductDetailScreen() {
                 'product_qty':count
             }
         ]
-        APIaddToCart(data).then(res => {
-            console.log('res',res);
+        // APIaddToCart(data).then(res => {
+        //     console.log('res',res);
             
-        }).catch(err => {
-            console.log(err);
-        })
+        // }).catch(err => {
+        //     console.log(err);
+        // })
         
         console.log('product_', data);
 
@@ -281,7 +284,7 @@ export default function ProductDetailScreen() {
                                                     <Grid xs={12} sm={12} md={11}>
                                                     <Radio.Group buttonStyle="solid" >
                                                     {item.option.map(items => 
-                                                        <Radio.Button key={items.id} style={{marginRight:'5px', marginBottom:'5px'}} value={items.id} onChange={e => {onChangePrice(e)}}>{items.value}</Radio.Button>
+                                                        <Radio.Button key={items.value} style={{marginRight:'5px', marginBottom:'5px'}} value={items.id} onChange={e => setSelectOption(e.target.value)}>{items.value}</Radio.Button>
                                                     )}
                                                     </Radio.Group>
                                                     

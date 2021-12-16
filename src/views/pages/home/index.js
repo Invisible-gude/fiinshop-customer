@@ -1,9 +1,5 @@
 import { Fragment,useState,useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -14,7 +10,6 @@ import Button from '@mui/material/Button';
 import {APIgetProduct} from '../../../../services/api'
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
@@ -28,7 +23,9 @@ import n1 from '../../../../public/images/promotions/n1.png';
 import n2 from '../../../../public/images/promotions/n2.png';
 import n3 from '../../../../public/images/promotions/n3.png';
 
-import { Row, Col, Carousel } from 'antd';
+import { Row, Col, Carousel, Progress } from 'antd';
+import { ProgressBar} from 'react-bootstrap';
+import { isHostComponent } from '@mui/material';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const data_new  = [
@@ -207,6 +204,7 @@ const data_new_mall  = [
       product_detail: 'บราวนี่แสนอร่อย หน้าฟิล์ม หวานน้อย',
       price: 89,
       product_qty: 500,
+      count_sell:12
     },
     {
       label: 'P2',
@@ -216,7 +214,7 @@ const data_new_mall  = [
       product_detail: 'คุ้กกี้มาร์ชเมลโล่ กรอบนอกนุ่มใน หวานมันอร่อย สอดไส้มาร์ชเมลโล่',
       price: 129,
       product_qty: 135,
-  
+      count_sell:30
     },
     {
       label: 'P3',
@@ -226,7 +224,7 @@ const data_new_mall  = [
       product_detail: 'เสื้อครอบ Free size สีสวย ผ้าไม่ย้วย',
       price: 200,
       product_qty: 39,
-  
+      count_sell:89
     },
     {
       label: 'P4',
@@ -236,7 +234,7 @@ const data_new_mall  = [
       product_detail: 'ชุดว่ายน้ำสตรีสีดำเป็นชุดเซ็ต เสื้อ+กางเกง มีหลายไซต์ S M L XL 2XL 3XL 4XL',
       price: 699,
       product_qty: 421,
-  
+      count_sell:45
     },
     {
       label: 'P5',
@@ -246,7 +244,7 @@ const data_new_mall  = [
       product_detail: 'ร่วมกันแดดกันฝน สามารถป้องกัน UV ได้ดี สีแดงขนาดใหญ่ ผู้ใหญ่เข้าได้2-3 คน',
       price: 199,
       product_qty: 500,
-  
+      count_sell:20
     },
     {
       label: 'P6',
@@ -256,7 +254,7 @@ const data_new_mall  = [
       product_detail:'แปรงสีฟันคอเกต แบบแพ๊ค 5 ชิ้น คละสี ขนแปรงนุ่มไม่บาดเหงือก ',
       price: 65,
       product_qty: 1236,
-  
+      count_sell:10
     },
   ];
   function TabPanel(props) {
@@ -295,7 +293,7 @@ export default function HomeScreen() {
     const theme = useTheme();
     const [activeStep, setActiveStep] = useState(0);
     const [products, setProducts] = useState([])
-    const [limit, setLimit] = useState(30)
+    const [limit, setLimit] = useState(12)
     const [value, setValue] = useState(0);
 
     const contentStyle = {
@@ -307,6 +305,13 @@ export default function HomeScreen() {
     };
 
     useEffect(() => {
+      const data = {
+            'limit' : limit,
+            'offset': 0,
+            'keyword':'',
+        }
+        const formData = JSON.stringify(data)
+    
         APIgetProduct(limit).then(res => {
             if (res.success) {
                 setProducts(res.data)
@@ -355,19 +360,28 @@ export default function HomeScreen() {
         return (
           <Fragment>
             {products.map((step, index) => (
-              <Grid md={1.8} xs={6} sm={4} style={{ display: 'grid',justifyContent: 'center'}} backgroundColor="white" marginBottom={1}>
+              <Grid md={2} xs={6} sm={4} 
+                style={{ display: 'grid',justifyContent: 'center'}} 
+                border={1} borderColor='#F5F5F5' 
+                backgroundColor="white" 
+                marginBottom={1}
+                height='288px'
+                width="190px"
+                >
                   <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
                   <img src={step.thumbnail} className="product-image-recomend" />
-                  <div style={{padding:'1px'}}><p style={{fontSize:'13px'}}>{step.name}</p></div>
+                    <div style={{height:'70px', padding:'5px'}}>
+                      <p style={{fontSize:'13px'}}>{step.name}</p>
+                    </div>
                   <div>
-                  <Grid container>
-                    <Grid md={5} xs={6} sm={6}>
+                  <Grid container display="flex" alignItems="center">
+                    <Grid md={5} xs={4} sm={5} >
                       <Typography  variant="body2" component="block" color="rgb(238,77,45)">
                         ฿ {step.sell_price}
                       </Typography>
                     </Grid>
-                    <Grid md={7} xs={6} sm={6}>
-                      <Typography  variant="body2" color="text.secondary" align="end" >
+                    <Grid md={7} xs={8} sm={7}>
+                      <Typography  variant="body2" color="text.secondary" align="end" fontSize={12}>
                       ขายแล้ว {step.qty} ชิ้น
                       </Typography>
                     </Grid>
@@ -375,38 +389,7 @@ export default function HomeScreen() {
                   </div>
                   </Link>
               </Grid>
-              // <Grid md={2} xs={6} sm={4} style={{ display: 'flex',justifyContent: 'center'}}>
-              //     <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
-              //       <Card  sx={{maxWidth: 190, height:{ xs: 200, sm: 250,md:300 }, marginTop: '10px'}}>
-              //         <CardMedia
-              //           component="img"
-              //           sx={{height:{ xs: 100, sm: 150,md:200 }}}
-              //           // height={200}
-              //           image={step.thumbnail}
-              //           alt={step.label}
-              //         />
-              //         <CardContent sx={{padding: '10px', height: '60px'}}>
-              //           <Typography  variant="body2" component="block" >
-              //             {step.name}
-              //           </Typography>
-              //         </CardContent>
-              //         <CardActions >
-              //           <Grid container>
-              //             <Grid md={6} xs={6} sm={6}>
-              //               <Typography  variant="body2" component="block" color="rgb(238,77,45)">
-              //                 ฿ {step.sell_price}
-              //               </Typography>
-              //             </Grid>
-              //             <Grid md={6} xs={6} sm={6}>
-              //               <Typography  variant="body2" color="text.secondary" align="end" >
-              //               {step.qty} ชิ้น
-              //               </Typography>
-              //             </Grid>
-              //           </Grid>
-              //         </CardActions>
-              //       </Card>
-              //        </Link>
-              //     </Grid>
+              
             ))}
           </Fragment>
           )
@@ -421,13 +404,19 @@ export default function HomeScreen() {
                     <img src={step.src} className="product-image" />
                   </div>
                   <div>
-                    <p className="text-main text-center">
+                    <p className="text-center" style={{color:"#EE4D2D"}}>
                         ฿  <label style={{fontSize:'18px'}}>{step.price}</label>
                     </p>
                   </div>
-                  <div className="rounded-pill w-50" style={{height:'20px', backgroundColor:'#baecff'}}>
-                  <p style={{fontSize:'12px',textAlign:'center',color:'white'}}>ขายแล้ว 100</p>
+                  <div className="w-50 text-center progess-text" style={{backgroundColor:'#7bccf2', borderRadius:'5px', height:'15px'}}>
+                    <span className='nav-menu'>ขายแล้ว {step.count_sell}</span>
+                    <div className='rounded w-100' style={{height:'15px'}}> 
+                      <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#3076D2', width:`${step.count_sell}%` ,height:'15px'}}>
+                        &nbsp;
+                      </div>
+                    </div>
                   </div>
+                  {/* <ProgressBar now={step.count_sell} label={(<span>ขายแล้ว ${step.count_sell}</span>)} /> */}
                 </Grid>
               </Grid>
             ))}
@@ -435,37 +424,46 @@ export default function HomeScreen() {
           )
       }
     return (
-      <Grid container marginTop={{md:2, sm:1 ,xs:0}}>
+      <Grid container marginTop={{md:2, sm:1 ,xs:14}}>
         <Grid container>
           <Grid item md={8} sm={12} xs={12}>
              <Carousel afterChange={onChange}>
               {data_new.map(item => 
                 <div>
                   <h3 className="carousel-container">
-                    <img src={item.src} className="branner"/>
+                    <img src={item.src} className="branner rounded"/>
                   </h3>
                 </div>
               )}
             </Carousel>
           </Grid>
           <Grid item md={4} sm={0} xs={3} className="d-block align-items-center" >
-            <Grid container style={{height:'130px'}} marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex', md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
-              <Image
-                  src={b1}
+            <Grid container   sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}} marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex', md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
+              <img
+                  src='/images/news/b1.jpg'
                   alt="Picture of the author"
-                  sx={{width: '100%', height:'100%'}}
+                  style={{width: '98%', height:'100%'}}
+                  className="rounded"
               />
             </Grid>
-            <Grid container style={{height:'130px'}} display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
-              <Image
-                  src={b2}
-                  alt="Picture "
-                  sx={{width: '100%', height:'100%'}}
+            <Grid container sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}}  marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
+              <img
+                  src='/images/news/b2.jpg'
+                  alt="Picture of the author"
+                  style={{width: '98%', height:'100%'}}
+                  className="rounded"
+              />
+            </Grid>
+            <Grid container sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}}  display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
+              <img
+                  src='/images/news/b3.png'
+                  alt="Picture of the author"
+                  style={{width: '98%', height:'100%'}}
+                  className="rounded"
               />
             </Grid>
           </Grid>
         </Grid>
-
         <div style={{ width:'100%', backgroundColor:'white'}}>
           <Grid container>
           {item_menus.map(item => 
@@ -590,7 +588,7 @@ export default function HomeScreen() {
           <Grid container >
             {menu_top_search.map(items =>
               <Grid md={2.3} xs={6} sm={4} display="flex" alignItems="center" justifyContent="center">
-                <Grid>
+                <Grid display={{ xs: 'grid', sm: 'flex', md:'flex' }} alignItems="center" justifyContent="center" padding={{ xs: '5px', sm: '10px', md:'10px' }}>
                   <p style={{fontSize:'12px'}}>
                     {items.name} <br/>
                     <label style={{color:'#c9c9c9'}}>{items.count} รายการ</label>
@@ -606,24 +604,27 @@ export default function HomeScreen() {
         <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="สินค้าแระรำประจำวัน" {...a11yProps(0)} />
+              <Tab label="สินค้าประจำประจำวัน" {...a11yProps(0)} />
               <Tab label="สินค้าโปรโมชั่น" {...a11yProps(1)} />
               </Tabs>
           </Box>
-          <TabPanel value={value} index={0} style={{backgroundColor:'#F5F5F5'}}>
-            <Grid container display="flex" justifyContent="space-between" >
+          <TabPanel value={value} index={0} >
+            <Grid container  >
                 <RenderProduct />
             </Grid>
           </TabPanel>
           <TabPanel value={value} index={1}>
-          <Grid container display="flex" justifyContent="space-between">
+          <Grid container >
               <RenderProduct />
           </Grid>
           </TabPanel>
         </div>
+        {products.length >= 12 ? 
         <div style={{justifyContent: 'center', width:'100%', display:'flex'}} className="mt-3 mb-3">
             <Button variant="outlined" sx={{width: { xs: '100%', sm: '60%', md:'30%' }}}>ดูเพิ่มเติม</Button>
         </div>
+        : null
+        }
       </Grid>
     );
 }

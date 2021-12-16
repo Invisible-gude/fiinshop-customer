@@ -1,4 +1,5 @@
 const BASE_API_URL = process.env.USER_API
+import { offset } from '@popperjs/core'
 import axios from 'axios'
 
 // ---------------------- Authorization -------------------- //
@@ -23,8 +24,13 @@ export const APILogin = async (data) => {
 
 // ---------------------- Products -------------------- //
 export const APIgetProduct = async (data) => {
+    const storage = JSON.parse(localStorage.getItem('_user'))
+    axios.defaults.headers.common['Authorization'] = `Bearer ${storage.api_token}`
+
     try {
-        const res = await axios.get(`${BASE_API_URL}/api/products`, data)
+        const res = await axios.get(`${BASE_API_URL}/api/products`, { params: {
+            limit:data,
+          }})
         return await res.data
     } catch (err) {
         console.log(`err`, err)
@@ -42,7 +48,11 @@ export const APIgetProductDetail = async (data) => {
 }
 export const APIgetProductSearch = async (limit,offset,keyword) => {
     try {
-        const res = await axios.get(`${BASE_API_URL}/api/products?limit=${limit}&offset=${offset}&keyword=${keyword}`)
+        const res = await axios.get(`${BASE_API_URL}/api/products`,{ params: {
+            limit:limit,
+            offset:offset,
+            keyword:keyword
+          }})
         return await res.data
     } catch (err) {
         console.log(`err`, err)

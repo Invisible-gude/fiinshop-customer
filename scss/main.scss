@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;400&display=swap');
 @import '~antd/dist/antd.css';
+@import "@fortawesome/fontawesome-free/css/all.css"; 
 
 * {
     margin: 0;
@@ -20,8 +21,8 @@
 .main-content {
     min-height: 100%;
     height: 100%;
-    padding-left: 13rem;
-    padding-right: 13rem;
+    padding-left: 23rem;
+    padding-right: 23rem;
 }
 
 .nav-head {
@@ -35,13 +36,13 @@
     // margin-right:10rem !important;
 }
 .nav-head-margin {
-    margin-left:13rem !important;
-    margin-right:13rem !important;
-    height: 130px !important;
+    margin-left:23rem !important;
+    margin-right:23rem !important;
+    height: 119px !important;
 }
 .nav-head-margin-login {
-    margin-left:13rem !important;
-    margin-right:13rem !important;
+    margin-left:23rem !important;
+    margin-right:23rem !important;
     height: 70px !important;
 }
 .login-container{
@@ -49,9 +50,23 @@
 }
 .nav-logo {
     width: 100%;
+    margin-top: -20px;
 }
 .search-bar {
+    border-radius: 50px;
     width: 100%;
+}
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child){
+    border-radius: 2px !important;   // or other value
+ }
+ .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child {
+    left: -1px;
+    padding: 3px;
+    border: 0;
+ }
+ .ant-input-affix-wrapper {
+    padding: 10px 11px !important;
+    font-size: 14px;
 }
 .nav-menu {
     font-size: 13px;
@@ -63,14 +78,15 @@
 }
 
 .carousel-container{
-    height: 270px;
+    height: 361px;
     color: #fff;
     line-height: 160px;
     text-align: center;
     background: #364d79;
+    border-radius: 10px;
 }
 .carousel-container-mall {
-    height: 464px;
+    height: 463px;
     color: #fff;
     line-height: 160px;
     text-align: center;
@@ -80,6 +96,7 @@
 .branner {
     width: 100%;
     height: 100%;
+    object-fit: cover;    
 }
 .side-new {
     height: 105px;
@@ -107,13 +124,69 @@
 
 }
 .product-image-recomend {
-    width: 160px;
-    height: 160px;
+    width: 188px;
+    height: 188px;
     object-fit: cover;    
 }
-// .css-19kzrtu {
-//     padding: 0px !important; 
-// }
+.css-19kzrtu {
+    padding: 0px !important; 
+}
+.bg {
+    width: 100%; 
+  }
+  .bg img {
+    position: absolute; 
+  }
+  .cover-shop{
+      position: absolute;
+      width: 350px;
+      height: 130px;
+      object-fit: cover;
+    //   background-color: rgba(0, 0, 0, 1.5);
+      opacity: 0.6;
+  }
+  .css-1gsv261 {
+    border-bottom: 0px !important; 
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.discount-code-container{
+    padding-top: 255px !important;
+}
+.shop-profile-container{
+    position:absolute;
+    left:0px;
+    right:0px;
+    height:245px;
+    background-color:white;
+}
+
+div.progess-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span {
+        position: absolute;
+    }
+    div:not(.bar){
+        justify-content: start;
+    }
+}
+.mobile-show{
+    display: none;
+}
+.filter-height{
+    height: 60px;
+}
+.ant-pagination {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    // list-style: none;
+}
 @media (max-width: 1440px) and (min-width:1025px ){
      /* For tablets pro: */
 
@@ -124,16 +197,45 @@
         height: 115px;
     }
     .carousel-container{
-        height: 270px;
+        height: 361px;
         color: #fff;
         line-height: 160px;
         text-align: center;
         background: #364d79;
     }
     .product-image-recomend {
-        width: 140px;
-        height: 140px;
+        width: 184px;
+        height: 184px;
         object-fit: cover;    
+    }
+    .product-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;    
+    }
+    .carousel-container-mall {
+        height: 400px;
+        color: #fff;
+        line-height: 160px;
+        text-align: center;
+        background: #364d79;
+    
+    }
+    .main-content {
+        min-height: 100%;
+        height: 100%;
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+    .nav-head-margin {
+        margin-left:10rem !important;
+        margin-right:10rem !important;
+        height: 130px !important;
+    }
+    .nav-head-margin-login {
+        margin-left:10rem !important;
+        margin-right:10rem !important;
+        height: 70px !important;
     }
 }
 @media (max-width: 1024px) and (min-width:769px ){
@@ -216,7 +318,7 @@
         padding-top: 10px;
         margin-left:0 !important;
         margin-right:0 !important;
-        height: 70px !important;
+        height: 100px !important;
     }
     .nav-head-margin-login {
         margin-left:0 !important;
@@ -259,6 +361,29 @@
     }
     .login-container{
         padding: 1rem;
+    }
+    .nav-head {
+        background-color: #3076D2;
+        width: 100% !important;
+        position: fixed !important;
+        z-index: 1 !important;
+        top: 0 !important;
+    }
+    .shop-profile-container{
+        position:absolute;
+        left:0;
+        right:0;
+        height:570px;
+        background-color:white;
+    }
+    .discount-code-container{
+        padding-top: 578px !important;
+    }
+    .mobile-show{
+        display: block;
+    }
+    .filter-height{
+        height: 100px;
     }
 }
 

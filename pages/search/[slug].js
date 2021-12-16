@@ -12,17 +12,8 @@ export default function Search() {
     const { slug } = router.query
 
      return(
-        <Layout>
-            <Header>
-                <Navbar search={slug}/>
-            </Header>
-            <Content>
+
             <SearchScreen />
-            <hr style={{color:"rgb(238,77,45)"}}/>
-            </Content>
-            <Footer>
-                <FooterScreen />
-            </Footer>
-        </Layout>   
+ 
     );
 }

@@ -7,11 +7,6 @@ import  ShopDetail  from '../../src/views/pages/shop/index';
 export default function Shop() {
 
      return(
-        <Container >
-            <Navbar />
             <ShopDetail />
-            <hr style={{color:"rgb(238,77,45)"}}/>
-            <Footer />
-        </Container >    
     );
 }
