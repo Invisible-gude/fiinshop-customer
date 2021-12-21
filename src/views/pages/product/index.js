@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react';
-import { APIgetProductDetail, APIgetCategory, APIgetShopDetail, APIgetProduct, APIaddToCart } from '../../../../services/api'
+import { APIgetProductDetail, APIgetCategory, APIgetShopDetail, APIgetProduct, APIaddToCart, APIgetCart } from '../../../../services/api'
 import { Router, useRouter } from 'next/router'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -13,9 +13,11 @@ import Typography from '@material-ui/core/Typography'
 import Rating from '@mui/material/Rating';
 import Avatar from '@mui/material/Avatar';
 import { useForm, Controller } from 'react-hook-form';
-import { Radio , Modal, Pagination} from 'antd';
+import { Radio , Modal, Pagination, message} from 'antd';
 import { FixedSizeList as List } from 'react-window';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import { useDispatch } from 'react-redux';
+import { countCart } from '../../../../store/actions/countAction';
 
 const products_review  = [
     {
@@ -123,6 +125,8 @@ export default function ProductDetailScreen() {
     const [thumbnail, setThumbnail] = useState('')
     const router = useRouter()
     const { slug } = router.query
+    const dispatch = useDispatch()
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
         defaultValues: {
@@ -131,17 +135,24 @@ export default function ProductDetailScreen() {
     })
 
     useEffect(() => {
-        
         console.log(selectOption);
         getUserData()
         getProductDetail()
         getSameProduct()
+        
       }, [selectOption])
+    const handleOk = () => {
+    setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+    setIsModalVisible(false);
+    };
     
     const getProduct = () => {
         APIgetProduct(limit).then(res => {
             if (res.success) {
-                setTopProducts(res.data)
+                setTopProducts(res.data.products)
             } else {
                 console.log('res',res);
 
@@ -155,7 +166,7 @@ export default function ProductDetailScreen() {
     const getSameProduct = () => {
         APIgetProduct(limit).then(res => {
             if (res.success) {
-                setSameProducts(res.data)
+                setSameProducts(res.data.products)
             } else {
                 console.log('res',res);
 
@@ -237,13 +248,9 @@ export default function ProductDetailScreen() {
 
     }
     const toCheckout = () => {
-        localStorage.setItem('_products', products)
         router.push('/checkout')
     }
     const addToCart = () => {
-       let user_id = user ? user.id : 0;
-       var crypto = require("crypto");
-       var id = crypto.randomBytes(100).toString('hex');
        const data =[
             {
                 'shop_id' : products.shop_id,
@@ -252,13 +259,30 @@ export default function ProductDetailScreen() {
                 'product_qty':count
             }
         ]
+        console.log('data', data);
+        const storage = JSON.parse(localStorage.getItem('_user'))
+        if(!storage){
+          setIsModalVisible(true);
+        }else{
         APIaddToCart(data).then(res => {
-            console.log('res',res);
+            console.log('--',res);
+            if(res.success){
+                APIgetCart().then(resp => {
+                    console.log('resp',resp.data.carts);
+                    if(resp && resp.data && resp.data.carts){
+                      let list = []
+                      let p_qty = resp.data.carts.map(item => item.products.map(dt=> list.push(dt.id)))
+                      dispatch(countCart(list.length))
+                    }
+                })
+            }else{
+                message.error('ไม่สามารเพิ่มสินค้าได้')
+            }
             
         }).catch(err => {
             console.log(err);
         })
-        
+        }
     }
     function RenderTopProduct() {
         return (
@@ -301,7 +325,7 @@ export default function ProductDetailScreen() {
                         <Box sx={{marginBottom:'10px'}}>
                             <Grid container>
                                 <Grid xs={10} sm={4} md={4}>
-                                    <Button sx={{backgroundColor:'#3076D2',color:'white',width:'90%'}} variant="outlined" startIcon={<Chat />}>แชทเลย</Button>
+                                    <Button sx={{backgroundColor:'#196bfd',color:'white',width:'90%'}} variant="outlined" startIcon={<Chat />}>แชทเลย</Button>
                                 </Grid>
                                 <Grid xs={10} sm={4} md={4}>
                                     <Button sx={{width:'90%'}} href={`/shop/${encodeURIComponent(products.shop_id)}`} variant="outlined" >ดูร้านค้า</Button>
@@ -311,20 +335,20 @@ export default function ProductDetailScreen() {
                     </Grid>
                     <Grid xs={12} sm={12} md={2} >
                         <Box sx={{alignItems:'center'}}>
-                            <p style={{color:'#ABB2B9'}}>คะแนน <label style={{color:'#3076D2'}}>99.7พัน</label></p>
-                            <p style={{color:'#ABB2B9'}}>รายการสินค้า <label style={{color:'#3076D2'}}>149</label></p>
+                            <p style={{color:'#ABB2B9'}}>คะแนน <label style={{color:'#196bfd'}}>99.7พัน</label></p>
+                            <p style={{color:'#ABB2B9'}}>รายการสินค้า <label style={{color:'#196bfd'}}>149</label></p>
                         </Box>
                     </Grid>
                     <Grid xs={12} sm={12} md={3} >
                         <Box sx={{alignItems:'center'}}>
-                            <p style={{color:'#ABB2B9'}}>อัตราการตอบกลับ <label style={{color:'#3076D2'}}>97%</label></p>
-                            <p style={{color:'#ABB2B9'}}>เวลาในการตอบกลับ <label style={{color:'#3076D2'}}>ภายในไม่กี่ชั่วโมง</label></p>
+                            <p style={{color:'#ABB2B9'}}>อัตราการตอบกลับ <label style={{color:'#196bfd'}}>97%</label></p>
+                            <p style={{color:'#ABB2B9'}}>เวลาในการตอบกลับ <label style={{color:'#196bfd'}}>ภายในไม่กี่ชั่วโมง</label></p>
                         </Box>
                     </Grid>
                     <Grid xs={12} sm={12} md={2} >
                         <Box sx={{alignItems:'center'}}>
-                            <p style={{color:'#ABB2B9'}}>เข้าร่วมเมื่อ <label style={{color:'#3076D2'}}>28 เดือน ที่ผ่านมา</label></p>
-                            <p style={{color:'#ABB2B9'}}>ผู้ติดตาม <label style={{color:'#3076D2'}}>136.8พัน</label></p>
+                            <p style={{color:'#ABB2B9'}}>เข้าร่วมเมื่อ <label style={{color:'#196bfd'}}>28 เดือน ที่ผ่านมา</label></p>
+                            <p style={{color:'#ABB2B9'}}>ผู้ติดตาม <label style={{color:'#196bfd'}}>136.8พัน</label></p>
                         </Box>
                     </Grid>
                 </Grid>
@@ -489,7 +513,7 @@ export default function ProductDetailScreen() {
                                     <span style={{fontSize:'16px',color:'#ABB2B9'}}>0 ขายแล้ว</span>
                                 </Box>
                                 <Box style={{backgroundColor:'#FAFAFA', padding: '10px'}}>
-                                    <span style={{fontSize:'1.875rem',color:'#3076D2'}}>฿ {selectPrice.toFixed(2)}</span>
+                                    <span style={{fontSize:'1.875rem',color:'#196bfd'}}>฿ {selectPrice.toFixed(2)}</span>
                                 </Box>
                                 <Box sx={{marginBottom:'10px'}}>
                                     <Grid container>
@@ -548,7 +572,7 @@ export default function ProductDetailScreen() {
                                 <Box sx={{marginBottom:'10px'}}>
                                     <Grid container>
                                         <Grid item xs={12} sm={4} md={4}>
-                                            <Button type="submit" sx={{backgroundColor:'#3076D2',color:'white',width:'90%'}} variant="outlined" startIcon={<ShoppingCartIcon />} onClick={e => {addToCart()}}>เพิ่มไปยังรถเข็น</Button>
+                                            <Button type="submit" sx={{backgroundColor:'#196bfd',color:'white',width:'90%'}} variant="outlined" startIcon={<ShoppingCartIcon />} onClick={e => {addToCart()}}>เพิ่มไปยังรถเข็น</Button>
                                         </Grid>
                                         <Grid item xs={12} sm={4} md={4}>
                                             <Button sx={{width:'90%'}} type="submit" variant="outlined" onClick={e => {toCheckout()}}>ซื้อสินค้า</Button>
@@ -580,7 +604,7 @@ export default function ProductDetailScreen() {
                             <Box sx={{marginBottom:'10px'}}>
                                 <Grid container>
                                     <Grid xs={10} sm={4} md={4}>
-                                        <Button sx={{backgroundColor:'#3076D2',color:'white',width:'90%'}} variant="outlined" startIcon={<Chat />}>แชทเลย</Button>
+                                        <Button sx={{backgroundColor:'#196bfd',color:'white',width:'90%'}} variant="outlined" startIcon={<Chat />}>แชทเลย</Button>
                                     </Grid>
                                     <Grid xs={10} sm={4} md={4}>
                                         <Button sx={{width:'90%'}} href={`/shop/${encodeURIComponent(products.shop_id)}`} variant="outlined"  startIcon={<StorefrontIcon />}>ดูร้านค้า</Button>
@@ -589,16 +613,16 @@ export default function ProductDetailScreen() {
                             </Box>
                         </Grid>
                         <Grid item xs={12} sm={12} md={2} display='grid' alignItems='center'>
-                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>คะแนน <label style={{color:'#3076D2'}}>99.7พัน</label></span>
-                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>รายการสินค้า <label style={{color:'#3076D2'}}>149</label></span>
+                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>คะแนน <label style={{color:'#196bfd'}}>99.7พัน</label></span>
+                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>รายการสินค้า <label style={{color:'#196bfd'}}>149</label></span>
                         </Grid>
                         <Grid item xs={12} sm={12} md={3} display='grid' alignItems='center'>
-                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>อัตราการตอบกลับ <label style={{color:'#3076D2'}}>97%</label></span>
-                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>เวลาในการตอบกลับ <label style={{color:'#3076D2'}}>ภายในไม่กี่ชั่วโมง</label></span>
+                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>อัตราการตอบกลับ <label style={{color:'#196bfd'}}>97%</label></span>
+                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>เวลาในการตอบกลับ <label style={{color:'#196bfd'}}>ภายในไม่กี่ชั่วโมง</label></span>
                         </Grid>
                         <Grid item xs={12} sm={12} md={2} display='grid' alignItems='center'>
-                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>เข้าร่วมเมื่อ <label style={{color:'#3076D2'}}>28 เดือน ที่ผ่านมา</label></span>
-                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>ผู้ติดตาม <label style={{color:'#3076D2'}}>136.8พัน</label></span>
+                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>เข้าร่วมเมื่อ <label style={{color:'#196bfd'}}>28 เดือน ที่ผ่านมา</label></span>
+                            <span style={{color:'#ABB2B9',fontSize:'14px'}}>ผู้ติดตาม <label style={{color:'#196bfd'}}>136.8พัน</label></span>
                         </Grid>
                     </Grid>
                 </div>
@@ -637,7 +661,7 @@ export default function ProductDetailScreen() {
                                 <Box sx={{backgroundColor:'#F5F5F5',padding:'1rem'}}>
                                     <Grid container>
                                         <Grid item xs={12} sm={3} md={2} >
-                                            <span style={{fontSize:'25px',color:'#3076D2'}}>0 <label style={{fontSize:'18px'}}>เต็ม 5</label></span><br/>
+                                            <span style={{fontSize:'25px',color:'#196bfd'}}>0 <label style={{fontSize:'18px'}}>เต็ม 5</label></span><br/>
                                             <Rating name="read-only" value={0} readOnly size="medium"/>
                                         </Grid>
                                         <Grid item xs={12} sm={11} md={10} >
@@ -698,6 +722,11 @@ export default function ProductDetailScreen() {
                     </Box>
                 </Grid> */}
             </Grid>
+            <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <p>เข้าสู่ระบบ</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
         </div>
     );
 }

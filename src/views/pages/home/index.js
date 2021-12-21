@@ -32,7 +32,7 @@ const data_new  = [
     {
       label: 'Slide 1',
       key: 1,
-      src: '../../images/news/g1.jpg'
+      src: '../../images/news/FiinShop1.jpg'
     },
     {
       label: 'Slide 2',
@@ -67,42 +67,42 @@ const data_new_mall  = [
     {
       id:1,
       details:'โค้ดส่งฟรี*',
-      path:'/images/menu/free_shipping.png'
+      path:'/images/menu/FiiNShop-05.png'
     },
     {
       id:2,
       details:'แบรนด์แื้ถูกชัวร์',
-      path:'/images/menu/brand.png'
+      path:'/images/menu/FiiNShop-06.png'
     },
     {
       id:3,
       details:'สินค้าอิเล็กทรอนิกส์',
-      path:'/images/menu/electornic.png'
+      path:'/images/menu/FiiNShop-07.png'
     },
     {
       id:4,
       details:'Game Zone',
-      path:'/images/menu/games.png'
+      path:'/images/menu/FiiNShop-08.png'
     },
     {
       id:5,
       details:'Partner',
-      path:'/images/menu/partner.png'
+      path:'/images/menu/FiiNShop-09.png'
     },
     {
       id:6,
       details:'ซุเปอร์มาร์ดเก็ตช้อป รับคะแนน*',
-      path:'/images/menu/supermarket.png'
+      path:'/images/menu/FiiNShop-10.png'
     },
     {
       id:7,
       details:'แลกรางวัล Shopee Coins',
-      path:'/images/menu/coin.png'
+      path:'/images/menu/FiiNShop-11.png'
     },
     {
       id:8,
-      details:'โค้ดส่วนบดพิเศษ',
-      path:'/images/menu/coupon.png'
+      details:'โค้ดส่วนลดพิเศษ',
+      path:'/images/menu/FiiNShop-12.png'
     },
     {
       id:9,
@@ -306,26 +306,30 @@ export default function HomeScreen() {
 
     useEffect(() => {
       const data = {
-            'limit' : limit,
-            'offset': 0,
-            'keyword':'',
-        }
-        const formData = JSON.stringify(data)
-    
-        APIgetProduct(limit).then(res => {
-            if (res.success) {
-                setProducts(res.data)
-                console.log('res',res.data);
-            } else {
-                console.log('res',res);
-
-            }
-        }).catch(err => {
-            console.log('res',err);
-
-        })
+        'limit' : limit,
+        'offset': 0,
+        'keyword':'',
+    }
+      const formData = JSON.stringify(data)
+      getProduct(formData)
+     
+       
         }, [item_menus])
 
+    const getProduct = (data) => {
+      APIgetProduct(data).then(res => {
+        if (res.success) {
+            setProducts(res.data.products)
+            console.log('res',res.data);
+        } else {
+            console.log('res',res);
+
+        }
+    }).catch(err => {
+        console.log('res',err);
+
+    })
+    }
     const handleNext = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -359,7 +363,7 @@ export default function HomeScreen() {
     function RenderProduct() {
         return (
           <Fragment>
-            {products.map((step, index) => (
+            {products.length && products.map((step, index) => (
               <Grid md={2} xs={6} sm={4} 
                 style={{ display: 'grid',justifyContent: 'center'}} 
                 border={1} borderColor='#F5F5F5' 
@@ -411,7 +415,7 @@ export default function HomeScreen() {
                   <div className="w-50 text-center progess-text" style={{backgroundColor:'#7bccf2', borderRadius:'5px', height:'15px'}}>
                     <span className='nav-menu'>ขายแล้ว {step.count_sell}</span>
                     <div className='rounded w-100' style={{height:'15px'}}> 
-                      <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#3076D2', width:`${step.count_sell}%` ,height:'15px'}}>
+                      <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#196bfd', width:`${step.count_sell}%` ,height:'15px'}}>
                         &nbsp;
                       </div>
                     </div>
@@ -440,7 +444,7 @@ export default function HomeScreen() {
           <Grid item md={4} sm={0} xs={3} className="d-block align-items-center" >
             <Grid container   sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}} marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex', md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
               <img
-                  src='/images/news/b1.jpg'
+                  src='/images/news/FiinShop2.jpg'
                   alt="Picture of the author"
                   style={{width: '98%', height:'100%'}}
                   className="rounded"
@@ -448,7 +452,7 @@ export default function HomeScreen() {
             </Grid>
             <Grid container sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}}  marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
               <img
-                  src='/images/news/b2.jpg'
+                  src='/images/news/FiinShop3.jpg'
                   alt="Picture of the author"
                   style={{width: '98%', height:'100%'}}
                   className="rounded"
@@ -456,7 +460,7 @@ export default function HomeScreen() {
             </Grid>
             <Grid container sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}}  display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
               <img
-                  src='/images/news/b3.png'
+                  src='/images/news/FiinShop4.jpg'
                   alt="Picture of the author"
                   style={{width: '98%', height:'100%'}}
                   className="rounded"
@@ -468,7 +472,7 @@ export default function HomeScreen() {
           <Grid container>
           {item_menus.map(item => 
             <Grid item md={1.2} sm={3} xs={4} display='grid' justifyItems='center'>
-              <img src={item.path} width='60%' />
+              <img src={item.path} width='70px' height='80px' />
               <p className="text-center" style={{fontSize:'12px'}}>{item.details}</p>
             </Grid>
             )}

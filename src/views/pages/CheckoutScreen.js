@@ -1,88 +1,555 @@
 import { Fragment, useEffect, useState } from 'react';
-import { APIgetProductDetail } from '../../../services/api'
+import { APIgetAddress, APIaddAddress, APIupdateAddress, APIcheckoutDetail, APIcheckout } from '../../../services/api'
 import { useRouter } from 'next/router'
-import  Grid  from '@material-ui/core/Grid';
-import  Container  from '@material-ui/core/Container';
-import  Box  from '@material-ui/core/Box';
-import  Button  from '@material-ui/core/Button';
-import { Radio , Modal, Typography, Space} from 'antd';
-const { Text, Title } = Typography;
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { Input , Modal, Checkbox, Drawer, message, Radio, Button} from 'antd';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import InputThaiAddress from 'thai-address-autocomplete-react'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
-
-
+const payment_gateway_menu = [
+    {
+        id:1,
+        icon:'fas fa-money-bill',
+        name:'ชำระเงินปลายทาง',
+        detail:'ชำระเงินเมื่อได้รับสินค้า'
+    },
+    {
+        id:2,
+        icon:'fas fa-credit-card',
+        name:'บัตรเครดิต/เดบิต',
+        detail:'เพิ่มบัตรเครดิต/เดบิต'
+    },
+    {
+        id:3,
+        icon:'fas fa-university',
+        name:'โอนเงินผ่านธนาคาร',
+        detail:'จ่ายผ่านเลขอ้างอิง'
+    },
+]
 export default function CheckOutScreen() {
+    const [visible, setVisible] = useState(false);
+    const [modalAddress, setModalAddress] = useState(false);
+    const [address, setAddress] = useState([])
+    const [name, setName] = useState('')
+    const [phone, setPhone] = useState('')
+    const [dst_address, setDstAddress] = useState('')
+    const [subdistrict, setSubDistrict] = useState('')
+    const [district, setDistrict] = useState('')
+    const [province, setProvince] = useState('')
+    const [zipcode, setZipcode] = useState('')
+    const [primaryAddress, setPrimaryAddress] = useState()
+    const [selectNewAddress, setSelectNewAddress] = useState(0)
+    const [selectPayment, setSelectPayment] = useState(0)
     const [products, setProducts] = useState([])
-    const [selectPrice, setPrice] = useState(0);
-    const [count, setCount] = useState(0);
+    const [drawerTax, setDrawerTax] = useState(false)
+    const [taxId, setTaxId] = useState('')
+    const [branch, setBranch] = useState('')
+    const [coupon, setCoupon] = useState('')
+    const [userData, setUserData] = useState([])
+    const [total, setTotal] = useState(0)
+    const [countProduct, setCountProduct] = useState(0)
+    const [hasInvoice, setHasInvoice] = useState(false)
+    const [checkInvoice, setCheckInvoice] = useState(false)
+    const [selectNewInvoiceAddress, setSelectNewInvoiceAddress] = useState(0)
+    const [modalInvoiceAddress, setModalInvoiceAddress] = useState(false)
+    const [invoiceAddress, setInvoiceAddress] = useState()
+    const router = useRouter()
+
 
     useEffect(async () => {
-        await getProductData()
-        console.log('products',products);
-      }, [products])
-    const getProductData = () => {
-        const value = localStorage.getItem('_products');
-        const product_data = value ? JSON.parse(value) : undefined;
-        console.log('product_data',product_data);
-        setProducts(product_data)
+        await getAddress()
+        await getProductSelect()
+        await getUserData()
+    }, [])
+
+    const getAddress = () => {
+        APIgetAddress().then(resp => {
+            if (resp.success) {
+                setAddress(resp.data)
+                let primary_address = resp.data.find(item => item.is_primary == 1)
+                setPrimaryAddress(primary_address)    
+                setInvoiceAddress(primary_address)
+            }
+        })
+    }
+    const getProductSelect = () => {
+        let pd = sessionStorage.getItem('_selectCart')
+        let pds = JSON.parse(pd)
+        console.log('pd_id', pds);
+        let data = {
+            "cart_id" : pds ,
+        }
+        APIcheckoutDetail(data).then(resp => {
+            if (resp.success) {
+                setProducts(resp.data)
+                if(products.length > 0){
+                    sumTotal()
+                    console.log(products);    
+                }
+
+            }
+        })
+    }
+    const getUserData = () =>{
+        let user = localStorage.getItem('_user')
+        if(user){
+            setUserData(JSON.parse(user))
+        }
+        console.log(userData.email);
+    }
+    const onClose = () => {
+        setVisible(false);
+    };
+    const onTaxClose = () => {
+        setDrawerTax(false);
+    };
+    const handleCancel = () => {
+        setModalAddress(false);
+    };
+    const onChange = (targetName) => (targetValue) => {
+        if(targetName === 'subdistrict'){
+            setSubDistrict(targetValue)
+        }
+        if(targetName === 'district'){
+            setDistrict(targetValue)
+        }
+        if(targetName === 'province'){
+            setProvince(targetValue)
+        }
+        if(targetName === 'zipcode'){
+            setZipcode(targetValue)
+        }
+        
+    }
+    const onSelect = (addresses) => {
+        const { subdistrict, district, province, zipcode } = addresses
+        setSubDistrict(subdistrict)
+        setDistrict(district)
+        setProvince(province)
+        setZipcode(zipcode)
+    }
+    const onSubmitAddress = () => {
+       
+    }
+    const onSubmitInvoiceAddress = () => {
+        let data = {
+            "name":name,
+            "phone":phone,
+            "address":dst_address,
+            "district":subdistrict,
+            "amphure":district,
+            "province":province,
+            "zipcode":zipcode,
+            "is_primary":address.length == 0 ? 1 : 0
+        }
+        APIaddAddress(data).then(resp => {
+            console.log('add product',resp);
+            if (resp.success) {
+                message.success('เพิ่มที่อยู่สำเร็จ')
+                getAddress()
+                setName('')
+                setPhone('')
+                setDstAddress('')
+                setSubDistrict('')
+                setDistrict('')
+                setProvince('')
+                setZipcode('')
+                setVisible(false)
+            }
+        })
+    }
+    const onSetPrimaryAddress = (data) => {
+        let id = data.id
+        let editData = {
+            "name":data.name,
+            "phone":data.phone,
+            "address":data.address,
+            "district":data.district,
+            "amphure":data.amphure,
+            "province":data.province,
+            "zipcode":data.zipcode,
+            "is_primary":1
+        }
+        APIupdateAddress(editData,id).then(resp => {
+            console.log('add product',resp);
+            if (resp.success) {
+                message.success('ตั้งค่าที่อยู่สำเร็จ')
+                getAddress()
+                setModalAddress(false)
+            }
+        })
+    }
+    const onSelectPayment = (value) => {
+        setSelectPayment(value)
+    }
+    const onSelectNewAddress = (value,data) => {
+        setPrimaryAddress(data)    
+        setSelectNewAddress(value)
+    }
+    const onSelectNewInvoiceAddress = (value,data) => {
+        setInvoiceAddress(data)    
+        setSelectNewInvoiceAddress(value)
+    }
+    const onAddNewAddress = () => {
+        setModalAddress(false)    
+        setVisible(true)    
+
+    }
+    const onDeleteCart = (e, id, idx,index) => {
+        let pd = sessionStorage.getItem('_selectCart')
+        let pds = JSON.parse(pd)
+        let dt = pds.filter(e=> e !== id)
+        if(dt.length > 0){
+            sessionStorage.setItem('_selectCart', JSON.stringify(dt))
+            getProductSelect()
+            sumTotal()
+        }
+        
+        //  console.log('dt',pd);
+        // const cloneCart = products
+        // const clone = cloneCart[index]
+        // let dt = clone.details.filter(e=> e.product_option_id === id)
+        // clone.details.splice(idx, 1)
+        // if(clone.details.length === 0){
+        //     cloneCart.splice(index,1)
+        // }
+        // setProducts([...cloneCart])
+        // sumTotal()
+      }
+    const sumTotal = () => {
+    let list = []
+    let qty = []
+    let check_invoice = []
+    let price = products.map(item => item.details.map(dt=> list.push(dt.product_sell_price*dt.product_qty)))
+    let p_qty = products.map(item => item.details.map(dt=> qty.push(dt.product_qty)))
+    let invoice = products.map(item => item.is_invoice_available);
+    let reducer = (previousValue, currentValue) => previousValue + currentValue;
+    if(invoice.length > 0){
+        let sum_check_invoice = invoice && invoice.reduce(reducer);
+        setCheckInvoice(sum_check_invoice)    
+    }
+    if (list.length !== 0) {
+        let sum = list && list.reduce(reducer);
+        let sum_qty = qty && qty.reduce(reducer);
+        setTotal(sum)
+        setCountProduct(sum_qty)
+
+    } else {
+        setTotal(0)
+        setCountProduct(0)
+    }
+    }
+    const onSubmit = (e) => {
+        let pd_id = []
+        let price = products.map(item => item.details.map(dt=> pd_id.push(dt.cart_id)))
+        let invoice_required = hasInvoice === false ? 0 : 1;
+        let branch_no = branch === '' ? '0000' : branch;
+        let data = {}
+        console.log(pd_id);
+        if(invoice_required === 0){
+            data = {
+                "cart_id" : pd_id,
+                "address_id": primaryAddress.id,
+                "invoice_required":invoice_required,
+                // "coupon":coupon,
+            }
+        }else{
+            data = {
+                "cart_id" : pd_id,
+                "address_id": primaryAddress.id,
+                "invoice_required":invoice_required,
+                // "coupon":coupon,
+                "invoice_address":{
+                    "name":invoiceAddress.name,
+                    "phone":invoiceAddress.phone,
+                    "address":invoiceAddress.address,
+                    "district":invoiceAddress.district,
+                    "amphure":invoiceAddress.amphure,
+                    "province":invoiceAddress.province,
+                    "zipcode":invoiceAddress.zipcode,
+                    "tax_id":taxId,
+                    "branch_no":branch_no
+                }
+            }
+        }
+        if(data){
+            APIcheckout(data).then(resp => {
+                console.log('resp', resp);
+                if (resp.success) {
+                    
+                }
+            })
+            console.log('data',data);    
+        }
     }
 
-
      return(
-        <Container backgroundColor="#fff">
-            <p>
-                <Title level={4}>ข้อมูลสินค้า</Title>
-                <Grid container>
-                    <Grid md={3} xs={12} sm={12}>
-                        <Box sx={{width: '90%',height: '90%'}}>
-                            <img
-                                src={products.thumbnail}
-                                alt="brownie"
-                                style={{width: '100%',height: '100%'}}
-                            />
-                        </Box>
-                    </Grid>
-                    <Grid md={6} xs={12} sm={12}>
-                            <p>{products.name}</p>
-                            <p>ราคาสินค้า: {selectPrice.toFixed(2)} ฿</p>
-                            <hr />
-                            <p>ตัวเลือกสินค้า</p>
-                                {products && products.product_options ? products.product_options.map(item => 
-                                <Grid container key={item.name}>
-                                    <Grid xs={12} sm={12} md={12}>
-                                        <span>{item.name}</span>
-                                    </Grid>
-                                    <Grid xs={12} sm={12} md={12}>
-                                    <Radio.Group buttonStyle="solid" >
-                                    {item.option.map(items => 
-                                        <Radio.Button key={items.id} style={{marginRight:'5px'}} value={items.id} onChange={e => {onChangePrice(e)}}>{items.value}</Radio.Button>
-                                    
-                                    )}
-                                    </Radio.Group>
-                                    
-                                    </Grid>
-                                </Grid>
-                                ): null}
-                    </Grid>
-                    <Grid md={2} xs={12} sm={12} 
-                        container
-                        alignItems="center"
-                        justifyContent="center" >
-                        <div className="input-group">
-                            <Button  onClick={() => setCount(count-1)} variant="outlined" >-</Button>
-                                <Box sx={{minWidth:'10%',alignItems:'center',display:'flex',justifyContent:'center',backgroundColor:'#F5F5F5'}}>
-                                    {count}
-                                </Box>
-                            <Button  onClick={() => setCount(count+1)} variant="outlined">+</Button>                                           
+         <div>
+             <div className='row'>
+                 <div className='col-12 col-xs-12 col-sm-6 col-md-8'>
+                    <div className='p-3' style={{ marginTop: '1rem' , backgroundColor: 'white' }} >
+                        <div>
+                            <div className='d-flex justify-content-between'>
+                                <p style={{color:'#196bfd'}}><LocationOnIcon fontSize='small'/>ที่อยู่ในการจัดส่ง</p>  
+                                <Link onClick={()=> setModalAddress(true)}>เปลี่ยน</Link>
+                            </div>
+                             
+                            <div>
+                            {address.length == 0 ? <button className='btn btn-outline-primary' onClick={()=> setVisible(true)} >เพิ่มที่อยู่</button>     
+                            :
+                            <div >
+                                {primaryAddress ? 
+                                <p style={{fontSize:'14px'}}>{primaryAddress.name} ({primaryAddress.phone}) {primaryAddress.address} 
+                                {primaryAddress.district} {primaryAddress.amphure} {primaryAddress.province} 
+                                {primaryAddress.zipcode}</p>
+                                : null }
+                            </div>
+                            }
+                            </div>
                         </div>
-                    </Grid>
-                </Grid>
+                        <div>
+                            
+                        </div>
+                    </div>
+                            {products.map((item,index) =>
+                                <div className='p-3' style={{ marginTop: '1rem' , backgroundColor: 'white' }} >
+                                    <div className='row p-3' key={index}>
+                                        <p>{item.shop_name}</p>
+                                        {item.details.map((items,idx) =>
+                                            <div className='row p-3' key={idx}>
+
+                                                <div className='col-12 col-xs-12 col-sm-8 col-md-2'>
+                                                    <img src={items.product_thumbnail} className='cart-photo' />
+                                                </div>
+
+                                                <div className='col-6 col-xs-12 col-sm-5 col-md-5'>
+                                                    <p style={{ fontSize: '14px' }}>{items.product_name}</p>
+                                                    <span style={{ fontSize: '12px', color: 'gray' }}>ตัวเลือก: {items.product_option_name} {items.product_option_value}</span>
+                                                </div>
+                                                
+                                                <div className='col-12 col-xs-12 col-sm-6 col-md-3 '>
+                                                    <div >
+                                                        <p style={{ fontSize: '14px' }} className='mobile-show'>ราคารวม {(items.product_sell_price * items.product_qty).toFixed(2)}</p>
+                                                    </div>
+                                                    <div className='text-center'>
+                                                        <p style={{ fontSize: '16px', color:'#196bfd' }} className='mobile-none'>฿ {(items.product_sell_price * items.product_qty).toFixed(2)}</p>
+                                                    </div>
+                                                    <div className='text-center'>
+                                                        <span className='mobile-none'>
+                                                            <DeleteForeverIcon style={{ color: 'gray' }} onClick={e => { onDeleteCart(e, items.cart_id, idx, index) }} />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div className='col-12 col-xs-12 col-sm-6 col-md-2'>
+                                                    <span style={{ fontSize: '14px' }}>จำนวน: {items.product_qty}</span>
+                                                </div>
+                                                <span className='mobile-show'>
+                                                <DeleteForeverIcon style={{ color: 'gray' }} onClick={e => { onDeleteCart(e, items.cart_id, idx, index) }} />
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                    
+                       
+                 </div>
+                 <div className='col-12 col-xs-12 col-sm-6 col-md-4'>
+                     <div className='p-3' style={{ marginTop: '1rem' , backgroundColor: 'white' }}>
+                         <div>
+                         <p>เลือกวิธีการชำระเงิน</p>
+                         {payment_gateway_menu.map(payment =>
+                            <div className='border rounded p-2 mb-2'>
+                                <div className='d-flex justify-content-between'>
+                                    <span style={{fontSize:'14px'}}><i className={payment.icon}  style={{color:'#196bfd'}}></i> {payment.name}</span>
+                                    <span>
+                                        <Radio.Group onChange={e => onSelectPayment(e.target.value)} value={selectPayment=== 0 ? payment_gateway_menu[0].id : selectPayment}>
+                                            <Radio value={payment.id}></Radio>
+                                        </Radio.Group>
+                                    </span>
+                                </div>
+                                <hr/>
+                                <span style={{fontSize:'12px', color:'gray'}}>{payment.detail}</span>
+                            </div>
+                            )}
+                        </div>
+                        <div className='mt-3'>
+                            <p>คูปองส่วนลด</p>
+                            <Input.Group compact>
+                                <Input style={{ width: '80%' }} placeholder='กรุณาระบุโค้ดส่วนลด' onChange={e=> setCoupon(e.target.value)}/>
+                                <Button  style={{ width: '20%' }} type="primary">ยืนยัน</Button>
+                            </Input.Group>
+                        </div>
+                        <div className='mt-3 d-flex justify-content-between'>
+                            {checkInvoice === 0 ? 
+                            null :
+                            <>
+                                <p><Checkbox onChange={e=>setHasInvoice(!hasInvoice)}></Checkbox> ใบกำกับภาษีและข้อมูลติดต่อ</p>
+                                <Link onClick={()=> setDrawerTax(true)}>Edit</Link>
+                            </>}
+                        </div>
+                        <span>สรุปรายการสั่งซื้อ</span>
+                        <div className='d-flex justify-content-between mt-2'>
+                        <span style={{fontSize:'14px'}}>ยอดรวม (จำนวน {countProduct} ชิ้น)</span>
+                        <span style={{fontSize:'14px'}}>฿ {total.toFixed(2)}</span>
+                        </div>
+                        <div className='d-flex justify-content-between mt-2 mb-2'>
+                        <span style={{fontSize:'14px'}}>ค่าจัดส่ง</span>
+                        <span style={{fontSize:'14px'}}>฿ {total.toFixed(2)}</span>
+                        </div>
+                        {/* <Input.Group compact>
+                        <Input style={{ width: '80%' }} placeholder='กรุณาระบุโค้ดส่วนลด'/>
+                        <Button  style={{ width: '20%' }} type="primary">ยืนยัน</Button>
+                        </Input.Group> */}
+                        <div className='d-flex justify-content-between mt-2'>
+                        <span style={{fontSize:'14px'}}>ยอดรวมทั้งสิ้น</span>
+                        <span style={{fontSize:'14px'}}>฿ {total.toFixed(2)}</span>
+                        </div>
+                        <div className='d-flex justify-content-between'>
+                        <span style={{fontSize:'14px'}}></span>
+                        <span style={{fontSize:'12px'}}>รวมภาษีมูลค่าเพิ่ม (ถ้ามี)</span>
+                        </div>
+                        <div className='mt-3'>
+                        <button className='btn btn-primary w-100' type="submit" onClick={e=> onSubmit(e)} style={{fontSize:'14px'}}>ดำเนินการชำระเงิน</button>
+                        </div>
+                       
+                     </div>                     
+
+                 </div>
+             </div>
             
-            </p>
-            <hr />
-            <p>
-                <Title level={4}>ข้อมูลการจัดส่ง</Title>
-                
-            </p>
-        </Container >    
+            <Drawer title={<span><i className='fa fa-home text-success'></i> เพิ่มที่อยู่</span>} placement="right" onClose={onClose} closable={false} visible={visible}>
+                <div className='drawer-container' style={{fontSize:'14px'}}>
+                    <span>ชื่อผู้รับ</span>
+                    <Input placeholder="ชื่อผู้รับ" onChange={e=> setName(e.target.value)} value={name}/>
+                    <div className='mt-2'>
+                    <span>หมายเลขโทรศัพท์</span>
+                    <Input placeholder="หมายเลขโทรศัพท์" onChange={e=> setPhone(e.target.value)} value={phone}/>
+                    </div>
+                    <div className='mt-2'>
+                    <span>ที่อยู่</span>
+                    <Input placeholder="ตัวอย่าง: 91/83 ถ.สายไหม" onChange={e=> setDstAddress(e.target.value)} value={dst_address}/>
+                    </div>
+                    <div className='mt-2'>
+                    <span>แขวง/ตำบล</span>
+                    <InputThaiAddress
+                        field={"subdistrict"}
+                        value={subdistrict}
+                        onChange={onChange("subdistrict")}
+                        onSelect={onSelect}
+                    />
+                    </div>
+                    <div className='mt-2'>
+                    <span>เขต/อำเภอ</span>
+                    <InputThaiAddress
+                        field={"district"}
+                        value={district}
+                        onChange={onChange("district")}
+                        onSelect={onSelect}
+                        />
+                    </div>
+                    <div className='mt-2'>
+                    <span>จังหวัด</span>
+                    <InputThaiAddress
+                        field={"province"}
+                        value={province}
+                        onChange={onChange("province")}
+                        onSelect={onSelect}
+                        />
+                    </div>
+                    <div className='mt-2'>
+                        <span>รหัสไปรษณีย์</span>
+                        <InputThaiAddress
+                            field={"zipcode"}
+                            value={zipcode}
+                            onChange={onChange("zipcode")}
+                            onSelect={onSelect}
+                            />
+                    </div>
+                    
+                    <div className='mt-2 d-flex justify-content-between'>
+                        <button className='btn btn-outline-secondary' style={{width:'48%'}} onClick={() => setVisible(false)}>ยกเลิก</button>
+                        <button className='btn btn-primary' style={{width:'48%'}} onClick={() => onSubmitAddress()}>เพิ่ม</button>
+                    </div>
+                </div>
+            </Drawer>
+            <Modal title="เลือกที่อยู่" visible={modalAddress} onCancel={handleCancel} onOk={handleCancel} placement="right" okText='ตกลง' cancelText='ยกเลิก'>
+                {
+                    address.map(items=>
+                        <div className='row border p-2' style={{fontSize:'14px'}} key={items.id}>
+                            <div className='col-1 col-xs-1 col-sm-1 col-md-1'>
+                            <Radio.Group onChange={e => onSelectNewAddress(e.target.value,items)} value={selectNewAddress === 0 ? address[0].id : selectNewAddress}>
+                                <Radio value={items.id}></Radio>
+                            </Radio.Group>
+                            </div>
+                            <div className='col-11 col-xs-11 col-sm-11 col-md-11'>
+                                <p>  {items.is_primary == 1 ? <span style={{color:'gray', fontSize:'14px'}}><i className='fa fa-home text-success'></i> (ที่อยู่เริ่มต้น)</span> :null} {items.name} ({items.phone}) {items.address} 
+                                    {items.district} {items.amphure} {items.province} {items.zipcode} 
+                                </p>
+                            </div>
+                        </div>
+                        )
+                }
+                <div className='d-flex justify-content-end mt-3'>
+                    <button className='btn btn-outline-primary' onClick={()=> onAddNewAddress()} style={{fontSize:'14px'}}>เพิ่มที่อยู่ใหม่</button>
+                </div>
+            </Modal>
+            <Modal title="เลือกที่อยู่ใบกำกับภาษี" visible={modalInvoiceAddress} onCancel={e=> setModalInvoiceAddress(false)} onOk={e=> setModalInvoiceAddress(false)} placement="right" okText='ตกลง' cancelText='ยกเลิก'>
+                {
+                    address.map(items=>
+                        <div className='row border p-2' style={{fontSize:'14px'}} key={items.id}>
+                            <div className='col-1 col-xs-1 col-sm-1 col-md-1'>
+                            <Radio.Group onChange={e => onSelectNewInvoiceAddress(e.target.value,items)} value={selectNewInvoiceAddress === 0 ? address[0].id : selectNewInvoiceAddress}>
+                                <Radio value={items.id}></Radio>
+                            </Radio.Group>
+                            </div>
+                            <div className='col-11 col-xs-11 col-sm-11 col-md-11'>
+                                <p>  {items.is_primary == 1 ? <span style={{color:'gray', fontSize:'14px'}}><i className='fa fa-home text-success'></i> (ที่อยู่เริ่มต้น)</span> :null} {items.name} ({items.phone}) {items.address} 
+                                    {items.district} {items.amphure} {items.province} {items.zipcode} 
+                                </p>
+                            </div>
+                        </div>
+                        )
+                }
+                <div className='d-flex justify-content-end mt-3'>
+                    <button className='btn btn-outline-primary' onClick={()=> onAddNewAddress()} style={{fontSize:'14px'}}>เพิ่มที่อยู่ใหม่</button>
+                </div>
+            </Modal>
+
+            <Drawer title='ใบกำกับภาษีและข้อมูลติดต่อ' placement="right" onClose={onTaxClose} closable={false} visible={drawerTax}>
+                <div className='drawer-container' style={{fontSize:'14px'}}>
+                    <span>อีเมล์</span>
+                    <Input placeholder="กรุณาระบุอีเมลเพื่อรับข้อมูลสถานะการจัดส่งสินค้า" onChange={e=> setName(e.target.value)} value={userData.email}/>
+                    
+                    <div className='mt-2'>
+                        <div className='d-flex justify-content-between'>
+                            <span> ที่อยู่ในการออกใบกำกับภาษี</span>
+                            <span><Link onClick={()=>setModalInvoiceAddress(true)}>แก้ไข</Link></span>
+                        </div>
+                        <Input.TextArea placeholder="ตัวอย่าง: 91/83 ถ.สายไหม" onChange={e=> setDstAddress(e.target.value)} 
+                            value={invoiceAddress ? `${invoiceAddress.name} (${invoiceAddress.phone}) ${invoiceAddress.address} ${invoiceAddress.district} ${invoiceAddress.amphure} ${invoiceAddress.province} ${invoiceAddress.zipcode}` : null}/>
+                    </div>
+                    
+                    <div className='mt-2'>
+                        <span>เลขประจำตัวผู้เสียภาษี</span>
+                        <Input placeholder="เลขประจำตัวผู้เสียภาษี" onChange={e=> setTaxId(e.target.value)} value=""/>
+                    </div>
+
+                    <div className='mt-2'>
+                        <span>สำนักงานใหญ่/รหัสสาขา (สำหรับบริษัท)</span>
+                        <Input placeholder="สำนักงานใหญ่/รหัสสาขา (สำหรับบริษัท)" onChange={e=> setBranch(e.target.value)} value=""/>
+                    </div>
+                    
+                    <div className='mt-2 d-flex justify-content-between'>
+                        <button className='btn btn-outline-secondary' style={{width:'48%'}} onClick={() => setDrawerTax(false)}>ยกเลิก</button>
+                        <button className='btn btn-primary' style={{width:'48%'}} onClick={() => onSubmitInvoiceAddress()}>บันทึก</button>
+                    </div>
+                </div>
+            </Drawer>
+         </div>
+          
     );
 }

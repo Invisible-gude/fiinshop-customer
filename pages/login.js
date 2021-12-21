@@ -14,7 +14,6 @@ import { APILogin } from '../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import fire from '../config/fire-config'
 
 const MySwal = withReactContent(Swal)
 
@@ -35,6 +34,7 @@ export default function Login() {
     }
     const onSubmit = (data) => {
         console.log('data',data);
+
         APILogin(data).then(res => {
             console.log('res',res);
             if (res.success) {

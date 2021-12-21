@@ -1,21 +1,20 @@
 import {useState, useEffect} from 'react';
-import  Box  from '@material-ui/core/Box';
-import { Input, Row, Col, Dropdown, Menu } from 'antd';
-import Image from 'next/image';
-
+import { Input, Badge, Dropdown, Menu,Modal, message } from 'antd';
+import Link from '@material-ui/core/Link';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import PersonIcon from '@mui/icons-material/Person';
-import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
 import Router from 'next/router';
 import { DownOutlined, SearchOutlined} from '@ant-design/icons';
-
 import { Typography } from 'antd';
+import FormControl from '@material-ui/core/FormControl';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Link } from '@mui/material';
+import store from '../store/store';
+import { useSelector } from 'react-redux';
+import { useForm, Controller } from 'react-hook-form';
+import { APILogin } from '../services/api'
+
 const { Paragraph } = Typography;
 
 const { Search } = Input;
@@ -43,6 +42,16 @@ export default function PrimarySearchAppBar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [user, setUser] = useState(null)
   const [keyword, setKeyword] = useState('')
+  const { count } = useSelector(state => state.count)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
+    defaultValues: {
+        username: '',
+        password: '',
+    }
+})
+
   const profile_menu = (
     <Menu>
       <Menu.Item>
@@ -72,21 +81,6 @@ export default function PrimarySearchAppBar() {
     setUser(user_data)
   }
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   const onSearch = (e) => {
     Router.push(`/search/${encodeURIComponent(e)}`)
   }
@@ -95,6 +89,94 @@ export default function PrimarySearchAppBar() {
     localStorage.removeItem('_token');
     window.location.assign('/home')
 
+  }
+  const gotoCart = () => {
+    const storage = JSON.parse(localStorage.getItem('_user'))
+    if(!storage){
+      setIsModalVisible(true);
+    }else{
+      Router.push(`/cart`)  
+    }
+
+  }
+  const onSubmit = (data) => {
+    console.log('data',data);
+
+    APILogin(data).then(res => {
+        console.log('res',res);
+        if (res.success) {
+            reset()
+            localStorage.setItem('_token', res.data.api_token)
+            localStorage.setItem('_user', JSON.stringify(res.data))
+            getUserData()
+            return message.success('เข้าสู่ระบบสำเร็จ',1).then(()=> setIsModalVisible(false))
+
+        } else {
+            return message.error('เข้าสู่ระบบไม่สำเร็จ')
+        }
+    }).catch(err => {
+        return message.error('เข้าสู่ระบบไม่สำเร็จ')
+        })
+    }
+
+  function LoginModal(){
+    return(
+      <div>
+      <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+            name="username"
+            control={control}
+            defaultValue=""
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <Input  
+                value={value}
+                onChange={onChange}
+                placeholder="Username" 
+                error={!!error}
+                size="large" />
+            )}
+            rules={{ required: true }}
+        />
+        <div className="mt-1"></div>
+        <Controller
+            name="password"
+            control={control}
+            defaultValue=""
+            render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <FormControl className='d-block'>
+                    <Input.Password 
+                    value={value}
+                    onChange={onChange}
+                    size="large" 
+                    error={!!error}
+                    id="password-input"
+                    placeholder="Password"  />
+                </FormControl>
+            )}
+            rules={{ required: true }}
+        />
+        <div className="mt-3 mb-3">
+            <Link href="/" underline="none">
+                <button type="submit" className='btn btn-primary' style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>เข้าสู่ระบบ</button>
+            </Link>
+        </div>
+        </form>
+        <hr/>
+        <div className='d-grid  justify-items-center'>
+            <p style={{textAlign:'center'}}>หรือ</p>
+            <div className='d-flex justify-content-center'>
+              <button className='btn btn-outline-primary'><i className="fab fa-facebook" style={{fontSize:'15px'}}></i> Facebook</button>
+              <button className='btn btn-outline-danger' style={{ marginLeft:'5px'}}><i className="fab fa-google" style={{fontSize:'15px'}}></i> Google</button>
+            </div>
+            <div style={{textAlign:'center'}}>
+                <span>เพิ่งเคยเข้ามาใน FiinSHOP ใช่หรือไม่ </span>
+                <Link href="/register" underline="none" >
+                    {' สมัครใหม่'}
+                </Link>
+            </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -127,9 +209,13 @@ export default function PrimarySearchAppBar() {
             </Dropdown>
             :
             <div>
-              <span className="nav-menu" href="/register">&nbsp;สมัครใหม่&nbsp;</span>
+              <Link href="/register" underline="none">
+                <label className="nav-menu">&nbsp;สมัครใหม่&nbsp;</label>
+              </Link>
               <span className="nav-menu"> |&nbsp; </span>
-              <a className="nav-menu" href="/login">เข้าสู่ระบบ</a>
+              <Link href="/login" underline="none">
+                <label className="nav-menu">เข้าสู่ระบบ</label>
+              </Link>
             </div>
             }
           </div>
@@ -157,12 +243,19 @@ export default function PrimarySearchAppBar() {
             </div>
           </div>
           <div className="col-2 col-xs-1 col-sm-8 col-md-1 d-flex" style={{marginTop:'-10px'}}>
-            <span className="nav-menu" style={{marginRight:'10px'}}><ShoppingCartOutlinedIcon fontSize="medium" /></span>
-            <span className="nav-menu" style={{marginLeft:'0px'}}><NotificationsIcon fontSize="medium"/></span>
+          <Badge count={count} size="small">
+            <Link href="#" underline="none" onClick={e=> gotoCart()}>
+              <span className="nav-menu"><ShoppingCartOutlinedIcon fontSize="medium" /></span>
+            </Link>
+          </Badge>
+            <span className="nav-menu" style={{marginLeft:'10px'}}><NotificationsIcon fontSize="medium"/></span>
           </div>
         </div>
       </div>
     </div>
+      <Modal footer={false} title='เข้าสู่ระบบ' visible={isModalVisible} onCancel={() => setIsModalVisible(false)}>
+       <LoginModal />
+      </Modal>
   </div>
   );
 }

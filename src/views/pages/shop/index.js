@@ -438,19 +438,19 @@ export default function ShopDetail() {
                 </div>
               </Grid>
               <Grid xs={12} sm={12} md={4}  item paddingLeft={3} className="d-grid align-content-center">
-                  <p style={{fontSize:'14px'}}><StorefrontIcon fontSize='small'/> รายการสินค้า: <label style={{color:'#3076D2'}}>2</label></p>
-                  <p style={{fontSize:'14px'}}><PersonAddAlt1Icon fontSize='small'/> กำลังติดตาม: <label style={{color:'#3076D2'}}>5</label></p>
-                  <p style={{fontSize:'14px'}}><ChatBubbleOutlineIcon fontSize='small' /> ประสิทธิภาพการแชท: <label style={{color:'#3076D2'}}>97% (ภายในไม่กี่ชั่วโมง)</label></p>
+                  <p style={{fontSize:'14px'}}><StorefrontIcon fontSize='small'/> รายการสินค้า: <label style={{color:'#196bfd'}}>2</label></p>
+                  <p style={{fontSize:'14px'}}><PersonAddAlt1Icon fontSize='small'/> กำลังติดตาม: <label style={{color:'#196bfd'}}>5</label></p>
+                  <p style={{fontSize:'14px'}}><ChatBubbleOutlineIcon fontSize='small' /> ประสิทธิภาพการแชท: <label style={{color:'#196bfd'}}>97% (ภายในไม่กี่ชั่วโมง)</label></p>
               </Grid>
               <Grid xs={12} sm={12} md={4} item paddingLeft={3} className="d-grid align-content-center">
-                  <p style={{fontSize:'14px'}}><PeopleIcon fontSize='small'/> ผู้ติดตาม: <label style={{color:'#3076D2'}}>17.1พัน</label></p>
-                  <p style={{fontSize:'14px'}}><StarBorderIcon fontSize='small'/> คะแนน: <label style={{color:'#3076D2'}}>5 (การให้คะแนนทั้งหมด 1)</label></p>
-                  <p style={{fontSize:'14px'}}><CalendarTodayIcon fontSize='small' /> เข้าร่วมเมื่อ:<label style={{color:'#3076D2'}}>1 วัน ที่ผ่านมา</label></p>
+                  <p style={{fontSize:'14px'}}><PeopleIcon fontSize='small'/> ผู้ติดตาม: <label style={{color:'#196bfd'}}>17.1พัน</label></p>
+                  <p style={{fontSize:'14px'}}><StarBorderIcon fontSize='small'/> คะแนน: <label style={{color:'#196bfd'}}>5 (การให้คะแนนทั้งหมด 1)</label></p>
+                  <p style={{fontSize:'14px'}}><CalendarTodayIcon fontSize='small' /> เข้าร่วมเมื่อ:<label style={{color:'#196bfd'}}>1 วัน ที่ผ่านมา</label></p>
               </Grid>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                  <Tab label="หน้าแรก" {...a11yProps(0)} />
-                  <Tab label="สินค้าทั้งหมด" {...a11yProps(1)} />
+                    <Tab label="หน้าแรก" {...a11yProps(0)} />
+                    <Tab label="สินค้าทั้งหมด" {...a11yProps(1)} />
                   </Tabs>
               </Box>
             </Grid> 

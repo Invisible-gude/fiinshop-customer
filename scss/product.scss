@@ -48,14 +48,29 @@
     padding-left: 23rem;
     padding-right: 23rem;
 }
+.foot-checkout {
+    padding-left: 23rem;
+    padding-right: 23rem; 
+}
+.cart-photo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;    
 
+}
+.drawer-container{
+    padding-left: 0;
+}
 @media (max-width: 1440px) and (min-width:1025px ){
      /* For tablets pro: */
 
      .blank-div-login{
         height: 500px;
     }
-    
+    .foot-checkout {
+        padding-left: 10rem;
+        padding-right: 10rem; 
+    }
     .login-content {
         background-color:"#1976D2";
         position: absolute;
@@ -194,6 +209,19 @@
     }
     .blank-div-register{
         height: 650px;
+    }
+    .foot-checkout {
+        padding-left: 0;
+        padding-right: 0; 
+    }
+    .drawer-container{
+        padding-left: 2rem;
+    }
+    .cart-photo {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;    
+    
     }
 }
 
