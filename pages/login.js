@@ -14,6 +14,8 @@ import { APILogin } from '../services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import {  message } from 'antd';
+
 
 const MySwal = withReactContent(Swal)
 
@@ -41,21 +43,11 @@ export default function Login() {
                 reset()
                 localStorage.setItem('_token', res.data.api_token)
                 localStorage.setItem('_user', JSON.stringify(res.data))
-                return MySwal.fire({
-                    title: 'Login Success',
-                    text:  'เข้าสู่ระบบสำเร็จ',
-                    icon: 'success'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Router.push('/home')
-                    } 
-                  })
+                message.success('เข้าสู่ระบบสำเร็จ',3)
+                .then(()=>Router.push('/home'))
+                
             } else {
-                return MySwal.fire({
-                    title: 'ข้อความจากระบบ',
-                    text: res.message,
-                    icon: 'error'
-                })
+                message.error('เข้าสู่ระบบไม่สำเร็จ');
             }
         }).catch(err => {
             return MySwal.fire({

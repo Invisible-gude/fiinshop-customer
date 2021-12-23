@@ -16,14 +16,9 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import CountdownTimer from "react-component-countdown-timer";
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import Image from 'next/image';
-import b1 from '../../../../public/images/news/b1.jpg';
-import b2 from '../../../../public/images/news/b2.jpg';
-import n1 from '../../../../public/images/promotions/n1.png';
-import n2 from '../../../../public/images/promotions/n2.png';
-import n3 from '../../../../public/images/promotions/n3.png';
+import Slider from "react-slick";
 
-import { Row, Col, Carousel, Progress } from 'antd';
+import { Row, Col, Carousel as AntCarousel, Progress } from 'antd';
 import { ProgressBar} from 'react-bootstrap';
 import { isHostComponent } from '@mui/material';
 
@@ -256,6 +251,36 @@ const data_new_mall  = [
       product_qty: 1236,
       count_sell:10
     },
+    {
+      label: 'P2',
+      key: 2,
+      product_name:'คุ้กกี้มาร์ชเมลโล่ แพค 3ชิ้น',
+      src: '../../images/products/cookie.jpg',
+      product_detail: 'คุ้กกี้มาร์ชเมลโล่ กรอบนอกนุ่มใน หวานมันอร่อย สอดไส้มาร์ชเมลโล่',
+      price: 129,
+      product_qty: 135,
+      count_sell:30
+    },
+    {
+      label: 'P3',
+      key: 3,
+      product_name:'เสื้อครอบ สีมิ้น กระดุมหน้า',
+      src: '../../images/products/crop.jpg',
+      product_detail: 'เสื้อครอบ Free size สีสวย ผ้าไม่ย้วย',
+      price: 200,
+      product_qty: 39,
+      count_sell:89
+    },
+    {
+      label: 'P4',
+      key: 4,
+      product_name:'ชุดว่ายน้ำเซตเสื้อกางเกง สีดำ มีทุกไซต์',
+      src: '../../images/products/swimming.jpg',
+      product_detail: 'ชุดว่ายน้ำสตรีสีดำเป็นชุดเซ็ต เสื้อ+กางเกง มีหลายไซต์ S M L XL 2XL 3XL 4XL',
+      price: 699,
+      product_qty: 421,
+      count_sell:45
+    },
   ];
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -296,12 +321,36 @@ export default function HomeScreen() {
     const [limit, setLimit] = useState(12)
     const [value, setValue] = useState(0);
 
-    const contentStyle = {
-      height: '235px',
-      color: '#fff',
-      lineHeight: '160px',
-      textAlign: 'center',
-      background: '#364d79',
+    function SampleNextArrow(props) {
+      const { className, style, onClick } = props;
+      return (
+        <div
+          className={className}
+          style={{ ...style, display: "block" ,color:'red'}}
+          onClick={onClick}
+        />
+      );
+    }
+    
+    function SamplePrevArrow(props) {
+      const { className, style, onClick } = props;
+      return (
+        <div
+          className={className}
+          style={{ ...style, display: "block" }}
+          onClick={onClick}
+        />
+      );
+    }
+    const settings_slider = {
+      dots: false,
+      infinite: false,
+      speed: false,
+      slidesToShow: 6,
+      slidesToScroll: 1,
+      autoplay: false,
+      nextArrow: <SampleNextArrow />,
+      prevArrow: <SamplePrevArrow />,
     };
 
     useEffect(() => {
@@ -401,9 +450,9 @@ export default function HomeScreen() {
     function RenderProductFlashSale() {
         return (
           <Fragment>
+            <Slider {...settings_slider} data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
             {products_flash_sale.map((step, index) => (
-              <Grid md={2} xs={6} sm={4} marginBottom={2}>
-                <Grid style={{width:'100%'}} display='grid' justifyItems='center'>
+                 <div className='slider-contailner'>
                   <div >
                     <img src={step.src} className="product-image" />
                   </div>
@@ -412,26 +461,62 @@ export default function HomeScreen() {
                         ฿  <label style={{fontSize:'18px'}}>{step.price}</label>
                     </p>
                   </div>
-                  <div className="w-50 text-center progess-text" style={{backgroundColor:'#7bccf2', borderRadius:'5px', height:'15px'}}>
-                    <span className='nav-menu'>ขายแล้ว {step.count_sell}</span>
-                    <div className='rounded w-100' style={{height:'15px'}}> 
-                      <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#196bfd', width:`${step.count_sell}%` ,height:'15px'}}>
-                        &nbsp;
+                  <div className='d-flex justify-content-center'>
+                    <div className="w-50 text-center progess-text" style={{backgroundColor:'#7bccf2', borderRadius:'5px', height:'15px'}}>
+                      <span className='nav-menu'>ขายแล้ว {step.count_sell}</span>
+                      <div className='rounded w-100' style={{height:'15px'}}> 
+                        <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#196bfd', width:`${step.count_sell}%` ,height:'15px'}}>
+                          &nbsp;
+                        </div>
                       </div>
                     </div>
                   </div>
-                  {/* <ProgressBar now={step.count_sell} label={(<span>ขายแล้ว ${step.count_sell}</span>)} /> */}
-                </Grid>
-              </Grid>
+                </div> 
+      
             ))}
+            </Slider>
           </Fragment>
           )
       }
+  
+      const settings_news = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        responsive: [
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3,
+              infinite: true,
+              dots: true
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2,
+              initialSlide: 2
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      };
     return (
       <Grid container marginTop={{md:2, sm:1 ,xs:14}}>
         <Grid container>
           <Grid item md={8} sm={12} xs={12}>
-             <Carousel afterChange={onChange}>
+             <AntCarousel afterChange={onChange} autoplay={true}>
               {data_new.map(item => 
                 <div>
                   <h3 className="carousel-container">
@@ -439,7 +524,7 @@ export default function HomeScreen() {
                   </h3>
                 </div>
               )}
-            </Carousel>
+            </AntCarousel>
           </Grid>
           <Grid item md={4} sm={0} xs={3} className="d-block align-items-center" >
             <Grid container   sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}} marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex', md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
@@ -469,14 +554,14 @@ export default function HomeScreen() {
           </Grid>
         </Grid>
         <div style={{ width:'100%', backgroundColor:'white'}}>
-          <Grid container>
+          <div className='row'>
           {item_menus.map(item => 
-            <Grid item md={1.2} sm={3} xs={4} display='grid' justifyItems='center'>
+            <div className='col-4 col-xs-4 col-sm-3 col-md-1' item md={1.2} sm={3} xs={4} display='grid' justifyItems='center'>
               <img src={item.path} width='70px' height='80px' />
               <p className="text-center" style={{fontSize:'12px'}}>{item.details}</p>
-            </Grid>
+            </div>
             )}
-            </Grid>
+            </div>
         </div>
 
         <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
@@ -494,9 +579,9 @@ export default function HomeScreen() {
               </Grid>
           </Grid>  
           <hr/>
-          <Grid  container>
+          <div>
               <RenderProductFlashSale />
-          </Grid>
+          </div>
         </div>
         
         <div style={{ width:'100%'}} className="mt-2 mobile-none">
@@ -550,7 +635,7 @@ export default function HomeScreen() {
           <hr/>
           <Grid container padding={1}>
             <Grid item md={4} sm={12} xs={12}>
-              <Carousel afterChange={onChange}>
+              <AntCarousel afterChange={onChange}>
                 {data_new_mall.map(item => 
                   <div>
                     <h3 className="carousel-container-mall">
@@ -558,7 +643,7 @@ export default function HomeScreen() {
                     </h3>
                   </div>
                 )}
-              </Carousel>
+              </AntCarousel>
             </Grid>
             <Grid item md={8} sm={12} xs={12}>
               <Grid container>

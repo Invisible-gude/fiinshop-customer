@@ -57,7 +57,7 @@ export default function CartScreen() {
         // console.log('before',resp.data);
       }
     })
-    // console.log('cart1',carts);
+    console.log('cart1',carts);
   }
   useEffect(() => {
     console.log('selectShop',selectShop)
@@ -156,6 +156,7 @@ export default function CartScreen() {
     setSelectShop(list)
     // }
   }
+  
   const onSelectAll = () => {
     console.log('product', products);
     if (products.length !== selectProduct.length) {

@@ -1,5 +1,8 @@
 module.exports = {
+  
   distDir: 'build',
+  trailingSlash: true,
+  eslint: { ignoreDuringBuilds: true },
   reactStrictMode: true,
   redirects: async () => {
     return [

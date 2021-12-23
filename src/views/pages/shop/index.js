@@ -98,13 +98,13 @@ export default function ShopDetail() {
     const [active, setActive] = useState('all')
     const [value, setValue] = useState(0);
 
-    useEffect( () => {
-         getShopDetail(slug)
-         getProduct(10)
-         getProductRecomend(6)
-         getProductPromotion(6)
-         getTopProduct(6)
-         getCategory()
+    useEffect( async() => {
+        await getShopDetail(slug)
+        await getProduct(10)
+        await getProductRecomend(6)
+        await getProductPromotion(6)
+        await getTopProduct(6)
+        await getCategory()
     },[])
     const category_menu = (
       <Menu>
@@ -128,7 +128,6 @@ export default function ShopDetail() {
     const getShopDetail = (shop_id) => {
         APIgetShopDetail(shop_id).then(res => {
             if (res.success) {
-                console.log('res',res);
                 setShop(res.data)
             } 
         }).catch(err => {
@@ -139,8 +138,7 @@ export default function ShopDetail() {
     const getProduct = (limit) => {
         APIgetProduct(limit).then(res => {
             if (res.success) {
-            setProducts(res.data)
-                console.log('res',res.data);
+            setProducts(res.data.products)
             } else {
                 console.log('res',res);
 
@@ -153,8 +151,7 @@ export default function ShopDetail() {
     const getProductPromotion = (limit) => {
         APIgetProduct(limit).then(res => {
             if (res.success) {
-              setProductPromotion(res.data)
-                console.log('res',res.data);
+              setProductPromotion(res.data.products)
             } else {
                 console.log('res',res);
 
@@ -167,8 +164,8 @@ export default function ShopDetail() {
     const getProductRecomend = (limit) => {
         APIgetProduct(limit).then(res => {
             if (res.success) {
-              setProductRecomend(res.data)
-                console.log('res',res.data);
+                setProductRecomend(res.data.products)
+                console.log('res1',res.data);
             } else {
                 console.log('res',res);
 
@@ -181,8 +178,8 @@ export default function ShopDetail() {
     const getTopProduct = (limit) => {
         APIgetProduct(limit).then(res => {
             if (res.success) {
-              setTopProducts(res.data)
-                console.log('res',res.data);
+                setTopProducts(res.data.products)
+                console.log('res',res.data.products);
             } else {
                 console.log('res',res);
 

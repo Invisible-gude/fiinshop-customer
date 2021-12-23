@@ -224,7 +224,9 @@ export default function PrimarySearchAppBar() {
       <div className="col-12 d-grid" style={{height:'84px'}}>
         <div className="row d-flex align-items-center">
           <div className="col-1 col-xs-1 col-sm-1 col-md-2">
+            <Link href="/home" underline="none">
             <img src='/images/logo/fiinshopLoGo.png' className="nav-logo logo-none"/>
+            </Link>
           </div>
           <div className="col-8 col-xs-10 col-sm-8 col-md-9">
             <Search

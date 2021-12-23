@@ -43,13 +43,9 @@ export const APIgetProductDetail = async (data) => {
         return err
     }
 }
-export const APIgetProductSearch = async (limit,offset,keyword) => {
+export const APIgetProductSearch = async (data) => {
     try {
-        const res = await axios.get(`${BASE_API_URL}/api/products`,{ params: {
-            limit:limit,
-            offset:offset,
-            keyword:keyword
-          }})
+        const res = await axios.get(`${BASE_API_URL}/api/products`,{ params: data})
         return await res.data
     } catch (err) {
         console.log(`err`, err)
@@ -211,3 +207,37 @@ export const APIupdateAddress = async (data,id) => {
         return err
     }
 }
+export const APIdeleteAddress = async (id) => {
+    const storage = JSON.parse(localStorage.getItem('_user'))
+    axios.defaults.headers.common['Authorization'] = `Bearer ${storage.api_token}`
+    try {
+        const res = await axios.delete(`${BASE_API_URL}/api/address/${id}`)
+        return await res.data
+    } catch (err) {
+        console.log(`err`, err)
+        return err
+    }
+}
+export const APIuploadImage = async (data) => {
+    const storage = JSON.parse(localStorage.getItem('_user'))
+    axios.defaults.headers.common['Authorization'] = `Bearer ${storage.api_token}`
+    try {
+        const res = await axios.post(`${BASE_API_URL}/api/media/upload`,data)
+        return await res.data
+    } catch (err) {
+        console.log(`err`, err)
+        return err
+    }
+}
+export const APInotifyPayment = async (data) => {
+    const storage = JSON.parse(localStorage.getItem('_user'))
+    axios.defaults.headers.common['Authorization'] = `Bearer ${storage.api_token}`
+    try {
+        const res = await axios.post(`${BASE_API_URL}/api/payment/notify`,data)
+        return await res.data
+    } catch (err) {
+        console.log(`err`, err)
+        return err
+    }
+}
+

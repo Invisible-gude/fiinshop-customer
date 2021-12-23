@@ -6,6 +6,8 @@ import { createWrapper } from 'next-redux-wrapper'
 import store from '../store/store'
 import '../scss/main.scss'
 import '../scss/product.scss'
+import '../scss/profile.scss'
+import '../scss/home.scss'
 import { RouteGuard } from '../components/RouteGuard'
 import MainLayout from '../components/MainLayout'
 import Router, { useRouter } from "next/router"
@@ -28,13 +30,14 @@ function MyApp({ Component, pageProps }) {
       localStorage.setItem('_key',key_token)
     }
     APIgetCart().then(resp => {
-        console.log('resp',resp.data.carts);
+        // console.log('resp',resp.data.carts);
         if(resp && resp.data && resp.data.carts){
           let list = []
           let p_qty = resp.data.carts.map(item => item.products.map(dt=> list.push(dt.id)))
           dispatch(countCart(list.length))
         }
     })
+    
   }, [])
 
 

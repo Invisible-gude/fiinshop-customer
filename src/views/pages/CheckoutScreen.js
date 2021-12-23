@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
-import { APIgetAddress, APIaddAddress, APIupdateAddress, APIcheckoutDetail, APIcheckout } from '../../../services/api'
-import { useRouter } from 'next/router'
+import { APIgetAddress, APIaddAddress, APIupdateAddress, APIcheckoutDetail, APIcheckout,APIgetCart } from '../../../services/api'
+import { Router, useRouter } from 'next/router'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Input , Modal, Checkbox, Drawer, message, Radio, Button} from 'antd';
 import Box from '@mui/material/Box';
@@ -8,6 +8,9 @@ import Link from '@mui/material/Link';
 import InputThaiAddress from 'thai-address-autocomplete-react'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import { route } from 'next/dist/server/router';
+import { useDispatch } from 'react-redux';
+import { countCart } from '../../../store/actions/countAction';
 
 const payment_gateway_menu = [
     {
@@ -18,12 +21,6 @@ const payment_gateway_menu = [
     },
     {
         id:2,
-        icon:'fas fa-credit-card',
-        name:'บัตรเครดิต/เดบิต',
-        detail:'เพิ่มบัตรเครดิต/เดบิต'
-    },
-    {
-        id:3,
         icon:'fas fa-university',
         name:'โอนเงินผ่านธนาคาร',
         detail:'จ่ายผ่านเลขอ้างอิง'
@@ -42,7 +39,7 @@ export default function CheckOutScreen() {
     const [zipcode, setZipcode] = useState('')
     const [primaryAddress, setPrimaryAddress] = useState()
     const [selectNewAddress, setSelectNewAddress] = useState(0)
-    const [selectPayment, setSelectPayment] = useState(0)
+    const [selectPayment, setSelectPayment] = useState(1)
     const [products, setProducts] = useState([])
     const [drawerTax, setDrawerTax] = useState(false)
     const [taxId, setTaxId] = useState('')
@@ -57,7 +54,7 @@ export default function CheckOutScreen() {
     const [modalInvoiceAddress, setModalInvoiceAddress] = useState(false)
     const [invoiceAddress, setInvoiceAddress] = useState()
     const router = useRouter()
-
+    const dispatch = useDispatch()
 
     useEffect(async () => {
         await getAddress()
@@ -78,27 +75,26 @@ export default function CheckOutScreen() {
     const getProductSelect = () => {
         let pd = sessionStorage.getItem('_selectCart')
         let pds = JSON.parse(pd)
-        console.log('pd_id', pds);
         let data = {
             "cart_id" : pds ,
         }
         APIcheckoutDetail(data).then(resp => {
             if (resp.success) {
+                console.log('resp.data.',resp.data);
                 setProducts(resp.data)
-                if(products.length > 0){
-                    sumTotal()
-                    console.log(products);    
-                }
-
+              
             }
         })
     }
+    useEffect(()=>{
+        sumTotal()
+    },[products])
+
     const getUserData = () =>{
         let user = localStorage.getItem('_user')
         if(user){
             setUserData(JSON.parse(user))
         }
-        console.log(userData.email);
     }
     const onClose = () => {
         setVisible(false);
@@ -132,7 +128,31 @@ export default function CheckOutScreen() {
         setZipcode(zipcode)
     }
     const onSubmitAddress = () => {
-       
+        let data = {
+            "name":name,
+            "phone":phone,
+            "address":dst_address,
+            "district":subdistrict,
+            "amphure":district,
+            "province":province,
+            "zipcode":zipcode,
+            "is_primary":address.length == 0 ? 1 : 0
+        }
+        APIaddAddress(data).then(resp => {
+            console.log('add product',resp);
+            if (resp.success) {
+                message.success('เพิ่มที่อยู่สำเร็จ')
+                getAddress()
+                setName('')
+                setPhone('')
+                setDstAddress('')
+                setSubDistrict('')
+                setDistrict('')
+                setProvince('')
+                setZipcode('')
+                setVisible(false)
+            }
+        })
     }
     const onSubmitInvoiceAddress = () => {
         let data = {
@@ -222,25 +242,20 @@ export default function CheckOutScreen() {
     const sumTotal = () => {
     let list = []
     let qty = []
-    let check_invoice = []
-    let price = products.map(item => item.details.map(dt=> list.push(dt.product_sell_price*dt.product_qty)))
-    let p_qty = products.map(item => item.details.map(dt=> qty.push(dt.product_qty)))
-    let invoice = products.map(item => item.is_invoice_available);
+    products && products.map(item => item.details.map(dt=> list.push(dt.product_sell_price*dt.product_qty)))
+    products && products.map(item => item.details.map(dt=> qty.push(dt.product_qty)))
+    let invoice = products && products.map(item => item.is_invoice_available);
     let reducer = (previousValue, currentValue) => previousValue + currentValue;
-    if(invoice.length > 0){
-        let sum_check_invoice = invoice && invoice.reduce(reducer);
-        setCheckInvoice(sum_check_invoice)    
-    }
-    if (list.length !== 0) {
-        let sum = list && list.reduce(reducer);
-        let sum_qty = qty && qty.reduce(reducer);
-        setTotal(sum)
-        setCountProduct(sum_qty)
 
-    } else {
-        setTotal(0)
-        setCountProduct(0)
-    }
+
+
+        let sum = list.length  && list.reduce(reducer);
+        let sum_qty = qty.length  && qty.reduce(reducer);
+        let sum_check_invoice = invoice.length && invoice.reduce(reducer);
+        setCheckInvoice(sum_check_invoice)    
+        setTotal(sum)
+        setCountProduct(sum_qty) 
+    
     }
     const onSubmit = (e) => {
         let pd_id = []
@@ -248,20 +263,23 @@ export default function CheckOutScreen() {
         let invoice_required = hasInvoice === false ? 0 : 1;
         let branch_no = branch === '' ? '0000' : branch;
         let data = {}
+        let coupons = coupon === ''? '' : coupon;
         console.log(pd_id);
         if(invoice_required === 0){
             data = {
                 "cart_id" : pd_id,
                 "address_id": primaryAddress.id,
                 "invoice_required":invoice_required,
-                // "coupon":coupon,
+                // "coupon":coupons,
+                "gateway_id":selectPayment
             }
         }else{
             data = {
                 "cart_id" : pd_id,
                 "address_id": primaryAddress.id,
                 "invoice_required":invoice_required,
-                // "coupon":coupon,
+                // "coupon":coupons,
+                "gateway_id":selectPayment,
                 "invoice_address":{
                     "name":invoiceAddress.name,
                     "phone":invoiceAddress.phone,
@@ -279,7 +297,22 @@ export default function CheckOutScreen() {
             APIcheckout(data).then(resp => {
                 console.log('resp', resp);
                 if (resp.success) {
-                    
+                    APIgetCart().then(resp => {
+                        console.log('resp',resp.data.carts);
+                        if(resp && resp.data && resp.data.carts){
+                          let list = []
+                          let p_qty = resp.data.carts.map(item => item.products.map(dt=> list.push(dt.id)))
+                          dispatch(countCart(list.length))
+                        }
+                    })
+                    if(selectPayment ===1){
+                        message.success('สร้างออเดอร์สำเร็จ')
+                        sessionStorage.setItem('_afterDo',4)
+                        router.push('/profile')
+                    }else{
+                        sessionStorage.setItem('_paymentData',JSON.stringify(resp.data))
+                        router.push(`/payment/${encodeURIComponent(resp.data.payment_id)}`)
+                    }
                 }
             })
             console.log('data',data);    
