@@ -84,8 +84,8 @@ export default function Register() {
         <Box display="flex" flexDirection="column" >
             <div className="register-content" style={{backgroundColor:'#1976D2'}}>
                 <div className='row register-padding'>
-                <div className="col-6 col-xs-12 col-sm-12 col-md-6 mobile-none" style={{display:'flex', alignItems:'center'}}>
-                    <img src='../../images/logo/login.png' style={{width: '100%'}}/>
+                <div className="col-6 col-xs-12 col-sm-12 col-md-6 " style={{display:'flex', alignItems:'center'}}>
+                    <img src='../../images/logo/login.png' style={{width: '100%'}} className='mobile-none'/>
                 </div>
                 <div className="col-12 col-xs-12 col-sm-12 col-md-6">
                     <form className='w-100' onSubmit={handleSubmit(onSubmit)}>
@@ -159,30 +159,33 @@ export default function Register() {
                                     control={control}
                                     defaultValue=""
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                        <Input.Password 
-                                        value={value}
-                                        onChange={onChange}
-                                        size="large" 
-                                        error={!!error}
-                                        id="password-input"
-                                        placeholder="Password"  />
+                                        <FormControl className='d-block password'>
+                                            <Input.Password 
+                                            value={value}
+                                            onChange={onChange}
+                                            size="large" 
+                                            error={!!error}
+                                            id="password-input"
+                                            placeholder="Password"  />
+                                        </FormControl>
                                     )}
                                     rules={{ required: true , minLength: 8 }}
                                 />       
-                                <div className="mt-1"></div>
+                                <div className="mt-1 password"></div>
                                 <Controller
                                     name="confirm_password"
                                     control={control}
                                     defaultValue=""
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                <Input.Password 
+                                        <FormControl className='d-block password'>
+                                            <Input.Password 
                                             value={value}
                                             onChange={onChange}
                                             size="large" 
                                             error={!!error}
                                             id="password-input"
                                             placeholder="Confirm Password"  />
-                                            
+                                        </FormControl>
                                     )}
                                     rules={{ required: true, minLength: 8 }}
                                 />
@@ -201,7 +204,7 @@ export default function Register() {
                                                 onChange={onChange}
                                                 color="success"
                                             />
-                                            } label="ยอมรับเงื่อนไขและข้อตกลงในการใช้งาน" />
+                                            } label={<span style={{color:'gray', fontSize:'14px'}}>ยอมรับเงื่อนไขและข้อตกลงในการใช้งาน</span>} />
                                         </FormGroup>
                                     )}
                                     
@@ -214,15 +217,20 @@ export default function Register() {
                                     </Link>
                                 </Box>
                                 <hr />
-                                <p style={{textAlign:'center'}}>หรือ</p>
+                                <p style={{textAlign:'center',color:'gray', fontSize:'14px'}}>หรือ</p>
                                 <div className="row">
                                     <div className="col-4 col-xs-12 col-sm-12 col-md-4">
       
                                     </div>
                                 </div>
-                                <Box className="mt-ๅ mb-3">
-                                    <Link href="/login" underline="none">
-                                        <Button variant="outlined" style={{width: '100%',backgroundColor: '#1976D2',color:'#fff'}}>เข้าสู่ระบบ</Button>
+                                <div className='d-flex justify-content-center mb-2'>
+                                    <button className='btn btn-outline-primary'><i className="fab fa-facebook" style={{fontSize:'15px'}}></i> Facebook</button>
+                                    <button className='btn btn-outline-danger' style={{ marginLeft:'5px'}}><i className="fab fa-google" style={{fontSize:'15px'}}></i> Google</button>
+                                </div>
+                                <Box style={{textAlign:'center'}}>
+                                    <span style={{color:'gray', fontSize:'14px'}}>หากมีบัญชีผู้ใช้แล้ว คุณสามารถ</span>
+                                    <Link href="/login" underline="none" >
+                                        {' เข้าสู่ระบบ'}
                                     </Link>
                                 </Box>
                             </Card>

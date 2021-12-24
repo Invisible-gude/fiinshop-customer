@@ -6,21 +6,24 @@ import Collapse from '@mui/material/Collapse';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import {APIgetAddress, APIaddAddress, APIupdateAddress, APIdeleteAddress} from '../../../services/api'
-import { Avatar,Button,Radio,DatePicker, Input,Drawer, message,Modal } from 'antd';
+import { Avatar,Dropdown, Menu, DatePicker, Input,Drawer, message,Modal } from 'antd';
 import InputThaiAddress from 'thai-address-autocomplete-react'
+import Slider from "react-slick";
+import Link from '@material-ui/core/Link';
 const { confirm } = Modal;
 var dayjs = require('dayjs')
 
 
 export default function ProfileScreen() {
     const [open, setOpen] = useState(true);
-    const [tabSelect, setTabSelect] = useState(0)
+    const [tabSelect, setTabSelect] = useState(1)
     const [userData, setUserData] = useState([])
     const [gender, setGender] = useState('')
     const [userAddress, setUserAddress] = useState([])
@@ -34,9 +37,40 @@ export default function ProfileScreen() {
     const [province, setProvince] = useState('')
     const [zipcode, setZipcode] = useState('')
     const [addressEdit, setAddressEdit] = useState(0)
+    const settings_slider = {
+        dots: false,
+        infinite: false,
+        speed: false,
+        slidesToShow: 2.5,
+        slidesToScroll: 1,
+        autoplay: false,
+      };
 
-
-
+      const profile_menu = (
+        <Menu>
+          <Menu.Item>
+            <Link onClick={e=>setTabSelect(0)} underline='none'>
+            <span rel="noopener noreferrer" href="https://www.antgroup.com">
+                ข้อมูลส่วนตัว
+            </span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link onClick={e => {setTabSelect(1)}} underline='none'>
+            <span rel="noopener noreferrer" href="https://www.antgroup.com">
+              ที่อยู่ของฉัน
+            </span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <Link onClick={e => {setTabSelect(3)}} underline='none'>
+            <span  rel="noopener noreferrer" href="https://www.antgroup.com">
+              เปลี่ยนรหัสผ่าน
+            </span>
+            </Link>
+          </Menu.Item>
+        </Menu>
+      );
     useEffect(() => {
         setTab()
         getUserData()
@@ -274,8 +308,15 @@ export default function ProfileScreen() {
                         
                     </div>
                 </div>
-                <div className='d-flex justify-content-end'>
-                    <div className='btn btn-primary'>บันทึก</div>
+                <div className='mobile-none'>
+                    <div className='d-flex justify-content-end mt-1'>
+                        <div className='btn btn-primary'>บันทึก</div>
+                    </div>
+                </div>
+                <div className='mobile-show'>
+                    <div className='mt-3'>
+                        <div className='btn btn-primary w-100'>บันทึก</div>
+                    </div>
                 </div>
             </div>
         )
@@ -292,7 +333,7 @@ export default function ProfileScreen() {
                 <div className='p-3'>
                     {userAddress.map(item=>
                     <div className='row '>
-                        <div className='col-9'>
+                        <div className='col-12 col-xs-12 col-sm-12 col-md-9'>
                             <div className='row d-flex align-items-center'>
                                 <div className='col-3 d-flex justify-content-end'>
                                     <span style={{fontSize:'14px', color:'gray'}}>ชื่อ-สกุล</span>
@@ -318,34 +359,50 @@ export default function ProfileScreen() {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-3 '>
+                        <div className='col-12 col-xs-12 col-sm-12 col-md-3 mb-3'>
                             {item.is_primary === 1 ? 
-                            <div className='d-flex justify-content-end'>
-                                <a href='#' style={{fontSize:'14px'}} onClick={e=>onEditAddress(item)}>แก้ไข</a> 
+                            <div>
+                                <div className='mobile-none'>
+                                    <div className='d-flex justify-content-end'>
+                                        <a href='#' style={{fontSize:'14px'}} onClick={e=>onEditAddress(item)}>แก้ไข</a> 
+                                    </div>
+                                    <div className='d-flex justify-content-end'>
+                                        <div className='btn btn-outline-success profile-btn'>ที่อยู่เริ่มต้น</div> 
+                                    </div>
+                                </div>
+                                <div className='mobile-show'>
+                                    <div className='d-flex justify-content-between align-items-center'>
+                                        <a href='#' style={{fontSize:'14px'}} onClick={e=>onEditAddress(item)}>แก้ไข</a> 
+                                  
+                                        <div className='btn btn-outline-success profile-btn'>ที่อยู่เริ่มต้น</div> 
+                                    </div>
+                                </div>
                             </div>
                             : 
-                            <div className='d-flex justify-content-end'>
-                                <a href='#' style={{fontSize:'14px', marginRight:'5px'}} onClick={e=>onEditAddress(item)}>แก้ไข</a><a href='#' style={{fontSize:'14px'}} onClick={e=>deleteAddress(item)}>ลบ</a>
-                            </div> 
-                            }
-                            {item.is_primary === 1 ? 
-                            <div className='d-flex justify-content-end'>
-                                <div className='btn btn-outline-success profile-btn'>ที่อยู่เริ่มต้น</div> 
+                            <div>
+                                <div className='mobile-none'>
+                                    <div className='d-flex justify-content-end'>
+                                        <a href='#' style={{fontSize:'14px', marginRight:'5px'}} onClick={e=>onEditAddress(item)}>แก้ไข</a><a href='#' style={{fontSize:'14px'}} onClick={e=>deleteAddress(item)}>ลบ</a>
+                                    </div> 
+                                    <div className='d-flex justify-content-end'>
+                                        <div className='btn btn-outline-secondary profile-btn' onClick={e=>setPrimaryAddress(item)}>ตั้งเป็นที่อยู่เริ่มต้น</div>
+                                    </div>
+                                </div>
+                                <div className='mobile-show'>
+                                    <div className='d-flex justify-content-between align-items-center'>
+                                        <a href='#' style={{fontSize:'14px', marginRight:'5px'}} onClick={e=>onEditAddress(item)}>แก้ไข</a><a href='#' style={{fontSize:'14px'}} onClick={e=>deleteAddress(item)}>ลบ</a>
+                                        <div className='btn btn-outline-secondary profile-btn' onClick={e=>setPrimaryAddress(item)}>ตั้งเป็นที่อยู่เริ่มต้น</div>
+                                    </div>
+                                </div>
                             </div>
-                            : 
-                            <div className='d-flex justify-content-end'>
-                                <div className='btn btn-outline-secondary profile-btn' onClick={e=>setPrimaryAddress(item)}>ตั้งเป็นที่อยู่เริ่มต้น</div>
-                            </div>
                             }
+                            
+                            
                         </div>
                          <hr />
                     </div>
                     )}
                 </div>
-                
-                {/* <div className='d-flex justify-content-end'>
-                    <div className='btn btn-primary'>บันทึก</div>
-                </div> */}
             </div>
         )
     } 
@@ -423,45 +480,64 @@ export default function ProfileScreen() {
         )
     } 
     return (
-        <div>
-            <div className='row' style={{ marginTop: '1rem'  }} >
+        <div className='home-container'>
+            <div className='row' >
                 <div className='col-12 col-xs-12 col-md-2'>
-                <List
-                    sx={{ width: '100%', maxWidth: 360 }}
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    >
-                    <ListItemButton onClick={e=> setOpen(!open)}>
-                        <ListItemText onClick={()=> setTabSelect(0)} primary={<label style={{fontSize:'14px'}}><PersonIcon fontSize='medium'/> บัญชีของฉัน</label>} />
-                        {open ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(0)}>
-                                <ListItemText primary={<label style={{fontSize:'14px'}}> ข้อมูลส่วนตัว</label>} />
+                    <div className='mobile-none'>
+                        <List
+                        sx={{ width: '100%', maxWidth: 360 }}
+                        component="nav"
+                        aria-labelledby="nested-list-subheader"
+                        >
+                            <ListItemButton onClick={e=> setOpen(!open)}>
+                                <ListItemText onClick={()=> setTabSelect(0)} primary={<label style={{fontSize:'14px'}}><PersonIcon fontSize='medium'/> บัญชีของฉัน</label>} />
+                                {open ? <ExpandLess /> : <ExpandMore />}
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(1)}>
-                                <ListItemText primary={<label style={{fontSize:'14px'}}> ที่อยู่ของฉัน</label>} />
+                            <Collapse in={open} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                    <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(0)}>
+                                        <ListItemText primary={<label style={{fontSize:'14px'}}> ข้อมูลส่วนตัว</label>} />
+                                    </ListItemButton>
+                                    <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(1)}>
+                                        <ListItemText primary={<label style={{fontSize:'14px'}}> ที่อยู่ของฉัน</label>} />
+                                    </ListItemButton>
+                                    {/* <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(2)}>
+                                        <ListItemText primary={<label style={{fontSize:'14px'}}> บัญชีธนาคาร</label>} />
+                                    </ListItemButton> */}
+                                    <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(3)}>
+                                        <ListItemText primary={<label style={{fontSize:'14px'}}> เปลี่ยนรหัสผ่าน</label>} />
+                                    </ListItemButton>
+                                </List>
+                            </Collapse>
+                            <ListItemButton>
+                                <ListItemText onClick={()=> setTabSelect(4)} primary={<label style={{fontSize:'14px'}}><AssignmentOutlinedIcon fontSize='medium'/> การซื้อของฉัน</label>} />
                             </ListItemButton>
-                            {/* <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(2)}>
-                                <ListItemText primary={<label style={{fontSize:'14px'}}> บัญชีธนาคาร</label>} />
-                            </ListItemButton> */}
-                            <ListItemButton sx={{ pl: 4 }} onClick={()=> setTabSelect(3)}>
-                                <ListItemText primary={<label style={{fontSize:'14px'}}> เปลี่ยนรหัสผ่าน</label>} />
+                            <ListItemButton>
+                                <ListItemText onClick={()=> setTabSelect(5)} primary={<label style={{fontSize:'14px'}}><BorderColorOutlinedIcon fontSize='medium'/> รีวิวของฉัน</label>} />
+                            </ListItemButton>
+                            <ListItemButton>
+                                <ListItemText onClick={()=> setTabSelect(6)} primary={<label style={{fontSize:'14px'}}><FavoriteBorderOutlinedIcon fontSize='medium'/> รายการที่ชอบ</label>} />
                             </ListItemButton>
                         </List>
-                    </Collapse>
-                    <ListItemButton>
-                        <ListItemText onClick={()=> setTabSelect(4)} primary={<label style={{fontSize:'14px'}}><AssignmentOutlinedIcon fontSize='medium'/> การซื้อของฉัน</label>} />
-                    </ListItemButton>
-                    <ListItemButton>
-                        <ListItemText onClick={()=> setTabSelect(5)} primary={<label style={{fontSize:'14px'}}><BorderColorOutlinedIcon fontSize='medium'/> รีวิวของฉัน</label>} />
-                    </ListItemButton>
-                    <ListItemButton>
-                        <ListItemText onClick={()=> setTabSelect(6)} primary={<label style={{fontSize:'14px'}}><FavoriteBorderOutlinedIcon fontSize='medium'/> รายการที่ชอบ</label>} />
-                    </ListItemButton>
-                </List>
-                
+                    </div> 
+                    <div className='mobile-show' style={{ paddingBottom:'1rem',marginBottom:'20px', backgroundColor:'white'}}>
+                        <Slider {...settings_slider} >
+                            <div c>
+                                <Dropdown overlay={profile_menu} onClick={e => e.preventDefault()}>
+                                    <span ><PersonIcon fontSize='small'/> บัญชีของฉัน <KeyboardArrowDownIcon fontSize='small'/></span>
+                                </Dropdown>
+                            </div>
+                            <div>
+                                <span onClick={()=> setTabSelect(4)}><AssignmentOutlinedIcon fontSize='small'/> การซื้อของฉัน</span>
+                            </div>
+                            <div>
+                                <span onClick={()=> setTabSelect(5)}><BorderColorOutlinedIcon fontSize='small'/> รีวิวของฉัน</span>
+                            </div>
+                            <div>
+                                <span onClick={()=> setTabSelect(6)}><FavoriteBorderOutlinedIcon fontSize='small'/> รายการที่ชอบ</span>
+                            </div>
+                        </Slider>
+                    </div>   
                 </div>
                 <div className='col-12 col-xs-12 col-md-10'>
                     <div style={{backgroundColor:'white'}} className='p-3'>

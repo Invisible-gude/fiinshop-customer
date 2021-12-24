@@ -62,52 +62,52 @@ const data_new_mall  = [
     {
       id:1,
       details:'โค้ดส่งฟรี*',
-      path:'/images/menu/FiiNShop-05.png'
+      path:'/images/menu/m1.png'
     },
     {
       id:2,
-      details:'แบรนด์แื้ถูกชัวร์',
-      path:'/images/menu/FiiNShop-06.png'
+      details:'แบรนด์นี้ถูกชัวร์',
+      path:'/images/menu/m2.png'
     },
     {
       id:3,
       details:'สินค้าอิเล็กทรอนิกส์',
-      path:'/images/menu/FiiNShop-07.png'
+      path:'/images/menu/m3.png'
     },
     {
       id:4,
       details:'Game Zone',
-      path:'/images/menu/FiiNShop-08.png'
+      path:'/images/menu/m4.png'
     },
     {
       id:5,
       details:'Partner',
-      path:'/images/menu/FiiNShop-09.png'
+      path:'/images/menu/m5.png'
     },
     {
       id:6,
-      details:'ซุเปอร์มาร์ดเก็ตช้อป รับคะแนน*',
-      path:'/images/menu/FiiNShop-10.png'
+      details:'ซุเปอร์มาร์ดเก็ต',
+      path:'/images/menu/m6.png'
     },
     {
       id:7,
-      details:'แลกรางวัล Shopee Coins',
-      path:'/images/menu/FiiNShop-11.png'
+      details:'Shopee Coins',
+      path:'/images/menu/m7.png'
     },
     {
       id:8,
       details:'โค้ดส่วนลดพิเศษ',
-      path:'/images/menu/FiiNShop-12.png'
+      path:'/images/menu/m8.png'
     },
     {
       id:9,
       details:'แฟชั่น ส่งฟรี*',
-      path:'/images/menu/fasion.png'
+      path:'/images/menu/m9.png'
     },
     {
       id:10,
       details:'โปรโมชั่นพิเศษ',
-      path:'/images/menu/ptomotion.png'
+      path:'/images/menu/m10.png'
     },
   ]
   const menu_mall = [
@@ -349,8 +349,30 @@ export default function HomeScreen() {
       slidesToShow: 6,
       slidesToScroll: 1,
       autoplay: false,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
+    };
+    const settings_slider_mobile = {
+      dots: false,
+      infinite: false,
+      speed: false,
+      slidesToShow: 2.5,
+      slidesToScroll: 2,
+      autoplay: false,
+    };
+    const settings_slider_menu_mall = {
+      dots: false,
+      infinite: false,
+      speed: false,
+      slidesToShow: 3.5,
+      slidesToScroll: 3,
+      autoplay: false,
+    };
+    const settings_menu = {
+      dots: false,
+      infinite: false,
+      speed: false,
+      slidesToShow: 4.5,
+      slidesToScroll: 3,
+      autoplay: false,
     };
 
     useEffect(() => {
@@ -442,17 +464,39 @@ export default function HomeScreen() {
                   </div>
                   </Link>
               </Grid>
-              
+            ))}
+          </Fragment>
+          )
+      }
+    function RenderProduct2() {
+        return (
+          <Fragment>
+            {products.length && products.map((step, index) => (
+               <div className='col-6 col-xs-6 col-sm-4 col-md-2 mb-2 product-responsive'>
+                 <div className='card-product border'>
+                  <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
+                    <img src={step.thumbnail} className="product-image-recomend" />
+                    <div className='product-name'>
+                      <p style={{fontSize:'13px'}}>{step.name}</p>
+                    </div>
+                    <div className='d-flex justify-content-between align-content-center p-1'>
+                      <span style={{fontSize:'14px', color:'rgb(238,77,45)'}}>฿ {step.sell_price}</span>
+                      <span style={{fontSize:'12px',color:'gray'}}>ขายแล้ว {step.qty} ชิ้น</span>
+                    </div>
+
+                  </Link>
+                 </div>
+               </div> 
             ))}
           </Fragment>
           )
       }
     function RenderProductFlashSale() {
         return (
-          <Fragment>
-            <Slider {...settings_slider} data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
-            {products_flash_sale.map((step, index) => (
-                 <div className='slider-contailner'>
+          <Fragment >
+            <Slider {...settings_slider} data-slick='{"slidesToShow": 4, "slidesToScroll": 4}' >
+              {products_flash_sale.map((step, index) => (
+                 <div className='slider-contailner mb-3 '>
                   <div >
                     <img src={step.src} className="product-image" />
                   </div>
@@ -479,241 +523,305 @@ export default function HomeScreen() {
           )
       }
   
-      const settings_news = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
-              infinite: true,
-              dots: true
-            }
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2,
-              initialSlide: 2
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
-          }
-        ]
-      };
     return (
-      <Grid container marginTop={{md:2, sm:1 ,xs:14}}>
-        <Grid container>
-          <Grid item md={8} sm={12} xs={12}>
-             <AntCarousel afterChange={onChange} autoplay={true}>
-              {data_new.map(item => 
+      <div className='home-container'>
+      {/* start news */}
+      <div className='row'>
+        <div className='col-12 col-xs-12 col-sm-12 col-md-8'>
+          <AntCarousel afterChange={onChange} autoplay={true}>
+            {data_new.map(item => 
+              <div>
+                <h3 className="carousel-container">
+                  <img src={item.src} className="branner rounded"/>
+                </h3>
+              </div>
+            )}
+          </AntCarousel>
+        </div>
+        <div className='col-12 col-xs-12 col-md-4'>
+          <div className='promotion-side'>
+            <img
+                src='/images/news/FiinShop2.jpg'
+                alt="Picture of the author"
+                style={{width: '100%', height:'100%'}}
+                className="rounded"
+            />
+          </div>
+          <div className='promotion-side'>
+            <img
+                src='/images/news/FiinShop3.jpg'
+                alt="Picture of the author"
+                style={{width: '100%', height:'100%'}}
+                className="rounded"
+            />
+          </div>
+          <div className='promotion-side'>
+            <img
+                src='/images/news/FiinShop4.jpg'
+                alt="Picture of the author"
+                style={{width: '100%', height:'100%'}}
+                className="rounded"
+            />
+          </div>
+        </div>
+    </div>
+    {/* end news */}
+
+    {/* start menu */}
+    <div style={{ width:'100%', backgroundColor:'white'}}>
+      <div className='d-flex justify-content-between mobile-none'>
+      {item_menus.map(item => 
+        <div className='mobile-none'>
+          <img src={item.path} width='80px' height='80px' />
+          <p className="text-center" style={{fontSize:'12px'}}>{item.details}</p>
+        </div>
+      )}
+      </div>
+      <div>
+        <Slider {...settings_menu} className='mobile-show'>
+          {item_menus.map(item => 
+            <div className='d-grid justify-content-center'>
+              <div className='center'>
+                <img src={item.path} width='40px' height='40px'/>
+                <p className="text-center" style={{fontSize:'10px'}}>{item.details}</p>
+              </div>
+            </div>
+          )}
+        </Slider>
+      </div>
+    </div>
+    {/* end menu */}
+
+    {/* start flashsale */}
+    <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3 ">
+      <div className='d-flex justify-content-between p-2'>
+        <div className="d-flex align-items-center">
+            <img src='../../images/logo/fs1.png' className="logo-flash-sale" />  
+            <span> 
+              <CountdownTimer count={5432} hideDay color="#fff" backgroundColor="#000" labelSize={30} responsive/>
+            </span>
+        </div>
+        <div>
+          <span className="text-main font-dountdown ">ดูทั้งหมด ></span>
+        </div>
+      </div>
+      <div className='mobile-none'>
+        <Slider {...settings_slider}>
+            {products_flash_sale.map((step, index) => (
+                <div className='slider-contailner mb-3 '>
+                <div >
+                  <img src={step.src} className="product-image-flashsale" />
+                </div>
                 <div>
-                  <h3 className="carousel-container">
-                    <img src={item.src} className="branner rounded"/>
-                  </h3>
+                  <p className="text-center" style={{color:"#EE4D2D"}}>
+                      ฿  <label style={{fontSize:'18px'}}>{step.price}</label>
+                  </p>
+                </div>
+                <div className='d-flex justify-content-center'>
+                  <div className="w-50 text-center progess-text" style={{backgroundColor:'#7bccf2', borderRadius:'5px', height:'15px'}}>
+                    <span className='nav-menu'>ขายแล้ว {step.count_sell}</span>
+                    <div className='rounded w-100' style={{height:'15px'}}> 
+                      <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#196bfd', width:`${step.count_sell}%` ,height:'15px'}}>
+                        &nbsp;
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+    
+          ))}
+        </Slider>
+      </div>
+        <div className='mobile-show'>
+          <Slider {...settings_slider_mobile} >
+              {products_flash_sale.map((step, index) => (
+                 <div className='slider-contailner mb-3'>
+                  <div >
+                    <img src={step.src} className="product-image-flashsale" />
+                  </div>
+                  <div>
+                    <p className="text-center" style={{color:"#EE4D2D"}}>
+                        ฿  <label style={{fontSize:'14px'}}>{step.price}</label>
+                    </p>
+                  </div>
+                  <div className='d-flex justify-content-center'>
+                    <div className="w-50 text-center progess-text" style={{backgroundColor:'#7bccf2', borderRadius:'5px', height:'15px'}}>
+                      <span className='' style={{fontSize:'9px', color:'white'}}>ขายแล้ว {step.count_sell}</span>
+                      <div className='rounded w-100' style={{height:'15px'}}> 
+                        <div className='rounded-start text-nowrap bar' style={{backgroundColor:'#196bfd', width:`${step.count_sell}%` ,height:'15px'}}>
+                          &nbsp;
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+            ))}
+          </Slider>
+        </div>
+    </div>
+    {/* end flashsale */}
+
+    {/* start card promotion */}
+    <div style={{ width:'100%'}} className=" mobile-none">
+      <div className="row row-custom mt-3">
+        <div className="col-4">
+          <img
+            src='/images/Promotions/n1.png'
+            alt="Picture "
+            className="rounded"
+            width="100%"
+          />
+        </div>
+        <div className="col-4">
+          <img
+            src='/images/Promotions/n2.png'
+            alt="Picture "
+            className="rounded"
+            width="100%"
+          />
+        </div>
+        <div className="col-4">
+          <img
+            src='/images/Promotions/n3.png'
+            alt="Picture "
+            className="rounded"
+            width="100%"
+          />
+        </div>
+      </div>
+    </div>
+    {/* end card promotion */}
+
+    {/* start mall promotion */}
+    <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
+      <div className='d-flex justify-content-between p-2'>
+        <div className="d-flex align-items-center ">
+          <span className="text-main">FIINSHOP MALL</span>
+          <span className="text-main mobile-none"> &nbsp;|&nbsp; </span>
+          <span className="mobile-none"> <VerifiedUserIcon fontSize="small"/>ของแท้ 100%</span>
+          <span className="mobile-none">&nbsp;&nbsp;&nbsp; <ArrowCircleUpIcon fontSize="small"/>คืนเงิน/สินค้า ภายใน 15 วัน</span>
+          <span className="mobile-none">&nbsp;&nbsp;&nbsp;<LocalShippingIcon fontSize="small" /> ส่งฟรีทั่วไทย</span>
+        </div>
+        <div>
+          <span className="text-main font-dountdown ">ดูทั้งหมด ></span>
+        </div>
+      </div>
+      <hr/>
+      <div className='row p-2'>
+        <div className='col-12 col-xs-12 col-sm-12 col-md-4'>
+          <AntCarousel afterChange={onChange} autoplay={true}>
+            {data_new_mall.map(item => 
+              <div>
+                <h3 className="carousel-container-mall">
+                  <img src={item.src} className="branner"/>
+                </h3>
+              </div>
+            )}
+          </AntCarousel>
+        </div>
+        <div className='col-12 col-xs-12 col-sm-12 col-md-8'>
+          <div className='mobile-none'>
+            <div className='row'>
+              {menu_mall.map(items =>
+                <div className='col-6 colxs-6 col-sm-4 col-md-3'>
+                  <img src={items.path} className="product-image" />
+                    <p className="text-center" style={{color:'red'}}>
+                      <label style={{fontSize:'15px'}}>{items.details}</label>
+                    </p>
                 </div>
               )}
-            </AntCarousel>
-          </Grid>
-          <Grid item md={4} sm={0} xs={3} className="d-block align-items-center" >
-            <Grid container   sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}} marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex', md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
-              <img
-                  src='/images/news/FiinShop2.jpg'
-                  alt="Picture of the author"
-                  style={{width: '98%', height:'100%'}}
-                  className="rounded"
-              />
-            </Grid>
-            <Grid container sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}}  marginBottom={{md:1, sm:'none' ,xs:'none'}} display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
-              <img
-                  src='/images/news/FiinShop3.jpg'
-                  alt="Picture of the author"
-                  style={{width: '98%', height:'100%'}}
-                  className="rounded"
-              />
-            </Grid>
-            <Grid container sx={{height:{lg:'115px',md:'130px', sm:'130px' ,xs:'130px'}}}  display={{lg:'flex',md:'flex', sm:'none' ,xs:'none'}} marginLeft={1}>
-              <img
-                  src='/images/news/FiinShop4.jpg'
-                  alt="Picture of the author"
-                  style={{width: '98%', height:'100%'}}
-                  className="rounded"
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        <div style={{ width:'100%', backgroundColor:'white'}}>
-          <div className='row'>
-          {item_menus.map(item => 
-            <div className='col-4 col-xs-4 col-sm-3 col-md-1' item md={1.2} sm={3} xs={4} display='grid' justifyItems='center'>
-              <img src={item.path} width='70px' height='80px' />
-              <p className="text-center" style={{fontSize:'12px'}}>{item.details}</p>
-            </div>
-            )}
-            </div>
-        </div>
-
-        <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
-          <Grid container spacing={0}>
-              <Grid md={11} xs={10} sm={11} >
-              <div className="d-flex align-items-center">
-                      <img src='../../images/logo/fs1.png' className="logo-flash-sale" />  
-                          <span> 
-                          <CountdownTimer count={5432} hideDay color="#fff" backgroundColor="#000" labelSize={30} responsive/>
-                  </span>
-              </div>
-              </Grid>  
-              <Grid md={1} xs={2} sm={1} className="d-flex align-items-center">
-                  <span className="text-main font-dountdown ">ดูทั้งหมด ></span>
-              </Grid>
-          </Grid>  
-          <hr/>
-          <div>
-              <RenderProductFlashSale />
-          </div>
-        </div>
-        
-        <div style={{ width:'100%'}} className="mt-2 mobile-none">
-          <div className="row row-custom">
-            <div className="col-4">
-              <img
-                src='/images/Promotions/n1.png'
-                alt="Picture "
-                className="rounded"
-                width="100%"
-              // sx={{width: '100%',height: '100%'}}
-              />
-            </div>
-            <div className="col-4">
-              <img
-                src='/images/Promotions/n2.png'
-                alt="Picture "
-                className="rounded"
-                width="100%"
-
-              // sx={{width: '100%',height: '100%'}}
-              />
-            </div>
-            <div className="col-4">
-              <img
-                src='/images/Promotions/n3.png'
-                alt="Picture "
-                className="rounded"
-                width="100%"
-              // sx={{width: '100%',height: '100%'}}
-              />
             </div>
           </div>
-        </div>
-
-        <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
-          <Grid container spacing={0}>
-              <Grid md={11} xs={10} sm={11} display="flex" alignContent="center" padding={1}>
-              <div className="d-flex align-items-center ">
-                <span className="text-main">FIINSHOP MALL</span>
-                <span className="text-main mobile-none"> &nbsp;|&nbsp; </span>
-                <span className="mobile-none"> <VerifiedUserIcon fontSize="small"/>ของแท้ 100%</span>
-                <span className="mobile-none">&nbsp;&nbsp;&nbsp; <ArrowCircleUpIcon fontSize="small"/>คืนเงิน/สินค้า ภายใน 15 วัน</span>
-                <span className="mobile-none">&nbsp;&nbsp;&nbsp;<LocalShippingIcon fontSize="small" /> ส่งฟรีทั่วไทย</span>
-              </div>
-              </Grid>  
-              <Grid md={1} xs={2} sm={1} className="d-flex align-items-center">
-                  <span className="text-main font-dountdown ">ดูทั้งหมด ></span>
-              </Grid>
-          </Grid>  
-          <hr/>
-          <Grid container padding={1}>
-            <Grid item md={4} sm={12} xs={12}>
-              <AntCarousel afterChange={onChange}>
-                {data_new_mall.map(item => 
-                  <div>
-                    <h3 className="carousel-container-mall">
-                      <img src={item.src} className="branner"/>
-                    </h3>
-                  </div>
-                )}
-              </AntCarousel>
-            </Grid>
-            <Grid item md={8} sm={12} xs={12}>
-              <Grid container>
-                {menu_mall.map(items =>
-                    <Grid md={3} xs={6} sm={4} display="grid" alignItems="center" justifyItems="center">
-                        <img src={items.path} className="product-image" />
-                        <p className="text-center" style={{color:'red'}}>
-                          <label style={{fontSize:'15px'}}>{items.details}</label>
-                        </p>
-                    </Grid>
-                   )}
-                
-              </Grid>
-            </Grid>
-          </Grid>
-        </div>
-
-
-        <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
-          <Grid container spacing={0}>
-              <Grid md={11} xs={10} sm={11} display="flex" alignContent="center" padding={1}>
-              <div className="d-flex align-content-center">
-                <span className="">ค้นหายอดฮิต</span>
-              </div>
-              </Grid>  
-              <Grid md={1} xs={2} sm={1} className="d-flex align-items-center">
-                  <span className="text-main font-dountdown ">ดูทั้งหมด ></span>
-              </Grid>
-          </Grid>  
-          <hr/>
-          <Grid container >
-            {menu_top_search.map(items =>
-              <Grid md={2.3} xs={6} sm={4} display="flex" alignItems="center" justifyContent="center">
-                <Grid display={{ xs: 'grid', sm: 'flex', md:'flex' }} alignItems="center" justifyContent="center" padding={{ xs: '5px', sm: '10px', md:'10px' }}>
-                  <p style={{fontSize:'12px'}}>
-                    {items.name} <br/>
-                    <label style={{color:'#c9c9c9'}}>{items.count} รายการ</label>
-                  </p>
-                  <img src={items.path} className="product-image-search" />
-                </Grid>
-              </Grid>
+          <div className='mobile-show'>
+            <Slider {...settings_slider_menu_mall} >
+            {menu_mall.map(items =>
+                <div className='col-6 col-xs-6 col-sm-4 col-md-3'>
+                  <img src={items.path} className="product-image-mall" />
+                    <p className="text-center" style={{color:'red'}}>
+                      <label style={{fontSize:'12px'}}>{items.details}</label>
+                    </p>
+                </div>
               )}
-                
-          </Grid>
+            </Slider>
+          </div>
         </div>
+      </div>
+    </div>
+    {/* end mall promotion */}
 
-        <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="สินค้าประจำประจำวัน" {...a11yProps(0)} />
-              <Tab label="สินค้าโปรโมชั่น" {...a11yProps(1)} />
-              </Tabs>
-          </Box>
-          <TabPanel value={value} index={0} >
-            <Grid container  >
-                <RenderProduct />
+    {/* start top search */}
+    <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
+      <div className='d-flex justify-content-between p-2'>
+        <div className="d-flex align-items-center ">
+          <span className="text-main">ค้นหายอดฮิต</span>
+        </div>
+        <div>
+          <span className="text-main font-dountdown ">ดูทั้งหมด ></span>
+        </div>
+      </div>
+      <hr/>
+      <div className='mobile-none'>
+        <Grid container >
+          {menu_top_search.map(items =>
+            <Grid md={2.3} xs={6} sm={4} display="flex" alignItems="center" justifyContent="center">
+              <Grid display={{ xs: 'grid', sm: 'flex', md:'flex' }} alignItems="center" justifyContent="center" padding={{ xs: '5px', sm: '10px', md:'10px' }}>
+                <p style={{fontSize:'12px'}}>
+                  {items.name} <br/>
+                  <label style={{color:'#c9c9c9'}}>{items.count} รายการ </label>
+                </p>
+                <img src={items.path} className="product-image-search" />
+              </Grid>
             </Grid>
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-          <Grid container >
-              <RenderProduct />
-          </Grid>
-          </TabPanel>
+            )}
+              
+        </Grid>
+      </div>
+      <div className='mobile-show p-2'> 
+        <Slider {...settings_slider_mobile} >
+          {menu_top_search.map(items =>
+              <div className='col-6 col-xs-6 col-sm-4 col-md-3'>
+                  <img src={items.path} className="product-image-top-search" />
+                  <p className="text-center" style={{color:'#c9c9c9'}}>
+                    <label style={{fontSize:'12px', color:'black'}}>{items.name}</label>
+                    <p style={{fontSize:'12px'}}>{items.count} รายการ</p>
+                  </p>
+              </div>
+            )}
+        </Slider>
+      </div>
+    </div>
+    {/* end top search */}
+
+    {/* start product */}
+    <div style={{ width:'100%', backgroundColor:'white'}} className="mt-3">
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="สินค้าประจำประจำวัน" {...a11yProps(0)} />
+          <Tab label="สินค้าโปรโมชั่น" {...a11yProps(1)} />
+          </Tabs>
+      </Box>
+      <TabPanel value={value} index={0} >
+        <div className='row'>
+          <RenderProduct2 />
         </div>
-        {products.length >= 12 ? 
-        <div style={{justifyContent: 'center', width:'100%', display:'flex'}} className="mt-3 mb-3">
-            <Button variant="outlined" sx={{width: { xs: '100%', sm: '60%', md:'30%' }}}>ดูเพิ่มเติม</Button>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <div className='row'>
+          <RenderProduct2 />
         </div>
-        : null
-        }
-      </Grid>
+      </TabPanel>
+    </div>
+    {/* end product */}
+
+    {/* see more button */}
+    {products.length >= 12 ? 
+      <div style={{justifyContent: 'center', width:'100%', display:'flex'}} className="mt-3 mb-3">
+          <Button variant="outlined" sx={{width: { xs: '100%', sm: '60%', md:'30%' }}}>ดูเพิ่มเติม</Button>
+      </div>
+    : null
+    }
+    {/* see more button */}
+
+  </div>
     );
 }

@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;400&display=swap');
+@import '~antd/dist/antd.css';
+@import "@fortawesome/fontawesome-free/css/all.css"; 
+@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick-theme.css";
+.login-container{
+    padding: 5rem;
+}
+.register-container{
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 2rem;
+}
+
+.blank-div-register{
+    height: 700px;
+}
+
+.register-content {
+    background-color:"#1976D2";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height:650px;
+}
+.register-padding {
+    padding-left: 23rem;
+    padding-right: 23rem;
+}
+.blank-div-register{
+    height: 650px;
+}
+.blank-div-login{
+    height: 500px;
+}
+
+.login-content {
+    background-color:"#1976D2";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height:500px;
+}
+.login-padding {
+    padding-left: 23rem;
+    padding-right: 23rem;
+}
+@media (max-width: 1440px) and (min-width:1025px ){
+     /* For tablets pro: */
+    .register-container{
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 2rem;
+    }
+
+    .login-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:500px;
+    }
+    .login-padding {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+    .blank-div-register{
+        height: 700px;
+    }
+    
+    .register-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:650px;
+    }
+    .register-padding {
+        padding-left: 10rem;
+        padding-right: 10rem;
+    }
+    .blank-div-register{
+        height: 650px;
+    }
+
+    .blank-div-login{
+        height: 500px;
+    }
+}
+@media (max-width: 1024px) and (min-width:769px ){
+     /* For tablets pro: */
+
+     .login-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:500px;
+    }
+    .login-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .blank-div-register{
+        height: 700px;
+    }
+    
+    .register-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:650px;
+    }
+    .register-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .blank-div-register{
+        height: 650px;
+    }
+    .blank-div-login{
+        height: 500px;
+    }
+
+}
+@media (max-width: 768px) and (min-width:575.98px ){
+    /* For tablets: */
+
+  
+    
+    .login-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:500px;
+    }
+    .login-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .blank-div-register{
+        height: 700px;
+    }
+    
+    .register-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:650px;
+    }
+    .register-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .blank-div-register{
+        height: 650px;
+    }
+    .blank-div-login{
+        height: 500px;
+    }
+}
+@media (max-width: 575.98px) {
+    /* For mobile: */
+   
+    .login-container{
+        padding: 1rem;
+    }
+    .register-container{
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 2rem;
+    }
+    .blank-div-login{
+        height: 500px;
+    }
+    
+    .login-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:100%;
+    }
+    .login-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .blank-div-register{
+        height: 700px;
+    }
+    
+    .register-content {
+        background-color:"#1976D2";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height:650px;
+    }
+    .register-padding {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .blank-div-register{
+        height: 650px;
+    }
+}
+

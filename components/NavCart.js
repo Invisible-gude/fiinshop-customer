@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import { Input, Badge, Dropdown, Menu } from 'antd';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import PersonIcon from '@mui/icons-material/Person';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import LanguageIcon from '@mui/icons-material/Language';
 import SearchIcon from '@mui/icons-material/Search';
@@ -43,16 +44,34 @@ export default function NavCart() {
   const profile_menu = (
     <Menu>
       <Menu.Item>
-        <Link href="/profile" >
+        <Link href="/profile"  underline='none' >
         <p rel="noopener noreferrer" href="https://www.antgroup.com">
           บัญชีของฉัน
         </p>
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link onClick={e => {goLogout()}} >
+        <Link onClick={e => {goLogout()}} underline='none'>
         <p href="/logout" rel="noopener noreferrer" href="https://www.antgroup.com">
           ออกจากระบบ
+        </p>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
+  const login_menu = (
+    <Menu>
+      <Menu.Item>
+        <Link href="/login" underline='none' >
+        <p rel="noopener noreferrer" href="https://www.antgroup.com">
+          เข้าสู่ระบบ
+        </p>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href="/register" underline='none'>
+        <p  rel="noopener noreferrer" href="https://www.antgroup.com">
+          สมัครสมาชิก
         </p>
         </Link>
       </Menu.Item>
@@ -124,33 +143,40 @@ export default function NavCart() {
       <div className='nav-cart mobile-none'>&nbsp;</div>
       <div className="col-12 d-grid" style={{height:'84px'}}>
         <div className="row d-flex align-items-center" style={{zIndex:1}}>
-          <div className="col-1 col-xs-1 col-sm-1 col-md-2 ">
-            <Link href="/home" underline="none">
-              <img src='/images/logo/fiinshopLoGo.png' className="nav-logo logo-none"/>
+          <div className="col-1 col-xs-1 col-sm-1 col-md-3 mobile-none">
+            <Link href="/home" underline="none" className='mobile-none'>
+              <div className='d-flex align-items-center justify-content-between'>
+                <h1 className=''>ShopFiin</h1>
+                <div className='border-start' >
+                  <h4 style={{color:'#196bfd', marginLeft:'20px'}}>{router.pathname === '/cart' ? `รถเข็น` : `ชำระเงิน`}</h4>
+                </div>
+              </div>
+              {/* <img src='/images/logo/fiinshopLoGo.png' className="nav-logo logo-none"/> */}
             </Link>
           </div>
-          <div className="col-1 col-xs-1 col-sm-1 col-md-3 ">
-          {router.pathname === '/cart' ?
-            <h4 style={{color:'#196bfd'}}>รถเข็น</h4>
-            :
-            <h4 style={{color:'#196bfd'}}>ทำการสั่งซื้อ</h4>
-          }
+          <div className="col-1 col-xs-1 col-sm-1 col-md-2 mobile-none">
+
           </div>
-          <div className="col-8 col-xs-10 col-sm-8 col-md-7">
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" placeholder="ค้นหาสินค้า" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-            <span className="input-group-text" id="basic-addon2" style={{backgroundColor:'#196bfd', color:'white'}} onChange={e => {onSearch(e)}}><SearchIcon fontSize="medium"/></span>
-          </div>
-            {/* <Search
-              // className="search-bar"
-              placeholder="ค้นหาสินค้า"
-              allowClear
-              enterButton={<span><SearchIcon fontSize="medium"/></span>}
-              size="medium"
-              onSearch={e => {onSearch(e)}}
-              // style={{borderRadius: '10px', borderColor:'green'}}
-            /> */}
-           
+
+          <div className="col-12 col-xs-12 col-sm-8 col-md-7">
+            <div className="input-group mb-3 d-flex align-items-center">
+              <input type="text" className="form-control" placeholder="ค้นหาสินค้า" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+              <span className="input-group-text" id="basic-addon2" style={{backgroundColor:'#196bfd', color:'white'}} onChange={e => {onSearch(e)}}><SearchIcon fontSize="medium"/></span>
+              <span className="nav-menu mobile-show" style={{marginLeft:'10px'}}><NotificationsIcon fontSize="medium"/></span>
+              {user ? 
+              <Dropdown overlay={profile_menu}>
+                <span onClick={e => e.preventDefault()} className="nav-menu mobile-show" style={{marginLeft:'10px'}}><PersonIcon fontSize="medium"/></span>
+              </Dropdown>
+              :
+              <div>
+              <Dropdown overlay={login_menu}>
+                <span onClick={e => e.preventDefault()} className="nav-menu mobile-show" style={{marginLeft:'10px'}}><PersonIcon fontSize="medium"/></span>
+              </Dropdown>
+              </div>
+              }
+            </div>
+       
+
           </div>
         </div>
       </div>

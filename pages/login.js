@@ -91,7 +91,7 @@ export default function Login() {
                                     control={control}
                                     defaultValue=""
                                     render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                        <FormControl className='d-block'>
+                                        <FormControl className='d-block password'>
                                             <Input.Password 
                                             value={value}
                                             onChange={onChange}
@@ -109,14 +109,19 @@ export default function Login() {
                                     </Link>
                                 </Box>
                                 <hr />
-                                <p style={{textAlign:'center'}}>หรือ</p>
+
+                                <p style={{textAlign:'center',color:'gray', fontSize:'14px'}}>หรือ เข้าสู่ระบบด้วย</p>
                                 <div className="row">
                                     <div className="col-4 col-xs-12 col-sm-12 col-md-4">
       
                                     </div>
                                 </div>
-                                <Box style={{textAlign:'center'}}>
-                                    <span>เพิ่งเคยเข้ามาใน FiinSHOP ใช่หรือไม่ </span>
+                                <div className='d-flex justify-content-center mb-2'>
+                                    <button className='btn btn-outline-primary'><i className="fab fa-facebook" style={{fontSize:'15px'}}></i> Facebook</button>
+                                    <button className='btn btn-outline-danger' style={{ marginLeft:'5px'}}><i className="fab fa-google" style={{fontSize:'15px'}}></i> Google</button>
+                                </div>
+                                <Box style={{textAlign:'center', marginTop:'15px'}}>
+                                    <span style={{color:'gray', fontSize:'14px'}}>เพิ่งเคยเข้ามาใน ShopFiin ใช่หรือไม่ </span>
                                     <Link href="/register" underline="none" >
                                         {' สมัครใหม่'}
                                     </Link>

@@ -10,6 +10,7 @@ import { DownOutlined, SearchOutlined} from '@ant-design/icons';
 import { Typography } from 'antd';
 import FormControl from '@material-ui/core/FormControl';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import PersonIcon from '@mui/icons-material/Person';
 import store from '../store/store';
 import { useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
@@ -44,6 +45,8 @@ export default function PrimarySearchAppBar() {
   const [keyword, setKeyword] = useState('')
   const { count } = useSelector(state => state.count)
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [wordSearch, setWordSearch] = useState([]);
+  const list_word = []
 
   const { reset, control, handleSubmit, formState: { errors }, setError } = useForm({
     defaultValues: {
@@ -55,14 +58,14 @@ export default function PrimarySearchAppBar() {
   const profile_menu = (
     <Menu>
       <Menu.Item>
-        <Link href="/profile" >
+        <Link href="/profile"  underline='none' >
         <p rel="noopener noreferrer" href="https://www.antgroup.com">
           บัญชีของฉัน
         </p>
         </Link>
       </Menu.Item>
       <Menu.Item>
-        <Link onClick={e => {goLogout()}} >
+        <Link onClick={e => {goLogout()}} underline='none'>
         <p href="/logout" rel="noopener noreferrer" href="https://www.antgroup.com">
           ออกจากระบบ
         </p>
@@ -70,8 +73,27 @@ export default function PrimarySearchAppBar() {
       </Menu.Item>
     </Menu>
   );
+  const login_menu = (
+    <Menu>
+      <Menu.Item>
+        <Link href="/login" underline='none' >
+        <p rel="noopener noreferrer" href="https://www.antgroup.com">
+          เข้าสู่ระบบ
+        </p>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href="/register" underline='none'>
+        <p  rel="noopener noreferrer" href="https://www.antgroup.com">
+          สมัครสมาชิก
+        </p>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
   useEffect(() => {
     getUserData()
+    getHistorySearch()
     console.log('keyword',keyword);
   }, [keyword])
 
@@ -80,8 +102,27 @@ export default function PrimarySearchAppBar() {
     const user_data = value ? JSON.parse(value) : undefined;
     setUser(user_data)
   }
+  const getHistorySearch = () => {
+    let search = localStorage.getItem('_search')
+    let word = JSON.parse(search)
+    let revert = word.reverse()
+    setWordSearch(revert.slice(0,10))
+
+  }
 
   const onSearch = (e) => {
+    let search = localStorage.getItem('_search')
+    let word = JSON.parse(search)
+    list_word.push(e)
+    if(word.length === 0){
+      localStorage.setItem('_search', JSON.stringify(list_word))
+    }else{
+      word.push(e)
+      localStorage.setItem('_search', JSON.stringify(word))
+    }
+
+    console.log('e',word.map(item =>item));
+    // setWordSearch(word)
     Router.push(`/search/${encodeURIComponent(e)}`)
   }
   const goLogout = () => {
@@ -228,7 +269,7 @@ export default function PrimarySearchAppBar() {
             <img src='/images/logo/fiinshopLoGo.png' className="nav-logo logo-none"/>
             </Link>
           </div>
-          <div className="col-8 col-xs-10 col-sm-8 col-md-9">
+          <div className="col-6 col-xs-6 col-sm-8 col-md-9">
             <Search
               className="search-bar"
               placeholder="12.12 | เก็บโค้ดส่วนลด 2,000 บาท"
@@ -239,18 +280,30 @@ export default function PrimarySearchAppBar() {
               style={{borderRadius: '10px'}}
             />
             <div className="mobile-none">
-              <label className="nav-menu">ข้าวสาร&nbsp;&nbsp;</label>
-              <label className="nav-menu">มาม่า&nbsp;&nbsp;</label>
-              <label className="nav-menu">กล้อง</label>
+              {wordSearch.length > 0 ? wordSearch.map(item=>
+                  <label className="nav-menu">{item}&nbsp;&nbsp;</label>
+              ):
+              <label className="nav-menu">&nbsp;&nbsp;</label>}
             </div>
           </div>
-          <div className="col-2 col-xs-1 col-sm-8 col-md-1 d-flex" style={{marginTop:'-10px'}}>
-          <Badge count={count} size="small">
-            <Link href="#" underline="none" onClick={e=> gotoCart()}>
-              <span className="nav-menu"><ShoppingCartOutlinedIcon fontSize="medium" /></span>
-            </Link>
-          </Badge>
+          <div className="col-3 col-xs-3 col-sm-8 col-md-1 d-flex" style={{marginTop:'-10px'}}>
+            <Badge count={count} size="small">
+              <Link href="#" underline="none" onClick={e=> gotoCart()}>
+                <span className="nav-menu"><ShoppingCartOutlinedIcon fontSize="medium" /></span>
+              </Link>
+            </Badge>
             <span className="nav-menu" style={{marginLeft:'10px'}}><NotificationsIcon fontSize="medium"/></span>
+            {user ? 
+            <Dropdown overlay={profile_menu}>
+              <span onClick={e => e.preventDefault()} className="nav-menu mobile-show" style={{marginLeft:'10px'}}><PersonIcon fontSize="medium"/></span>
+            </Dropdown>
+            :
+            <div>
+            <Dropdown overlay={login_menu}>
+              <span onClick={e => e.preventDefault()} className="nav-menu mobile-show" style={{marginLeft:'10px'}}><PersonIcon fontSize="medium"/></span>
+            </Dropdown>
+            </div>
+            }
           </div>
         </div>
       </div>

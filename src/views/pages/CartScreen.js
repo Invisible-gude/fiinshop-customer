@@ -197,7 +197,8 @@ export default function CartScreen() {
 
 
   return (
-    <div style={{ marginTop: '1rem', alignItems: 'center', justifyItems: 'center' }} >
+    <div className='home-container'>
+      {carts.length > 0 ? 
       <div className='row'>
         <div className='col-12 col-xs-12 col-sm-6 col-md-8'>
           <div className='p-3' style={{ marginTop: '1rem', alignItems: 'center', justifyItems: 'center', backgroundColor: 'white' }} >
@@ -322,7 +323,12 @@ export default function CartScreen() {
           </div>
         </div>
       </div>
-
+      :
+        <div className='d-flex align-center justify-content-center mt-5'>
+        <p style={{color:'gray'}}>ตะกร้าของคุณว่าง </p>
+        
+        </div>
+          }
     </div>
   );
 }

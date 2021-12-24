@@ -18,6 +18,7 @@ import { FixedSizeList as List } from 'react-window';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useDispatch } from 'react-redux';
 import { countCart } from '../../../../store/actions/countAction';
+import Slider from "react-slick";
 
 const products_review  = [
     {
@@ -162,6 +163,14 @@ export default function ProductDetailScreen() {
 
         })
     }
+    const settings_slider = {
+        dots: false,
+        infinite: false,
+        speed: false,
+        slidesToShow: 3.5,
+        slidesToScroll: 3,
+        autoplay: false,
+      };
     
     const getSameProduct = () => {
         APIgetProduct(limit).then(res => {
@@ -251,6 +260,7 @@ export default function ProductDetailScreen() {
         router.push('/checkout')
     }
     const addToCart = () => {
+
        const data =[
             {
                 'shop_id' : products.shop_id,
@@ -262,7 +272,7 @@ export default function ProductDetailScreen() {
         console.log('data', data);
         const storage = JSON.parse(localStorage.getItem('_user'))
         if(!storage){
-          setIsModalVisible(true);
+          router.push('/login')
         }else{
         APIaddToCart(data).then(res => {
             console.log('--',res);
@@ -392,35 +402,21 @@ export default function ProductDetailScreen() {
     function RenderSameProduct(){
         return (
             sameProducts.map((step, index) => (
-                <Grid md={2} xs={6} sm={4} 
-                    style={{ display: 'grid',justifyContent: 'center'}} 
-                    border={1} borderColor='#F5F5F5' 
-                    backgroundColor="white" 
-                    marginBottom={1}
-                    height='288px'
-                    width="190px"
-                    >
-                    <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
-                    <img src={step.thumbnail} className="product-image-recomend" />
-                        <div style={{height:'70px', padding:'5px'}}>
-                        <p style={{fontSize:'13px'}}>{step.name}</p>
-                        </div>
-                    <div>
-                    <Grid container display="flex" alignItems="center">
-                        <Grid md={5} xs={4} sm={5} >
-                        <Typography  variant="body2" component="block" color="rgb(238,77,45)">
-                            ฿ {step.sell_price}
-                        </Typography>
-                        </Grid>
-                        <Grid md={7} xs={8} sm={7}>
-                        <Typography  variant="body2" color="text.secondary" align="end" fontSize={12}>
-                        ขายแล้ว {step.qty} ชิ้น
-                        </Typography>
-                        </Grid>
-                    </Grid>
-                    </div>
-                    </Link>
-                </Grid>
+                <div className='col-6 col-xs-6 col-sm-4 col-md-2 mb-2 product-responsive'>
+                <div className='card-product border'>
+                 <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
+                   <img src={step.thumbnail} className="product-image-recomend" />
+                   <div className='product-name'>
+                     <p style={{fontSize:'13px'}}>{step.name}</p>
+                   </div>
+                   <div className='d-flex justify-content-between align-content-center p-1'>
+                     <span style={{fontSize:'14px', color:'rgb(238,77,45)'}}>฿ {step.sell_price}</span>
+                     <span style={{fontSize:'12px',color:'gray'}}>ขายแล้ว {step.qty} ชิ้น</span>
+                   </div>
+
+                 </Link>
+                </div>
+              </div> 
             ))
           )
 
@@ -428,35 +424,21 @@ export default function ProductDetailScreen() {
     function RenderLikeProduct(){
         return (
             sameProducts.map((step, index) => (
-                <Grid md={2} xs={6} sm={4} 
-                    style={{ display: 'grid',justifyContent: 'center'}} 
-                    border={1} borderColor='#F5F5F5' 
-                    backgroundColor="white" 
-                    marginBottom={1}
-                    height='288px'
-                    width="190px"
-                    >
-                    <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
-                    <img src={step.thumbnail} className="product-image-recomend" />
-                        <div style={{height:'70px', padding:'5px'}}>
-                        <p style={{fontSize:'13px'}}>{step.name}</p>
-                        </div>
-                    <div>
-                    <Grid container display="flex" alignItems="center">
-                        <Grid md={5} xs={4} sm={5} >
-                        <Typography  variant="body2" component="block" color="rgb(238,77,45)">
-                            ฿ {step.sell_price}
-                        </Typography>
-                        </Grid>
-                        <Grid md={7} xs={8} sm={7}>
-                        <Typography  variant="body2" color="text.secondary" align="end" fontSize={12}>
-                        ขายแล้ว {step.qty} ชิ้น
-                        </Typography>
-                        </Grid>
-                    </Grid>
-                    </div>
-                    </Link>
-                </Grid>
+            <div className='col-6 col-xs-6 col-sm-4 col-md-2 mb-2 product-responsive'>
+                <div className='card-product border'>
+                 <Link href={`/product_detail/${encodeURIComponent(step.slug)}`} underline="none">
+                   <img src={step.thumbnail} className="product-image-recomend" />
+                   <div className='product-name'>
+                     <p style={{fontSize:'13px'}}>{step.name}</p>
+                   </div>
+                   <div className='d-flex justify-content-between align-content-center p-1'>
+                     <span style={{fontSize:'14px', color:'rgb(238,77,45)'}}>฿ {step.sell_price}</span>
+                     <span style={{fontSize:'12px',color:'gray'}}>ขายแล้ว {step.qty} ชิ้น</span>
+                   </div>
+
+                 </Link>
+                </div>
+              </div> 
             ))
           )
 
@@ -476,7 +458,7 @@ export default function ProductDetailScreen() {
        
 
     return (
-        <div >
+        <div className='home-container'>
             <Box sx={{marginTop: { xs: '1rem', sm: '1rem',md:'1rem' }, alignItems:'center', justifyItems:'center'}} >
                <Grid marginLeft={{ xs: '1rem', sm: '1rem',md:0 , lg:0}}> <p style={{fontSize:'14px'}}>หน้าแรก > {category} > {subCategory} > {products && products.name}</p></Grid>
                 <div style={{width:'100%', backgroundColor:'white'}}>
@@ -489,19 +471,32 @@ export default function ProductDetailScreen() {
                                     style={{width: '100%',height: '100%', objectFit: 'cover'}}
                                 />
                             </div>
-                            <List
-                                height={82}
-                                itemCount={products && products.product_galleries ?  products.product_galleries.length : 0}
-                                itemData={products && products.product_galleries ?  products.product_galleries : []}
-                                itemSize={100}
-                                layout="horizontal"
-                                width={450}
-                            >
-                                {Column}
-                            </List>
+                            <div className='mobile-show'>
+                                <Slider {...settings_slider}>
+                                    {products &&  products.product_galleries ? products.product_galleries.map(item => 
+                                        <div onClick={() => setThumbnail(item.url)}>
+                                            <img src={item.url} width='80px' height='80px'/>
+                                        </div>
+                                    ):null}
+                                </Slider>
+                            </div>
+
+                            <div className='mobile-none'>
+                                <List
+                                    height={82}
+                                    itemCount={products && products.product_galleries ?  products.product_galleries.length : 0}
+                                    itemData={products && products.product_galleries ?  products.product_galleries : []}
+                                    itemSize={100}
+                                    layout="horizontal"
+                                    width={450}
+                                >
+                                    {Column}
+                                </List>
+                            </div>
+                           
                         </Grid>
                         <Grid item lg={7} md={7} xs={12} sm={12}>
-                            <Box paddingLeft={2}>
+                            <Box paddingLeft={{ xs: 0, sm: 0,md:2 }}>
                                 <Box style={{display:'flex', alignItems:'center'}} marginTop={{ xs: '10px', sm: '0px',md:'0px' }}>
                                     <span style={{fontSize:'20px'}}>{products.name}</span>
                                 </Box>
@@ -572,10 +567,10 @@ export default function ProductDetailScreen() {
                                 <Box sx={{marginBottom:'10px'}}>
                                     <Grid container>
                                         <Grid item xs={12} sm={4} md={4}>
-                                            <Button type="submit" sx={{backgroundColor:'#196bfd',color:'white',width:'90%'}} variant="outlined" startIcon={<ShoppingCartIcon />} onClick={e => {addToCart()}}>เพิ่มไปยังรถเข็น</Button>
+                                            <Button type="submit" sx={{backgroundColor:'#196bfd',color:'white',width:{ xs: '100%', sm: '0px',md:'98%' }, marginBottom:'10px'}} variant="outlined" startIcon={<ShoppingCartIcon />} onClick={e => {addToCart()}}>เพิ่มไปยังรถเข็น</Button>
                                         </Grid>
                                         <Grid item xs={12} sm={4} md={4}>
-                                            <Button sx={{width:'90%'}} type="submit" variant="outlined" onClick={e => {toCheckout()}}>ซื้อสินค้า</Button>
+                                            <Button sx={{width:{ xs: '100%', sm: '0px',md:'98%' }}} type="submit" variant="outlined" onClick={e => {toCheckout()}}>ซื้อสินค้า</Button>
                                         </Grid>
                                     </Grid>
                                 </Box>
@@ -603,10 +598,10 @@ export default function ProductDetailScreen() {
                             <span style={{color:'#ABB2B9',fontSize:'12px'}}>Active 1 ชั่วโมง ที่ผ่านมา</span>
                             <Box sx={{marginBottom:'10px'}}>
                                 <Grid container>
-                                    <Grid xs={10} sm={4} md={4}>
+                                    <Grid xs={6} sm={4} md={4}>
                                         <Button sx={{backgroundColor:'#196bfd',color:'white',width:'90%'}} variant="outlined" startIcon={<Chat />}>แชทเลย</Button>
                                     </Grid>
-                                    <Grid xs={10} sm={4} md={4}>
+                                    <Grid xs={6} sm={4} md={4}>
                                         <Button sx={{width:'90%'}} href={`/shop/${encodeURIComponent(products.shop_id)}`} variant="outlined"  startIcon={<StorefrontIcon />}>ดูร้านค้า</Button>
                                     </Grid>
                                 </Grid>
@@ -685,30 +680,30 @@ export default function ProductDetailScreen() {
                     </Box>
                     <div className="mt-4" style={{backgroundColor:'white'}}>
                         <div className="d-flex justify-content-between p-1">
-                        <label style={{color:'#707070'}}>จากร้านเดียวกัน</label>
-                        <label className="text-main" style={{fontSize:'14px'}}>ดูทั้งหมด ></label>
+                            <label style={{color:'#707070'}}>จากร้านเดียวกัน</label>
+                            <label className="text-main" style={{fontSize:'14px'}}>ดูทั้งหมด ></label>
                         </div>
-                        <Grid container spacing={0} item>
+                        <div className='row p-2'>
                             <RenderSameProduct />
-                        </Grid>
+                        </div>
                     </div>
                     <div className="mt-4" style={{backgroundColor:'white'}}>
                         <div className="d-flex justify-content-between p-1">
                         <label style={{color:'#707070'}}>สินค้าที่คล้ายกัน</label>
                         <label className="text-main" style={{fontSize:'14px'}}>ดูทั้งหมด ></label>
                         </div>
-                        <Grid container spacing={0} item>
+                        <div className='row p-2'>
                             <RenderSameProduct />
-                        </Grid>
+                        </div>
                     </div>
                     <div className="mt-4" style={{backgroundColor:'white'}}>
                         <div className="d-flex justify-content-between p-1">
-                        <label style={{color:'#707070'}}>สินค้าที่คุณอาจจะชอบ</label>
-                        <label className="text-main" style={{fontSize:'14px'}}>ดูทั้งหมด ></label>
+                            <label style={{color:'#707070'}}>สินค้าที่คุณอาจจะชอบ</label>
+                            <label className="text-main" style={{fontSize:'14px'}}>ดูทั้งหมด ></label>
                         </div>
-                        <Grid container spacing={0} item>
+                        <div className='row p-2'>
                             <RenderLikeProduct />
-                        </Grid>
+                        </div>
                     </div>
                 </Grid>
                 {/* <Grid item xs={12} sm={11} md={2} className="mobile-none">

@@ -8,6 +8,8 @@ import '../scss/main.scss'
 import '../scss/product.scss'
 import '../scss/profile.scss'
 import '../scss/home.scss'
+import '../scss/nav.scss'
+import '../scss/authen.scss'
 import { RouteGuard } from '../components/RouteGuard'
 import MainLayout from '../components/MainLayout'
 import Router, { useRouter } from "next/router"

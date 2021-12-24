@@ -14,40 +14,6 @@
     object-fit: cover;    
 
 }
-
-.blank-div-register{
-    height: 700px;
-}
-
-.register-content {
-    background-color:"#1976D2";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height:650px;
-}
-.register-padding {
-    padding-left: 23rem;
-    padding-right: 23rem;
-}
-.blank-div-register{
-    height: 650px;
-}
-.blank-div-login{
-    height: 500px;
-}
-
-.login-content {
-    background-color:"#1976D2";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height:500px;
-}
-.login-padding {
-    padding-left: 23rem;
-    padding-right: 23rem;
-}
 .foot-checkout {
     padding-left: 23rem;
     padding-right: 23rem; 
@@ -64,152 +30,25 @@
 @media (max-width: 1440px) and (min-width:1025px ){
      /* For tablets pro: */
 
-     .blank-div-login{
-        height: 500px;
-    }
     .foot-checkout {
         padding-left: 10rem;
         padding-right: 10rem; 
     }
-    .login-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:500px;
-    }
-    .login-padding {
-        padding-left: 10rem;
-        padding-right: 10rem;
-    }
-    .blank-div-register{
-        height: 700px;
-    }
-    
-    .register-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:650px;
-    }
-    .register-padding {
-        padding-left: 10rem;
-        padding-right: 10rem;
-    }
-    .blank-div-register{
-        height: 650px;
-    }
 }
 @media (max-width: 1024px) and (min-width:769px ){
      /* For tablets pro: */
-     .blank-div-login{
-        height: 500px;
-    }
+  
     
-    .login-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:500px;
-    }
-    .login-padding {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .blank-div-register{
-        height: 700px;
-    }
-    
-    .register-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:650px;
-    }
-    .register-padding {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .blank-div-register{
-        height: 650px;
-    }
 
 }
 @media (max-width: 768px) and (min-width:575.98px ){
     /* For tablets: */
-    .blank-div-login{
-        height: 500px;
-    }
-    
-    .login-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:500px;
-    }
-    .login-padding {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .blank-div-register{
-        height: 700px;
-    }
-    
-    .register-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:650px;
-    }
-    .register-padding {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .blank-div-register{
-        height: 650px;
-    }
+  
     
 }
 @media (max-width: 575.98px) {
     /* For mobile: */
-    .blank-div-login{
-        height: 500px;
-    }
     
-    .login-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:100%;
-    }
-    .login-padding {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .blank-div-register{
-        height: 700px;
-    }
-    
-    .register-content {
-        background-color:"#1976D2";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height:650px;
-    }
-    .register-padding {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .blank-div-register{
-        height: 650px;
-    }
     .foot-checkout {
         padding-left: 0;
         padding-right: 0; 

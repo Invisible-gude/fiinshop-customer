@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;400&display=swap');
+@import '~antd/dist/antd.css';
+@import "@fortawesome/fontawesome-free/css/all.css"; 
+@import "~slick-carousel/slick/slick.css"; 
+@import "~slick-carousel/slick/slick-theme.css";
+
+.nav-cart {
+    position: absolute;
+    background-color: white;
+    left: 0;
+    right: 0;
+    margin-top: 34px !important;
+    height: 85px;
+}
+.nav-head {
+    background-color: #196bfd;
+    // margin-left:10rem !important;
+    // margin-right:10rem !important;
+}
+.nav-head-login {
+    background-color: #fff;
+    // margin-left:10rem !important;
+    // margin-right:10rem !important;
+}
+.nav-head-margin {
+    margin-left:23rem !important;
+    margin-right:23rem !important;
+    height: 119px !important;
+}
+.nav-head-margin-login {
+    margin-left:23rem !important;
+    margin-right:23rem !important;
+    height: 70px !important;
+}
+.nav-logo {
+    width: 100%;
+    margin-top: -20px;
+}
+.nav-menu {
+    font-size: 13px;
+    color: white;
+}
+
+.search-bar {
+    border-radius: 50px;
+    width: 100%;
+}
+
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child){
+    border-radius: 2px !important;   // or other value
+ }
+ .ant-input-search > .ant-input-group > .ant-input-group-addon:last-child {
+    left: -1px;
+    padding: 3px;
+    border: 0;
+ }
+ .ant-input-affix-wrapper {
+    padding: 10px 11px !important;
+    font-size: 14px;
+}
+@media (max-width: 1440px) and (min-width:1025px ){
+     /* For tablets pro: */
+
+   .nav-head-margin {
+        margin-left:10rem !important;
+        margin-right:10rem !important;
+        height: 130px !important;
+    }
+    .nav-head-margin-login {
+        margin-left:10rem !important;
+        margin-right:10rem !important;
+        height: 70px !important;
+    }
+    .nav-cart {
+        position: absolute;
+        background-color: white;
+        left: 0;
+        right: 0;
+        margin-top: 34px !important;
+        height: 96px;
+    }
+}
+@media (max-width: 1024px) and (min-width:769px ){
+     /* For tablets pro: */
+
+    .nav-head-margin {
+        padding-top: 10px;
+        margin-left:2rem !important;
+        margin-right:2rem !important;
+        height: 130px !important;
+    }
+    .nav-head-margin-login {
+        padding-top: 10px;
+        margin-left:2rem !important;
+        margin-right:2rem !important;
+        height: 70px !important;
+    }
+}
+@media (max-width: 768px) and (min-width:575.98px ){
+    /* For tablets: */
+
+    .nav-head-margin {
+        padding-top: 10px;
+        margin-left:0rem !important;
+        margin-right:0rem !important;
+        height: 70px !important;
+    }
+    .nav-head-margin-login {
+        padding-top: 10px;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        height: 70px !important;
+    }
+    .nav-logo {
+        width: 100px;
+    }
+    
+}
+@media (max-width: 575.98px) {
+    /* For mobile: */
+    .nav-head-margin {
+        padding-top: 10px;
+        margin-left:0 !important;
+        margin-right:0 !important;
+        height: 100px !important;
+    }
+    .nav-head-margin-login {
+        margin-left:0 !important;
+        margin-right:0 !important;
+        height: 50px !important;
+    }
+    
+    .nav-head {
+        background-color: #196bfd;
+        width: 100% !important;
+        position: fixed !important;
+        z-index: 1 !important;
+        top: 0 !important;
+    }
+   
+   
+}
+
