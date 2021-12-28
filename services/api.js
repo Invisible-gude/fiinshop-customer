@@ -240,4 +240,15 @@ export const APInotifyPayment = async (data) => {
         return err
     }
 }
-
+// ---------------------- Order -------------------- //
+export const APIgetOrderList = async () => {
+    const storage = JSON.parse(localStorage.getItem('_user'))
+    axios.defaults.headers.common['Authorization'] = `Bearer ${storage.api_token}`
+    try {
+        const res = await axios.get(`${BASE_API_URL}/api/order`)
+        return await res.data
+    } catch (err) {
+        console.log(`err`, err)
+        return err
+    }
+}

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@100;400&display=swap');
+@import '~antd/dist/antd.css';
+@import "@fortawesome/fontawesome-free/css/all.css"; 
 
 .profile-btn {
     height: 35px;
@@ -8,3 +11,30 @@
     width: 130px;
     font-size: 14px !important;
 }
+.product-order-picture {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;    
+
+}
+@media (max-width: 1440px) and (min-width:1025px ){
+     /* For tablets pro: */
+
+}
+@media (max-width: 1024px) and (min-width:769px ){
+     /* For tablets pro: */
+  
+    
+
+}
+@media (max-width: 768px) and (min-width:575.98px ){
+    /* For tablets: */
+  
+    
+}
+@media (max-width: 575.98px) {
+    /* For mobile: */
+    
+
+}
+

@@ -9,10 +9,13 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import AddIcon from '@mui/icons-material/Add';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import {APIgetAddress, APIaddAddress, APIupdateAddress, APIdeleteAddress} from '../../../services/api'
+import {APIgetAddress, APIaddAddress, APIupdateAddress, APIdeleteAddress,
+    APIgetOrderList } from '../../../services/api'
 import { Avatar,Dropdown, Menu, DatePicker, Input,Drawer, message,Modal } from 'antd';
 import InputThaiAddress from 'thai-address-autocomplete-react'
 import Slider from "react-slick";
@@ -37,6 +40,7 @@ export default function ProfileScreen() {
     const [province, setProvince] = useState('')
     const [zipcode, setZipcode] = useState('')
     const [addressEdit, setAddressEdit] = useState(0)
+    const [orders, setOrders] = useState([])
     const settings_slider = {
         dots: false,
         infinite: false,
@@ -74,6 +78,7 @@ export default function ProfileScreen() {
     useEffect(() => {
         setTab()
         getUserData()
+        getOrderList()
       }, [])
 
       const setTab = () => {
@@ -83,7 +88,7 @@ export default function ProfileScreen() {
             sessionStorage.removeItem('_afterDo')
             setTabSelect(gotoTab)
         }else{
-            setTabSelect(0)
+            setTabSelect(4)
         }
       }
     
@@ -245,6 +250,15 @@ export default function ProfileScreen() {
               console.log('Cancel');
             },
           });
+    }
+    const getOrderList = () => {
+        APIgetOrderList().then(resp => {
+            console.log('getOrderList',resp);
+            if (resp.success) {
+                setOrders(resp.data)
+            }
+        })
+
     }
     const RenderTabProfile = () =>{
         return(
@@ -461,7 +475,47 @@ export default function ProfileScreen() {
     const RenderMyOrder = () =>{
         return(
             <div>
-                <p>Order</p>
+                <span>รายการสั่งซื้อของฉัน</span>
+                <hr />
+                {orders.map(item=>
+                    <div className='row mt-3 p-2' style={{backgroundColor:'white'}}>
+                        <div>
+                            <div className='d-flex justify-content-between'>
+                                <div>
+                                    <span style={{fontSize:'14px'}}><StorefrontIcon fontSize='small'/>{item.shop.name}</span>
+                                    <span className='border p-1 rounded' style={{fontSize:'13px'}}><StorefrontIcon fontSize='inherit'/>ดูร้านค้า</span>
+                                </div>
+                                <div>
+                                    <span style={{fontSize:'14px', color:'#30AE9E'}} className='d-flex align-items-center'><LocalShippingIcon fontSize='small'/>{item.order_status}</span>
+                                </div>
+                            </div>
+                            <hr/>
+                            
+                            {item && item.order_details && item.order_details.map(detail=>
+                                <>
+                                <div className='row'>
+                                    <div className='col-12 col-xs-12 col-sm-2 col-md-1'>
+                                        <img src={detail.product_thumbnail} className='product-order-picture'/>
+                                    </div>
+                                    <div className='col-12 col-xs-12 col-sm-2 col-md-6 d-grid align-items-center'>
+                                        <div style={{marginLeft:'10px'}}>
+                                            <span style={{fontSize:'14px'}}>{detail.product_name}</span> <br/>
+                                            <span style={{color:'gray', fontSize:'14px'}}>{detail.product_option_name} {detail.product_option_value}</span><br/>
+                                            
+                                        </div>
+                                    </div>       
+                                    <div className='col-12 col-xs-12 col-sm-2 col-md-2 d-grid align-items-center'>
+                                        <span style={{fontSize:'14px'}}>จำนวน: {detail.product_qty}</span>
+                                    </div>
+                                </div>
+                                <hr/>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                    )}
+
+                
             </div>
         )
     } 
@@ -540,7 +594,7 @@ export default function ProfileScreen() {
                     </div>   
                 </div>
                 <div className='col-12 col-xs-12 col-md-10'>
-                    <div style={{backgroundColor:'white'}} className='p-3'>
+                    <div style={{backgroundColor: tabSelect == 4 ? '#f5f5f5' :'white'}} className='p-3'>
                         {tabSelect == 0 ? 
                         <RenderTabProfile />
                         : tabSelect == 1 ? 

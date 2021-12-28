@@ -105,8 +105,10 @@ export default function PrimarySearchAppBar() {
   const getHistorySearch = () => {
     let search = localStorage.getItem('_search')
     let word = JSON.parse(search)
-    let revert = word.reverse()
-    setWordSearch(revert.slice(0,10))
+    if(word){
+      let revert = word.reverse()
+      setWordSearch(revert.slice(0,10))  
+    }
 
   }
 
